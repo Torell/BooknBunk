@@ -20,11 +20,9 @@ public class Room {
     @GeneratedValue
     private Long id;
     //String size
-    String roomType;
+    private int roomSize;
 
-    public Room(String roomType){
-        this.roomType = roomType;
-
+    public Room(int roomSize) {
+        this.roomSize = roomSize;
     }
-
 }

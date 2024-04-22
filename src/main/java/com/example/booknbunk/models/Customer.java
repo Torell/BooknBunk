@@ -17,9 +17,8 @@ public class Customer {
     @GeneratedValue
     private Long id;
 
-    //Todo: kardinalitet lägg till
-    String name;
-    String email;
+    private String name;
+    private String email;
 
     public Customer(String name, String email){
         this.name = name;

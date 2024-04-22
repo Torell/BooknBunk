@@ -1,13 +1,12 @@
 package com.example.booknbunk.models;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDate;
 
@@ -22,15 +21,24 @@ public class Booking {
     @Id
     @GeneratedValue
     private Long id;
-    //Ska vi ha Localdate för bokingar?
-    LocalDate date;
-    int extraBed;
-
-    public Booking(LocalDate date, int extraBed){
-        this.date = date;
-        this.extraBed = extraBed;
-    }
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     @ManyToOne
+    @JoinColumn
+    @NonNull
+    private Room room;
+    private int extraBed;
+
+    @ManyToOne
+    @JoinColumn
+    @NonNull
     private Customer customer;
+
+    public Booking(LocalDate startDate, LocalDate endDate, int extraBed, Customer customer) {
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.extraBed = extraBed;
+        this.customer = customer;
+    }
 }
