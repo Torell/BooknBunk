@@ -37,11 +37,11 @@ public class Booking {
     @NonNull
     private Customer customer;
 
-    public Booking(LocalDate startDate, LocalDate endDate, int extraBed, Customer customer) {
+    public Booking(LocalDate startDate, LocalDate endDate, @NonNull Room room, int extraBed, @NonNull Customer customer) {
         this.startDate = startDate;
         this.endDate = endDate;
+        this.room = room;
         this.extraBed = extraBed;
         this.customer = customer;
     }
-
 }
