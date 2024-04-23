@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 
 @Entity
@@ -23,8 +24,7 @@ public class Booking {
     @Id
     @GeneratedValue
     private Long id;
-    private LocalDate startDate;
-    private LocalDate endDate;
+    private Period bookingPeriod;
 
     @ManyToOne
     @JoinColumn
@@ -37,9 +37,8 @@ public class Booking {
     @NonNull
     private Customer customer;
 
-    public Booking(LocalDate startDate, LocalDate endDate, @NonNull Room room, int extraBed, @NonNull Customer customer) {
-        this.startDate = startDate;
-        this.endDate = endDate;
+    public Booking(Period bookingPeriod, @NonNull Room room, int extraBed, @NonNull Customer customer) {
+
         this.room = room;
         this.extraBed = extraBed;
         this.customer = customer;

@@ -5,17 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CustomerDetailedDto {
+public class CustomerMiniDto {
 
-    private Long id;
+    private long id;
     private String name;
-    private String email;
-    private List<BookingMiniDto> bookingMiniDtoList;
-
 }

@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CustomerDto {
+public class RoomMiniDto {
 
     private long id;
-    private String name;
+    private int roomSize;
 }

@@ -5,17 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
+import java.time.Period;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CustomerDetailedDto {
-
-    private Long id;
-    private String name;
-    private String email;
-    private List<BookingMiniDto> bookingMiniDtoList;
-
+public class BookingMiniDto {
+    private long id;
+    private Period bookingPeriod;
 }
