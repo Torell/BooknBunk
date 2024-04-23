@@ -10,4 +10,6 @@ public class RoomController {
 
    private final RoomRepository roomRepository;
 
+
+   // getAvailability , skriv en metod
 }
