@@ -8,21 +8,14 @@ import com.example.booknbunk.models.Customer;
 
 public interface CustomerService {
 
-
+    CustomerDetailedDto customerToCustomerDetailedDto(Customer customer);
     CustomerMiniDto customerToCustomerMiniDto (Customer customer);
 
- ;
-
-    Booking bookingMiniDtoToBooking(BookingMiniDto bookingMiniDto);
-
-    //DetailedCustomerDto -> customer
     Customer customerDetailedDtoToCustomer(CustomerDetailedDto customerDetailedDto);
-
-    // customer -> customerDetailedDto
-    CustomerDetailedDto customerToCustomerDetailedDto(Customer customer);
+    Customer customerMiniDtoToCustomer(CustomerMiniDto customerMiniDto);
 
     BookingMiniDto bookingToBookingMiniDto(Booking booking);
+    Booking bookingMiniDtoToBooking(BookingMiniDto bookingMiniDto);
 
-    //MiniDto -> customer
-    Customer customerMiniDtoToCustomer(CustomerMiniDto customerMiniDto);
+
 }
