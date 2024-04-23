@@ -6,6 +6,8 @@ import com.example.booknbunk.dtos.CustomerMiniDto;
 import com.example.booknbunk.models.Booking;
 import com.example.booknbunk.models.Customer;
 
+import java.util.List;
+
 public interface CustomerService {
 
     CustomerDetailedDto customerToCustomerDetailedDto(Customer customer);
@@ -18,4 +20,5 @@ public interface CustomerService {
     Booking bookingMiniDtoToBooking(BookingMiniDto bookingMiniDto);
 
 
+    List<CustomerDetailedDto> getAllCustomers();
 }

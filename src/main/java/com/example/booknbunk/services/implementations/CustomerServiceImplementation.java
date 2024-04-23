@@ -5,13 +5,26 @@ import com.example.booknbunk.dtos.CustomerDetailedDto;
 import com.example.booknbunk.dtos.CustomerMiniDto;
 import com.example.booknbunk.models.Booking;
 import com.example.booknbunk.models.Customer;
+import com.example.booknbunk.repositories.CustomerRepository;
 import com.example.booknbunk.services.interfaces.CustomerService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
+
 @Service
 @RequiredArgsConstructor
 public class CustomerServiceImplementation implements CustomerService {
+
+    CustomerRepository customerRepo;
+
+    // Söker ut alla kunder
+    @Override
+    public List<CustomerDetailedDto> getAllCustomers() {
+        return customerRepo.findAll().stream()
+                .map(customer -> customerToCustomerDetailedDto(customer)).toList();
+    }
 
 
     //DetailedCustomerDto -> customer
@@ -75,5 +88,7 @@ public class CustomerServiceImplementation implements CustomerService {
                 .bookingPeriod(bookingMiniDto.getBookingPeriod())
                 .build();
     }
+
+
 
 }
