@@ -77,18 +77,20 @@ public class CustomerServiceImplementation implements CustomerService {
 
     @Override
     public BookingMiniDto bookingToBookingMiniDto(Booking booking) {
-        return BookingMiniDto.builder().id(booking.getId())
-                .bookingPeriod(booking.getBookingPeriod())
+        return BookingMiniDto.builder()
+                .id(booking.getId())
+                .startDate(booking.getStartDate())
+                .endDate(booking.getEndDate())
                 .build();
     }
 
     @Override
-    public Booking bookingMiniDtoToBooking (BookingMiniDto bookingMiniDto) {
-        return Booking.builder().id(bookingMiniDto.getId())
-                .bookingPeriod(bookingMiniDto.getBookingPeriod())
+    public Booking bookingMiniDtoToBooking(BookingMiniDto bookingMiniDto) {
+        return Booking.builder()
+                .id(bookingMiniDto.getId())
+                .startDate(bookingMiniDto.getStartDate())
+                .endDate(bookingMiniDto.getEndDate())
                 .build();
     }
-
-
 
 }
