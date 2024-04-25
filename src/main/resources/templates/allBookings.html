@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>Getting started: Serving Web Content</title>
+</head>
+<body>
+
+<h2 th:text = "${bookingTitle}"> </h2>
+<table>
+    <tbody>
+    <tr th:each="cat : ${allBookings}">
+        <td th:text ="'ID:'"></td>
+        <td th:text ="${cat.id}"></td>
+        <td th:text ="'Start date:'"></td>
+        <td th:text ="${cat.startDate}"></td>
+        <td th:text ="'End Date:'"></td>
+        <td th:text ="${cat.endDate}"></td>
+
+    </tr>
+    </tbody>
+
+</table>
+
+</body>
+</html>

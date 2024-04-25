@@ -8,6 +8,7 @@ import com.example.booknbunk.repositories.BookingRepository;
 import com.example.booknbunk.services.interfaces.BookingService;
 import com.sun.net.httpserver.Authenticator;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import java.util.List;
 
@@ -43,13 +44,7 @@ public class BookingServiceImplementation implements BookingService {
                 .endDate(booking.getEndDate())
                 .build();
     }
-    @Override
-    public List<BookingDetailedDto> listALlBookings() {
-        return bookingRepository.findAll().stream()
-                .map(booking -> bookingToBookingdetailedDto(booking))
-                .toList();
 
-    }
 
     @Override
     public Booking bookingDetailedDtoToBooking(BookingDetailedDto bookingDetailedDto) {
@@ -116,21 +111,41 @@ public class BookingServiceImplementation implements BookingService {
         bookingRepository.save(bookingDetailedDtoToBooking(bookingDetailedDto));
     }
 
+    /*
     @Override
     public int addBed(BookingDetailedDto bookingDetailedDto, int numberOfBeds) {
         int currentNumberOfBeds = bookingDetailedDto.getExtraBed();
         int availableSpace = bookingDetailedDto.getRoomMiniDto().getRoomSize() - currentNumberOfBeds;
-        System.out.println("currentBeds " + currentNumberOfBeds);
-        System.out.println("available space: " + availableSpace);
-        System.out.println("number of beds: " + numberOfBeds);
         if (availableSpace >= numberOfBeds) {
             bookingRepository.addExtraBeds(numberOfBeds + currentNumberOfBeds,bookingDetailedDto.getId());
             return SUCCESS;
         } else return FAILURE;
     }
 
+     */
+
     @Override
-    public String deleteBooking(BookingDetailedDto bookingDetailedDto) {
-        return null;
+    public int addBed(BookingDetailedDto bookingDetailedDto, int numberOfBeds) {
+        Booking booking = bookingDetailedDtoToBooking(bookingDetailedDto);
+        int currentNumberOfBeds = booking.getExtraBed();
+        int availableSpace = booking.getRoom().getRoomSize() - currentNumberOfBeds;
+        if (availableSpace >= numberOfBeds) {
+            booking.setExtraBed(currentNumberOfBeds + numberOfBeds);
+            bookingRepository.save(booking);
+            return SUCCESS;
+        } else return FAILURE;
+    }
+
+
+    @Override
+    public void deleteBooking(BookingDetailedDto bookingDetailedDto) {
+        bookingRepository.deleteById(bookingDetailedDto.getId());
+    }
+
+    @Override
+    public List<BookingDetailedDto> getAllBookingDetailedDto() {
+        return bookingRepository.findAll()
+                .stream()
+                .map(booking -> bookingToBookingdetailedDto(booking)).toList();
     }
 }

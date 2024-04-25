@@ -30,9 +30,9 @@ public interface BookingService {
     void createBooking(BookingDetailedDto bookingDetailedDto);
 
     int addBed(BookingDetailedDto bookingDetailedDto, int number);
-    public List<BookingDetailedDto> listALlBookings();
+    public List<BookingDetailedDto> getAllBookingDetailedDto();
 
-    public String deleteBooking(BookingDetailedDto bookingDetailedDto);
+    public void deleteBooking(BookingDetailedDto bookingDetailedDto);
 
 
 }

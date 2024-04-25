@@ -30,8 +30,6 @@ public class Room {
     @OneToMany(mappedBy = "room")
     private List<Booking> bookings;
 
-
-
     public Room(int roomSize) {
         this.roomSize = roomSize;
     }
