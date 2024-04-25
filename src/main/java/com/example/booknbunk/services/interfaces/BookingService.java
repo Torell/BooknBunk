@@ -29,10 +29,14 @@ public interface BookingService {
 
     void createBooking(BookingDetailedDto bookingDetailedDto);
 
-    int addBed(BookingDetailedDto bookingDetailedDto, int number);
+    int extraBedSpaceAvailable(BookingDetailedDto bookingDetailedDto, int number);
     public List<BookingDetailedDto> getAllBookingDetailedDto();
 
-    public void deleteBooking(BookingDetailedDto bookingDetailedDto);
+    public void cancelBooking(long id);
+
+    public void modifyBooking(BookingDetailedDto bookingDetailedDto);
+
+    public int changePeriod(BookingDetailedDto bookingDetailedDto, String startDate, String endDate);
 
 
 }

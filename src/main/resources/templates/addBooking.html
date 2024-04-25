@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel=stylesheet th:href="@{/css/style.css}" type="text/css">
+  <title>Add customer</title>
+</head>
+<body>
+<form th:action="@{/booking/add}" method="post" th:object="${booking}">
+  <label for="startDate">Start date:</label><br>
+  <input type="text" id="startDate" name="startDate" th:field="*{startDate}" />
+  <br><br>
+
+  <label for="endDate">End Date:</label><br>
+  <input type="text" id="endDate" name="endDate" th:field="*{endDate}" />
+  <br><br>
+
+  <label for="roomMiniDtoId">Room:</label><br>
+  <input type="text" id="roomMiniDtoId" name="roomMiniDto.id" th:field="*{roomMiniDto.id}" />
+  <br><br>
+
+  <label for="customerMiniDtoId">Customer:</label><br>
+  <input type="text" id="customerMiniDtoId" name="customerMiniDto.id" th:field="*{customerMiniDto.id}" />
+  <br><br>
+
+
+  <label for="extraBed">extraBed:</label><br>
+  <input type="text" id="extraBed" name="extraBed" th:field="*{extraBed}" />
+  <br><br>
+
+  <input type="hidden" id="id" name="id" th:field="*{id}" />
+
+  <input type="submit" value="Submit">
+</form>
+</body>
+</html>

@@ -5,11 +5,13 @@ import com.example.booknbunk.models.Booking;
 import com.example.booknbunk.models.Customer;
 import com.example.booknbunk.models.Room;
 import com.example.booknbunk.repositories.BookingRepository;
+import com.example.booknbunk.repositories.RoomRepository;
 import com.example.booknbunk.services.interfaces.BookingService;
 import com.sun.net.httpserver.Authenticator;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -20,8 +22,11 @@ public class BookingServiceImplementation implements BookingService {
 
     private final BookingRepository bookingRepository;
 
-    public BookingServiceImplementation(BookingRepository bookingRepository) {
+    private final RoomRepository roomRepository;
+
+    public BookingServiceImplementation(BookingRepository bookingRepository, RoomRepository roomRepository) {
         this.bookingRepository = bookingRepository;
+        this.roomRepository = roomRepository;
     }
 
     @Override
@@ -111,21 +116,15 @@ public class BookingServiceImplementation implements BookingService {
         bookingRepository.save(bookingDetailedDtoToBooking(bookingDetailedDto));
     }
 
-    /*
     @Override
-    public int addBed(BookingDetailedDto bookingDetailedDto, int numberOfBeds) {
-        int currentNumberOfBeds = bookingDetailedDto.getExtraBed();
-        int availableSpace = bookingDetailedDto.getRoomMiniDto().getRoomSize() - currentNumberOfBeds;
-        if (availableSpace >= numberOfBeds) {
-            bookingRepository.addExtraBeds(numberOfBeds + currentNumberOfBeds,bookingDetailedDto.getId());
-            return SUCCESS;
-        } else return FAILURE;
+    public void modifyBooking(BookingDetailedDto bookingDetailedDto) {
+            bookingRepository.save(bookingDetailedDtoToBooking(bookingDetailedDto));
+
+
     }
 
-     */
-
     @Override
-    public int addBed(BookingDetailedDto bookingDetailedDto, int numberOfBeds) {
+    public int extraBedSpaceAvailable(BookingDetailedDto bookingDetailedDto, int numberOfBeds) {
         Booking booking = bookingDetailedDtoToBooking(bookingDetailedDto);
         int currentNumberOfBeds = booking.getExtraBed();
         int availableSpace = booking.getRoom().getRoomSize() - currentNumberOfBeds;
@@ -138,8 +137,8 @@ public class BookingServiceImplementation implements BookingService {
 
 
     @Override
-    public void deleteBooking(BookingDetailedDto bookingDetailedDto) {
-        bookingRepository.deleteById(bookingDetailedDto.getId());
+    public void cancelBooking(long id) {
+        bookingRepository.deleteById(id);
     }
 
     @Override
@@ -147,5 +146,14 @@ public class BookingServiceImplementation implements BookingService {
         return bookingRepository.findAll()
                 .stream()
                 .map(booking -> bookingToBookingdetailedDto(booking)).toList();
+    }
+
+    @Override
+    public int changePeriod(BookingDetailedDto bookingDetailedDto, String startdate, String endDate) {
+        Booking booking = bookingDetailedDtoToBooking(bookingDetailedDto);
+        booking.setStartDate(LocalDate.parse(startdate));
+        booking.setStartDate(LocalDate.parse(endDate));
+        bookingRepository.save(booking);
+        return SUCCESS;
     }
 }
