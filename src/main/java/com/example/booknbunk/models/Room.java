@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -26,7 +27,8 @@ public class Room {
     private Long id;
     //String size
     private int roomSize;
-    @OneToMany(mappedBy = "booking")
+
+    @OneToMany(mappedBy = "room")
     private List<Booking> bookings;
 
     public Room(int roomSize) {

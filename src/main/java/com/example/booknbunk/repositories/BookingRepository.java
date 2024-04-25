@@ -11,6 +11,7 @@ import java.time.LocalDate;
 
 public interface BookingRepository extends JpaRepository<Booking, Long> {
 
+    /*
     @Modifying
     @Transactional
     @Query(value = " UPDATE Booking b SET b.startDate = ?1 WHERE b.id = ?2")
@@ -20,14 +21,12 @@ public interface BookingRepository extends JpaRepository<Booking, Long> {
     @Query(value = " UPDATE Booking b SET b.endDate = ?1 WHERE b.id = ?2")
     public void changeEndDate(@Param("endDate") LocalDate startDate, @Param("roomId") long roomId);
 
-    @Modifying
-    @Transactional
-    @Query(value = " UPDATE Booking b SET b.extraBed = ?1 WHERE b.id = ?2")
-    public void changeEndDate(@Param("extraBed") int extraBed, @Param("roomId") long roomId);
-    @Modifying
-    @Transactional
-    @Query(value = " UPDATE Booking b SET b.room = ?1 WHERE b.id = ?2")
-    public void changeEndDate(@Param("room_id") Long room_id, @Param("roomId") long roomId);
+
+     */
 
 
+    @Modifying
+    @Transactional
+    @Query(value = "UPDATE Booking b SET b.extraBed = ?1 WHERE b.id = ?2 ")
+    void addExtraBeds(@Param("extraBed") int extraBed, @Param("id") long id);
 }
