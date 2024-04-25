@@ -13,6 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
+import java.time.Period;
 
 @SpringBootApplication
 public class BooknBunkApplication {
@@ -22,8 +23,8 @@ public class BooknBunkApplication {
     }
 
 
-    /*
 
+/*
         @Bean
         public CommandLineRunner commandLineRunner(CustomerRepository customerRepository, RoomRepository roomRepository, BookingRepository bookingRepository){
             return args -> {
@@ -48,7 +49,7 @@ public class BooknBunkApplication {
                 roomRepository.save(room2);
                 roomRepository.save(room3);
 
-                Booking booking1 = new Booking(LocalDate.of(2024, 5, 4), LocalDate.of(2024, 5, 6),
+                Booking booking1 = new Booking(LocalDate.of(2024,5,7),LocalDate.of(2024,5,8),
                         room1, 0, c2);
 
                 Booking booking2 = new Booking(LocalDate.of(2024, 5, 7), LocalDate.of(2024, 5, 10),
@@ -73,9 +74,7 @@ public class BooknBunkApplication {
 
         }
 
-     */
 
-
-
+ */
 
 }

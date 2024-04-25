@@ -6,16 +6,16 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
+import org.springframework.cglib.core.Local;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.Date;
 
 
 @Entity
+@Builder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,7 +24,8 @@ public class Booking {
     @Id
     @GeneratedValue
     private Long id;
-    private Period bookingPeriod;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     @ManyToOne
     @JoinColumn
@@ -37,7 +38,7 @@ public class Booking {
     @NonNull
     private Customer customer;
 
-    public Booking(Period bookingPeriod, @NonNull Room room, int extraBed, @NonNull Customer customer) {
+    public Booking(LocalDate startDate,LocalDate endDate, @NonNull Room room, int extraBed, @NonNull Customer customer) {
 
         this.room = room;
         this.extraBed = extraBed;

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.Period;
 @Data
 @AllArgsConstructor
@@ -12,7 +13,8 @@ import java.time.Period;
 @Builder
 public class BookingDetailedDto {
     private long id;
-    private Period bookingPeriod;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private CustomerMiniDto customerMiniDto;
     private RoomMiniDto roomMiniDto;
     private int extraBed;
