@@ -6,10 +6,11 @@ import com.example.booknbunk.repositories.RoomRepository;
 import com.example.booknbunk.services.interfaces.BookingService;
 import com.example.booknbunk.services.interfaces.RoomService;
 import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
+@Controller
 @RestController
 @AllArgsConstructor
 public class RoomController {
