@@ -19,7 +19,6 @@ import java.util.List;
 @NoArgsConstructor
 public class Room {
 
-    //Todo: Lägg till kardinalitet
 
     @Id
     @GeneratedValue
