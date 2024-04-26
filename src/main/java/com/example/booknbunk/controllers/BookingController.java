@@ -4,6 +4,7 @@ import com.example.booknbunk.dtos.BookingDetailedDto;
 import com.example.booknbunk.dtos.RoomDetailedDto;
 import com.example.booknbunk.dtos.RoomMiniDto;
 import com.example.booknbunk.services.interfaces.BookingService;
+import com.example.booknbunk.services.interfaces.RoomService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +18,7 @@ import java.util.List;
 public class BookingController {
 
     private final BookingService bookingService;
-
+    private final RoomService roomService;
     @RequestMapping("/{id}")
     public BookingDetailedDto findBookingById(@PathVariable long id) {
         return bookingService.findBookingById(id);
@@ -31,7 +32,7 @@ public class BookingController {
     public String addBooking(Model model, BookingDetailedDto bookingDetailedDto){
 
         if (bookingService.extraBedSpaceAvailable(bookingDetailedDto)
-                && bookingService.compareDesiredDatesToBookedDates(bookingDetailedDto, new RoomDetailedDto())) {
+                && bookingService.compareDesiredDatesToBookedDates(bookingDetailedDto, roomService.findRoomById(bookingDetailedDto.getRoomMiniDto().getId()))) {
             bookingService.createBooking(bookingDetailedDto);
             List<BookingDetailedDto> listOfBookings = bookingService.getAllBookingDetailedDto();
             model.addAttribute("allBookings", listOfBookings);
