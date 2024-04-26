@@ -13,7 +13,7 @@ public interface CustomerService {
 
     void createCustomer(CustomerDetailedDto customerDetailedDto);
 
-    List<CustomerDetailedDto> getAllCustomers();
+    public List<CustomerDetailedDto> getAllCustomersDetailedDto();
 
 
 

@@ -28,12 +28,11 @@ public class CustomerServiceImplementation implements CustomerService {
 
     // Söker ut alla kunder
     @Override
-    public List<CustomerDetailedDto> getAllCustomers() {
-        return customerRepo.findAll().stream()
+    public List<CustomerDetailedDto> getAllCustomersDetailedDto() {
+        return customerRepo.findAll()
+                .stream()
                 .map(customer -> customerToCustomerDetailedDto(customer)).toList();
     }
-
-
 
     @Override
     public void createCustomer(CustomerDetailedDto customerDetailedDto){
