@@ -36,7 +36,7 @@ public class CustomerController {
         customer.setName(name);
         customer.setEmail(email);
         customerService.createCustomer(customer);
-        return "redirect:/all"; // När man trycker på knappen så omdirigeras man tillbaka till alla kunder
+        return "redirect:/customers/allCustomersWithDeleteAndEdit.html"; // När man trycker på knappen så omdirigeras man tillbaka till alla kunder
     }
 
     @RequestMapping("/all")
