@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,12 @@ public class CustomerController {
         return "addCustomer.html";
     }
 
+   /* @PostMapping("/addCustomer")
+    public String addCustomer(@ModelAttribute("customer") CustomerDetailedDto customer) {
+        customerService.createCustomer(customer);
+        return "redirect:/customers/all";
+    }*/
+
     @PostMapping("/addCustomer")
     public String addCustomer(@RequestParam("name") String name, @RequestParam("email") String email) {
         CustomerDetailedDto customer = new CustomerDetailedDto();
@@ -43,6 +50,23 @@ public class CustomerController {
         customerService.createCustomer(customer);
         return "redirect:/customers/all"; // När man trycker på knappen så omdirigeras man tillbaka till alla kunder
     }
+
+   /* @PostMapping("/addCustomer")
+    public String addCustomer(Model model, CustomerDetailedDto customerDetailedDto) {
+        customerService.createCustomer(customerDetailedDto);
+        List<CustomerDetailedDto> listOfCustomers = customerService.getAllCustomersDetailedDto();
+        model.addAttribute("allCustomers", listOfCustomers);
+        return "redirect:/customers/all"; // När man trycker på knappen så omdirigeras man tillbaka till alla kunder
+    }*/
+
+   /* @PostMapping
+    public String addCustomer(Model model){
+        CustomerDetailedDto customer = new CustomerDetailedDto();
+        BookingMiniDto bookingMiniDto = new BookingMiniDto();
+        model.addAttribute("customer", customer);
+        model.addAttribute("bookingMiniDto", bookingMiniDto);
+        return "redirect:/customers/all";
+    }*/
 
     @RequestMapping("/all")
     public String getAllCustomers(Model model){
