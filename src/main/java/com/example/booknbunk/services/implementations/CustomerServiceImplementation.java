@@ -8,6 +8,7 @@ import com.example.booknbunk.models.Customer;
 import com.example.booknbunk.repositories.CustomerRepository;
 import com.example.booknbunk.services.interfaces.CustomerService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +20,12 @@ public class CustomerServiceImplementation implements CustomerService {
 
     CustomerRepository customerRepo;
 
+    @Autowired
+    public CustomerServiceImplementation(CustomerRepository customerRepo) {
+        this.customerRepo = customerRepo;
+    }
+
+
     // Söker ut alla kunder
     @Override
     public List<CustomerDetailedDto> getAllCustomers() {
@@ -26,6 +33,12 @@ public class CustomerServiceImplementation implements CustomerService {
                 .map(customer -> customerToCustomerDetailedDto(customer)).toList();
     }
 
+
+
+    @Override
+    public void createCustomer(CustomerDetailedDto customerDetailedDto){
+        customerRepo.save(customerDetailedDtoToCustomer(customerDetailedDto));
+    }
 
     //DetailedCustomerDto -> customer
     @Override

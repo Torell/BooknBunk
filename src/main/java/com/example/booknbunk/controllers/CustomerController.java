@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -14,19 +16,31 @@ import java.util.List;
 
 
 @RestController
-@RequestMapping("customers")
+@RequestMapping("/customers")
 @RequiredArgsConstructor
 public class CustomerController {
 
     private static final Logger log = LoggerFactory.getLogger(CustomerController.class);
     private final CustomerService customerService;
 
-    @RequestMapping("get/all")
+    @RequestMapping("/all")
     public String getAllCustomers(Model model){
         List<CustomerDetailedDto> customerDetailedDtoList = customerService.getAllCustomers();
         model.addAttribute("allCustomers", customerDetailedDtoList);
-        return "allCustomers";
+        return "allCustomersWithDeleteAndEdit.html";
     }
+
+    //getAll - Klart
+    //add
+    //upDate
+    //delete
+
+    @PostMapping("add")
+    public void addCustomer(@RequestBody CustomerDetailedDto customerDetailedDto){
+        customerService.createCustomer(customerDetailedDto);
+    }
+
+
 
 
 

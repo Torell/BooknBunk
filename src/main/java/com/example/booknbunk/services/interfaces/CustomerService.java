@@ -10,6 +10,16 @@ import java.util.List;
 
 public interface CustomerService {
 
+
+    void createCustomer(CustomerDetailedDto customerDetailedDto);
+
+    List<CustomerDetailedDto> getAllCustomers();
+
+
+
+
+
+
     CustomerDetailedDto customerToCustomerDetailedDto(Customer customer);
     CustomerMiniDto customerToCustomerMiniDto (Customer customer);
 
@@ -20,5 +30,7 @@ public interface CustomerService {
     Booking bookingMiniDtoToBooking(BookingMiniDto bookingMiniDto);
 
 
-    List<CustomerDetailedDto> getAllCustomers();
+
+
+
 }
