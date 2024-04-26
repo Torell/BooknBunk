@@ -1,6 +1,7 @@
 package com.example.booknbunk.controllers;
 
 import com.example.booknbunk.dtos.BookingDetailedDto;
+import com.example.booknbunk.dtos.RoomDetailedDto;
 import com.example.booknbunk.dtos.RoomMiniDto;
 import com.example.booknbunk.services.interfaces.BookingService;
 import lombok.AllArgsConstructor;
@@ -28,10 +29,16 @@ public class BookingController {
     }
     @PostMapping("/add")
     public String addBooking(Model model, BookingDetailedDto bookingDetailedDto){
-        bookingService.createBooking(bookingDetailedDto);
-        List<BookingDetailedDto> listOfBookings = bookingService.getAllBookingDetailedDto();
-        model.addAttribute("allBookings", listOfBookings);
-        return "redirect:/booking/getAll";
+
+        if (bookingService.extraBedSpaceAvailable(bookingDetailedDto)
+                && bookingService.compareDesiredDatesToBookedDates(bookingDetailedDto, new RoomDetailedDto())) {
+            bookingService.createBooking(bookingDetailedDto);
+            List<BookingDetailedDto> listOfBookings = bookingService.getAllBookingDetailedDto();
+            model.addAttribute("allBookings", listOfBookings);
+
+            return "redirect:/booking/getAll";
+        }
+        else return "notEnoughSpaceWarning";
     }
 
     @RequestMapping("/createBooking")
@@ -54,14 +61,12 @@ public class BookingController {
 
     @RequestMapping("/modify")
     public String editBooking(BookingDetailedDto booking) {
-        bookingService.modifyBooking(booking);
-        return "redirect:/booking/getAll";
+        if (bookingService.extraBedSpaceAvailable(booking)) {
+            bookingService.modifyBooking(booking);
+            return "redirect:/booking/getAll";
+        } else return "notEnoughSpaceWarning";
     }
 
-    @PutMapping("/addBed/{number}")
-    public int addBed(@RequestBody BookingDetailedDto bookingDetailedDto, @PathVariable int number) {
-        return bookingService.extraBedSpaceAvailable(bookingDetailedDto, number);
-    }
 
     @RequestMapping("/getAll")
     public String getAllBookings(Model model) {

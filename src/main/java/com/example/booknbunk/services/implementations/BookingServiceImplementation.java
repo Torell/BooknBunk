@@ -12,7 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class BookingServiceImplementation implements BookingService {
@@ -113,6 +116,7 @@ public class BookingServiceImplementation implements BookingService {
 
     @Override
     public void createBooking(BookingDetailedDto bookingDetailedDto) {
+
         bookingRepository.save(bookingDetailedDtoToBooking(bookingDetailedDto));
     }
 
@@ -124,15 +128,11 @@ public class BookingServiceImplementation implements BookingService {
     }
 
     @Override
-    public int extraBedSpaceAvailable(BookingDetailedDto bookingDetailedDto, int numberOfBeds) {
-        Booking booking = bookingDetailedDtoToBooking(bookingDetailedDto);
-        int currentNumberOfBeds = booking.getExtraBed();
-        int availableSpace = booking.getRoom().getRoomSize() - currentNumberOfBeds;
-        if (availableSpace >= numberOfBeds) {
-            booking.setExtraBed(currentNumberOfBeds + numberOfBeds);
-            bookingRepository.save(booking);
-            return SUCCESS;
-        } else return FAILURE;
+    public boolean extraBedSpaceAvailable(BookingDetailedDto bookingDetailedDto) {
+
+        int numberOfBeds = bookingDetailedDto.getExtraBed();
+        int availableSpace = bookingDetailedDto.getRoomMiniDto().getRoomSize();
+        return availableSpace >= numberOfBeds;
     }
 
 
@@ -146,6 +146,32 @@ public class BookingServiceImplementation implements BookingService {
         return bookingRepository.findAll()
                 .stream()
                 .map(booking -> bookingToBookingdetailedDto(booking)).toList();
+    }
+
+    @Override
+    public List<LocalDate> getAllDatesBetweenStartAndEndDate(LocalDate startDate, LocalDate endDate) {
+
+        List<LocalDate> allBookedDates = new ArrayList<>();
+
+        for (LocalDate date = startDate; !date.isAfter(endDate); date = date.plusDays(1)) {
+            allBookedDates.add(date);
+        }
+        return allBookedDates;
+    }
+
+    @Override
+    public boolean compareDesiredDatesToBookedDates(BookingDetailedDto booking, RoomDetailedDto room) {
+        List<LocalDate> desiredDates = getAllDatesBetweenStartAndEndDate(booking.getStartDate(), booking.getEndDate());
+        List<LocalDate> bookedDates = room.getBookingMiniDtoList()
+                .stream()
+                .flatMap(bookingMiniDto -> getAllDatesBetweenStartAndEndDate(bookingMiniDto.getStartDate(), bookingMiniDto.getEndDate()).stream())
+                .toList();
+
+        boolean hasConflict = desiredDates.stream()
+                .anyMatch(bookedDates::contains);
+
+        return !hasConflict;
+
     }
 
     @Override

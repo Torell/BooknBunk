@@ -5,6 +5,7 @@ import com.example.booknbunk.models.Booking;
 import com.example.booknbunk.models.Customer;
 import com.example.booknbunk.models.Room;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface BookingService {
@@ -29,14 +30,18 @@ public interface BookingService {
 
     void createBooking(BookingDetailedDto bookingDetailedDto);
 
-    int extraBedSpaceAvailable(BookingDetailedDto bookingDetailedDto, int number);
-    public List<BookingDetailedDto> getAllBookingDetailedDto();
+    boolean extraBedSpaceAvailable(BookingDetailedDto bookingDetailedDto);
 
-    public void cancelBooking(long id);
+    List<LocalDate> getAllDatesBetweenStartAndEndDate(LocalDate startDate,LocalDate endDate);
 
-    public void modifyBooking(BookingDetailedDto bookingDetailedDto);
+    public boolean compareDesiredDatesToBookedDates(BookingDetailedDto booking, RoomDetailedDto room);
+    List<BookingDetailedDto> getAllBookingDetailedDto();
 
-    public int changePeriod(BookingDetailedDto bookingDetailedDto, String startDate, String endDate);
+    void cancelBooking(long id);
+
+    void modifyBooking(BookingDetailedDto bookingDetailedDto);
+
+    int changePeriod(BookingDetailedDto bookingDetailedDto, String startDate, String endDate);
 
 
 }
