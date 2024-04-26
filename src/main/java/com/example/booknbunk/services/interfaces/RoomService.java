@@ -11,11 +11,11 @@ import com.example.booknbunk.models.Room;
 public interface RoomService {
 
 
-    //här ska vi omvandla detailedDTO till room.den har en miniDTOBooking som ska bli en lista
+    RoomDetailedDto roomToRoomDetailedDto(Room room);
     Room roomDetailedDtoToRoom(RoomDetailedDto roomDetailedDto);
 
-    Room roomMiniDtoToRoom(RoomMiniDto roomMiniDto);
     RoomMiniDto roomToRoomMiniDto(Room room);
+    Room roomMiniDtoToRoom(RoomMiniDto roomMiniDto);
 
     Booking bookingMiniDtoToBooking(BookingMiniDto bookingMiniDto);
     BookingMiniDto bookingToBookingMiniDto(Booking booking);

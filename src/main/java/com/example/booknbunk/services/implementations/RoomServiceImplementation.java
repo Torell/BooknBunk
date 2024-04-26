@@ -10,39 +10,26 @@ import com.example.booknbunk.services.interfaces.RoomService;
 public class RoomServiceImplementation implements RoomService {
 
 
-    //här ska vi omvandla detailedDTO till room.den har en miniDTOBooking som ska bli en lista
-    // av bookings. För att göra det behöver vi miniBookingDTO-transfereringarna
-
     @Override
     public Room roomDetailedDtoToRoom(RoomDetailedDto roomDetailedDto){
         return Room.builder()
                 .id(roomDetailedDto.getId())
                 .roomSize(roomDetailedDto.getRoomSize())
-                .bookings()
+                .bookings(roomDetailedDto.getBookingMiniDtoList()
+                        .stream().map(bookingMiniDto -> bookingMiniDtoToBooking(bookingMiniDto))
+                        .toList()).build();
+
     }
 
-    /*
-    *  @Override
-    public Booking bookingDetailedDtoToBooking(BookingDetailedDto bookingDetailedDto) {
-        return Booking.builder()
-                .startDate(bookingDetailedDto.getStartDate())
-                .endDate(bookingDetailedDto.getEndDate())
-                .customer(customerMiniDtoToCustomer(bookingDetailedDto.getCustomerMiniDto()))
-                .room(roomMiniDtoRoom(bookingDetailedDto.getRoomMiniDto()))
-                .extraBed(bookingDetailedDto.getExtraBed())
-                .id(bookingDetailedDto.getId())
-                .build();
-    }
-    * */
-
-    /*
     @Override
-    public RoomDetailedDto RoomToRoomDetailedDto(Room room){
+    public RoomDetailedDto roomToRoomDetailedDto(Room room){
         return RoomDetailedDto.builder()
                 .id(room.getId())
                 .RoomSize(room.getRoomSize())
-                .bookingMiniDtoList(room.getBookings())
-    }*/
+                .bookingMiniDtoList(room.getBookings()
+                        .stream().map(booking -> bookingToBookingMiniDto(booking))
+                        .toList()).build();
+    }
 
     @Override
     public RoomMiniDto roomToRoomMiniDto(Room room) {
@@ -52,7 +39,6 @@ public class RoomServiceImplementation implements RoomService {
                 .build();
     }
 
-
     @Override
     public Room roomMiniDtoToRoom(RoomMiniDto roomMiniDto) {
         return Room.builder()
@@ -60,7 +46,6 @@ public class RoomServiceImplementation implements RoomService {
                 .roomSize(roomMiniDto.getRoomSize())
                 .build();
     }
-
 
     @Override
     public BookingMiniDto bookingToBookingMiniDto(Booking booking) {
@@ -79,5 +64,7 @@ public class RoomServiceImplementation implements RoomService {
                 .endDate(bookingMiniDto.getEndDate())
                 .build();
     }
+
+
 
 }
