@@ -1,5 +1,7 @@
 package com.example.booknbunk.controllers;
 
+import com.example.booknbunk.dtos.BookingDetailedDto;
+import com.example.booknbunk.dtos.BookingMiniDto;
 import com.example.booknbunk.dtos.CustomerDetailedDto;
 import com.example.booknbunk.models.Customer;
 import com.example.booknbunk.services.interfaces.CustomerService;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -33,10 +36,12 @@ public class CustomerController {
     @PostMapping("/addCustomer")
     public String addCustomer(@RequestParam("name") String name, @RequestParam("email") String email) {
         CustomerDetailedDto customer = new CustomerDetailedDto();
+        List<BookingMiniDto> bookings = new ArrayList<>();
         customer.setName(name);
         customer.setEmail(email);
+        customer.setBookingMiniDtoList(bookings);
         customerService.createCustomer(customer);
-        return "redirect:/customers/allCustomersWithDeleteAndEdit.html"; // När man trycker på knappen så omdirigeras man tillbaka till alla kunder
+        return "redirect:/customers/all"; // När man trycker på knappen så omdirigeras man tillbaka till alla kunder
     }
 
     @RequestMapping("/all")
