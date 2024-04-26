@@ -5,9 +5,21 @@ import com.example.booknbunk.dtos.RoomDetailedDto;
 import com.example.booknbunk.dtos.RoomMiniDto;
 import com.example.booknbunk.models.Booking;
 import com.example.booknbunk.models.Room;
+import com.example.booknbunk.repositories.BookingRepository;
+import com.example.booknbunk.repositories.RoomRepository;
 import com.example.booknbunk.services.interfaces.RoomService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RoomServiceImplementation implements RoomService {
+
+    private final RoomRepository roomRepository;
+    private final BookingRepository bookingRepository;
+
+    public RoomServiceImplementation(RoomRepository roomRepository, BookingRepository bookingRepository) {
+        this.roomRepository = roomRepository;
+        this.bookingRepository = bookingRepository;
+    }
 
 
     @Override
@@ -65,6 +77,12 @@ public class RoomServiceImplementation implements RoomService {
                 .build();
     }
 
+
+
+    @Override
+    public RoomDetailedDto findRoomById(long id) {
+        return roomToRoomDetailedDto(roomRepository.getReferenceById(id));
+    }
 
 
 }

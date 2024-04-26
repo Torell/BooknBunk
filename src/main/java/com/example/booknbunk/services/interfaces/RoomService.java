@@ -20,4 +20,5 @@ public interface RoomService {
     Booking bookingMiniDtoToBooking(BookingMiniDto bookingMiniDto);
     BookingMiniDto bookingToBookingMiniDto(Booking booking);
 
+    RoomDetailedDto findRoomById(long id);
 }
