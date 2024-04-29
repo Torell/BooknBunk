@@ -143,3 +143,26 @@ nav a:hover {
 .dropdown:hover .dropdown-content {
     display: block;
 }
+
+select {
+    width: 95%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    font-family: Arial, sans-serif; /* Ensuring font consistency */
+    color: #333;
+    cursor: pointer; /* Gives a visual cue that this is a selectable item */
+}
+
+select:hover {
+    border-color: #888; /* Subtle hover effect, could also use background color change */
+}
+
+select:focus {
+    border-color: #4A90E2; /* Highlight color when the select box is focused */
+    outline: none; /* Removes the default focus outline to use custom border color */
+}
+

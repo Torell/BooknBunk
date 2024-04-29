@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class RoomMiniDto {
 
-    private long id;
+    private Long id;
     private int roomSize;
 }

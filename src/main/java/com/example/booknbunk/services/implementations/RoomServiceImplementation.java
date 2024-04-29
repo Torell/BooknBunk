@@ -10,6 +10,8 @@ import com.example.booknbunk.repositories.RoomRepository;
 import com.example.booknbunk.services.interfaces.RoomService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class RoomServiceImplementation implements RoomService {
 
@@ -77,7 +79,12 @@ public class RoomServiceImplementation implements RoomService {
                 .build();
     }
 
-
+    @Override
+    public List<RoomMiniDto> getAllRoomsMiniDto() {
+        return roomRepository.findAll().stream()
+                .map(room -> roomToRoomMiniDto(room))
+                .toList();
+    }
 
     @Override
     public RoomDetailedDto findRoomById(long id) {

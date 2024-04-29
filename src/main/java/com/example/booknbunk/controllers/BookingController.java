@@ -59,6 +59,8 @@ public class BookingController {
     public String createBooking(Model model) {
         BookingDetailedDto booking = new BookingDetailedDto();
         RoomMiniDto roomMiniDto = new RoomMiniDto();
+        model.addAttribute("defaultRoomId",1L);
+        model.addAttribute("rooms",roomService.getAllRoomsMiniDto());
         model.addAttribute("booking", booking);
         model.addAttribute("roomMiniDto", roomMiniDto);
         return "addBooking";

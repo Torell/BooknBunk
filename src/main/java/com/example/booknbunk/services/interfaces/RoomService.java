@@ -8,6 +8,8 @@ import com.example.booknbunk.models.Booking;
 import com.example.booknbunk.models.Customer;
 import com.example.booknbunk.models.Room;
 
+import java.util.List;
+
 public interface RoomService {
 
 
@@ -21,4 +23,6 @@ public interface RoomService {
     BookingMiniDto bookingToBookingMiniDto(Booking booking);
 
     RoomDetailedDto findRoomById(long id);
+
+    List<RoomMiniDto> getAllRoomsMiniDto();
 }
