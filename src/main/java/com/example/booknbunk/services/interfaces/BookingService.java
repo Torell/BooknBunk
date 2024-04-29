@@ -41,6 +41,11 @@ public interface BookingService {
 
     void modifyBooking(BookingDetailedDto bookingDetailedDto);
 
+    List<LocalDate> getAvailabilityBasedOnRoomSize(int occupants);
+
+    List<RoomDetailedDto> getAllRooms();
+    public RoomDetailedDto roomToRoomDetailedDto(Room room);
+
     int changePeriod(BookingDetailedDto bookingDetailedDto, String startDate, String endDate);
 
 

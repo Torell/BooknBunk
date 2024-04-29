@@ -7,6 +7,7 @@ import com.example.booknbunk.models.Room;
 import com.example.booknbunk.repositories.BookingRepository;
 import com.example.booknbunk.repositories.RoomRepository;
 import com.example.booknbunk.services.interfaces.BookingService;
+import com.example.booknbunk.services.interfaces.RoomService;
 import com.sun.net.httpserver.Authenticator;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -27,9 +28,10 @@ public class BookingServiceImplementation implements BookingService {
 
     private final RoomRepository roomRepository;
 
-    public BookingServiceImplementation(BookingRepository bookingRepository, RoomRepository roomRepository) {
+    public BookingServiceImplementation(BookingRepository bookingRepository, RoomRepository roomRepository, RoomService roomService) {
         this.bookingRepository = bookingRepository;
         this.roomRepository = roomRepository;
+
     }
 
     @Override
@@ -127,6 +129,21 @@ public class BookingServiceImplementation implements BookingService {
 
     }
 
+
+    @Override
+    public List<LocalDate> getAvailabilityBasedOnRoomSize(int occupants) {
+        List<RoomDetailedDto> allRooms = getAllRooms();
+        List<LocalDate> bookedDates = allRooms.stream()
+                .filter(roomDetailedDto -> roomDetailedDto.getRoomSize() >= occupants)
+                .flatMap(room -> room.getBookingMiniDtoList().stream())
+                .flatMap(bookingMiniDto -> getAllDatesBetweenStartAndEndDate(bookingMiniDto.getStartDate(), bookingMiniDto.getEndDate()).stream())
+                .toList();
+
+        return null;
+    }
+
+
+
     @Override
     public boolean extraBedSpaceAvailable(BookingDetailedDto bookingDetailedDto) {
 
@@ -145,7 +162,26 @@ public class BookingServiceImplementation implements BookingService {
     public List<BookingDetailedDto> getAllBookingDetailedDto() {
         return bookingRepository.findAll()
                 .stream()
-                .map(booking -> bookingToBookingdetailedDto(booking)).toList();
+                .map(booking -> bookingToBookingdetailedDto(booking))
+                .toList();
+    }
+
+    @Override
+    public List<RoomDetailedDto> getAllRooms() {
+        return roomRepository.findAll()
+                .stream()
+                .map(room -> roomToRoomDetailedDto(room))
+                .toList();
+    }
+
+    @Override
+    public RoomDetailedDto roomToRoomDetailedDto(Room room){
+        return RoomDetailedDto.builder()
+                .id(room.getId())
+                .RoomSize(room.getRoomSize())
+                .bookingMiniDtoList(room.getBookings()
+                        .stream().map(booking -> bookingToBookingMiniDto(booking))
+                        .toList()).build();
     }
 
     @Override

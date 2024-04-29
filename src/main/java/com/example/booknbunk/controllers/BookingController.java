@@ -69,6 +69,8 @@ public class BookingController {
     }
 
 
+
+
     @RequestMapping("/getAll")
     public String getAllBookings(Model model) {
         List<BookingDetailedDto> listOfBookings = bookingService.getAllBookingDetailedDto();
