@@ -1,21 +1,13 @@
 package com.example.booknbunk.controllers;
 
-import com.example.booknbunk.dtos.BookingDetailedDto;
-import com.example.booknbunk.dtos.BookingMiniDto;
 import com.example.booknbunk.dtos.CustomerDetailedDto;
-import com.example.booknbunk.models.Customer;
 import com.example.booknbunk.services.interfaces.CustomerService;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -34,51 +26,41 @@ public class CustomerController {
         return "addCustomer.html";
     }
 
-   /* @PostMapping("/addCustomer")
-    public String addCustomer(@ModelAttribute("customer") CustomerDetailedDto customer) {
-        customerService.createCustomer(customer);
-        return "redirect:/customers/all";
-    }*/
+    @GetMapping("/editCustomerPage")
+    public String editCustomerPage(@RequestParam("id") long id, Model model) {
+        CustomerDetailedDto customer = customerService.findCustomerById(id);
+        model.addAttribute("customerId", id);
+        return "editCustomer.html";
+    }
 
-   @PostMapping("/addCustomer")
+   // @RequestMapping("/deleteCustomer")
+   // public String
+
+
+    @PostMapping("/addCustomer")
     public String addCustomer(@RequestParam("name") String name, @RequestParam("email") String email) {
-        CustomerDetailedDto customer = new CustomerDetailedDto();
-        List<BookingMiniDto> bookings = new ArrayList<>();
-        customer.setName(name);
-        customer.setEmail(email);
-        customer.setBookingMiniDtoList(bookings);
-        customerService.createCustomer(customer);
-        return "redirect:/customers/all"; // När man trycker på knappen så omdirigeras man tillbaka till alla kunder
-    }
-
-    @PostMapping("/editCustomer")
-    public String editCustomer (@PathVariable long id, Model model){
-       CustomerDetailedDto customer = customerService.findCustomerById(id);
-       model.addAttribute("customer", customer);
-       return "redirect:/customers/all"; // Korrekt?
-    }
-
-
-
-   /* @PostMapping("/addCustomer")
-    public String addCustomer(Model model, CustomerDetailedDto customerDetailedDto) {
-        customerService.createCustomer(customerDetailedDto);
-        List<CustomerDetailedDto> listOfCustomers = customerService.getAllCustomersDetailedDto();
-        model.addAttribute("allCustomers", listOfCustomers);
-        return "redirect:/customers/all"; // När man trycker på knappen så omdirigeras man tillbaka till alla kunder
-    }*/
-
-   /* @PostMapping
-    public String addCustomer(Model model){
-        CustomerDetailedDto customer = new CustomerDetailedDto();
-        BookingMiniDto bookingMiniDto = new BookingMiniDto();
-        model.addAttribute("customer", customer);
-        model.addAttribute("bookingMiniDto", bookingMiniDto);
+        customerService.createCustomer(name, email);
         return "redirect:/customers/all";
-    }*/
+    }
+
+
+    @PutMapping("/updateCustomer/{id}")
+    public String updateCustomer(@PathVariable long id, @RequestParam("name") String name, @RequestParam("email") String email) {
+        customerService.updateCustomer(id, name, email);
+        return "redirect:/customers/all";
+    }
+
+
+    @PutMapping("/editCustomer/{id}")
+    public String editCustomer(@PathVariable long id, Model model) {
+        CustomerDetailedDto customer = customerService.findCustomerById(id);
+        model.addAttribute("customer", customer);
+        return "editCustomer.html"; // Korrekt?
+    }
+
 
     @RequestMapping("/all")
-    public String getAllCustomers(Model model){
+    public String getAllCustomers(Model model) {
         List<CustomerDetailedDto> customerDetailedDtoList = customerService.getAllCustomersDetailedDto();
 
         // Logga storleken på listan
@@ -92,21 +74,6 @@ public class CustomerController {
         model.addAttribute("allCustomers", customerDetailedDtoList);
         return "allCustomersWithDeleteAndEdit.html";
     }
-
-
-
-    //getAll - Klart
-    //add - Klart
-    //upDate
-    //delete
-
-   /* @PostMapping("/add")
-    public void addCustomer(@RequestBody CustomerDetailedDto customerDetailedDto){
-        customerService.createCustomer(customerDetailedDto);
-    }*/
-
-
-
 
 
 }

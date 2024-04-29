@@ -25,17 +25,11 @@ public class CustomerServiceImplementation implements CustomerService {
         this.customerRepo = customerRepo;
     }
 
-    @Override
-    public void editCustomer(CustomerDetailedDto customerDetailedDto){
-        Customer customerToEdit = customerRepo.findById(customerDetailedDto.getId()).get();
-        customerToEdit.setName(customerDetailedDto.getName());
-        customerToEdit.setEmail(customerDetailedDto.getEmail());
-        customerRepo.save(customerToEdit);
-    }
+
 
     @Override
     public CustomerDetailedDto findCustomerById(long id){
-        return customerToCustomerDetailedDto(customerRepo.getReferenceById(id));
+        return customerToCustomerDetailedDto(customerRepo.findById(id).orElse(null));
     }
 
 
@@ -48,8 +42,34 @@ public class CustomerServiceImplementation implements CustomerService {
     }
 
     @Override
+    public void createCustomer(String name, String email) {
+        CustomerDetailedDto customerDto = new CustomerDetailedDto();
+        customerDto.setName(name);
+        customerDto.setEmail(email);
+        customerDto.setBookingMiniDtoList(bookings);
+        createCustomer(customerDto);
+    }
+
+    @Override
     public void createCustomer(CustomerDetailedDto customerDetailedDto){
         customerRepo.save(customerDetailedDtoToCustomer(customerDetailedDto));
+    }
+
+    @Override
+    public void editCustomer(CustomerDetailedDto customerDetailedDto){
+        Customer customerToEdit = customerRepo.findById(customerDetailedDto.getId()).get();
+        customerToEdit.setName(customerDetailedDto.getName());
+        customerToEdit.setEmail(customerDetailedDto.getEmail());
+        customerRepo.save(customerToEdit);
+    }
+
+
+    @Override
+    public void updateCustomer(long id, String name, String email){
+        CustomerDetailedDto customerDto = findCustomerById(id);
+        customerDto.setName(name);
+        customerDto.setEmail(email);
+        editCustomer(customerDto);
     }
 
     //DetailedCustomerDto -> customer

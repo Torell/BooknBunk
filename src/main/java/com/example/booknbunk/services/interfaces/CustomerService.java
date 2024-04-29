@@ -12,6 +12,8 @@ import java.util.List;
 public interface CustomerService {
 
 
+    void createCustomer(String name, String email);
+
     void createCustomer(CustomerDetailedDto customerDetailedDto);
 
     void editCustomer(CustomerDetailedDto customerDetailedDto);
@@ -24,6 +26,8 @@ public interface CustomerService {
 
     CustomerDetailedDto customerToCustomerDetailedDto(Customer customer);
     CustomerMiniDto customerToCustomerMiniDto (Customer customer);
+
+    void updateCustomer(long id, String name, String email);
 
     Customer customerDetailedDtoToCustomer(CustomerDetailedDto customerDetailedDto);
     Customer customerMiniDtoToCustomer(CustomerMiniDto customerMiniDto);

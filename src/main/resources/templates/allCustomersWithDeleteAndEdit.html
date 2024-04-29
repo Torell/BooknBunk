@@ -26,13 +26,15 @@
         <td class="table-cell" th:text="${customer.name}"></td>
         <td class="bold-text" th:text="'Email:'"></td>
         <td class="table-cell" th:text="${customer.email}"></td>
-        <td><a th:href="@{/customer/deleteCustomer/{id}(id=${customer.id})}">Delete</a></td>
-        <td><a th:href="@{/customer/editCustomer/{id}(id=${customer.id})}">Edit Customer</a></td>
+        <td> <a href="/customers/editCustomer" class="button-link" >edit customer</a></td>
+        <td><a th:href="@{/customers/deleteCustomer/{id}(id=${customer.id})}">Delete</a></td>
+        <td><a th:href="@{/customers/editCustomerPage(id=${customer.id})}">Edit Customer</a></td>
+
+
     </tr>
     </tbody>
 </table>
 
-</form>
 <a href="/customers/addCustomerPage" class="button-link">Add Customer</a>
 
 </body>
