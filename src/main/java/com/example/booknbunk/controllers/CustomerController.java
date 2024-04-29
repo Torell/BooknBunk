@@ -40,7 +40,7 @@ public class CustomerController {
         return "redirect:/customers/all";
     }*/
 
-    @PostMapping("/addCustomer")
+   @PostMapping("/addCustomer")
     public String addCustomer(@RequestParam("name") String name, @RequestParam("email") String email) {
         CustomerDetailedDto customer = new CustomerDetailedDto();
         List<BookingMiniDto> bookings = new ArrayList<>();
@@ -50,6 +50,15 @@ public class CustomerController {
         customerService.createCustomer(customer);
         return "redirect:/customers/all"; // När man trycker på knappen så omdirigeras man tillbaka till alla kunder
     }
+
+    @PostMapping("/editCustomer")
+    public String editCustomer (@PathVariable long id, Model model){
+       CustomerDetailedDto customer = customerService.findCustomerById(id);
+       model.addAttribute("customer", customer);
+       return "redirect:/customers/all"; // Korrekt?
+    }
+
+
 
    /* @PostMapping("/addCustomer")
     public String addCustomer(Model model, CustomerDetailedDto customerDetailedDto) {
@@ -85,8 +94,9 @@ public class CustomerController {
     }
 
 
+
     //getAll - Klart
-    //add
+    //add - Klart
     //upDate
     //delete
 
