@@ -1,6 +1,7 @@
 package com.example.booknbunk.controllers;
 
-import com.example.booknbunk.dtos.CustomerDetailedDto.java;
+import com.example.booknbunk.dtos.CustomerDetailedDto;
+import com.example.booknbunk.dtos.CustomerMiniDto;
 import com.example.booknbunk.services.interfaces.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
