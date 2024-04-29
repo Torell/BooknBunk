@@ -26,6 +26,8 @@
         <td class="table-cell" th:text="${customer.name}"></td>
         <td class="bold-text" th:text="'Email:'"></td>
         <td class="table-cell" th:text="${customer.email}"></td>
+        <td><a th:href="@{/customer/deleteCustomer/{id}(id=${customer.id})}">Delete</a></td>
+        <td><a th:href="@{/customer/editCustomer/{id}(id=${customer.id})}">Edit Customer</a></td>
     </tr>
     </tbody>
 </table>

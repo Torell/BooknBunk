@@ -14,6 +14,10 @@ public interface CustomerService {
 
     void createCustomer(CustomerDetailedDto customerDetailedDto);
 
+    void editCustomer(CustomerDetailedDto customerDetailedDto);
+
+    CustomerDetailedDto findCustomerById(long id);
+
     public List<CustomerDetailedDto> getAllCustomersDetailedDto();
 
     List<BookingMiniDto> bookings = new ArrayList<>(); //???

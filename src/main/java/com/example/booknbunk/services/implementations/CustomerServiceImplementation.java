@@ -25,6 +25,19 @@ public class CustomerServiceImplementation implements CustomerService {
         this.customerRepo = customerRepo;
     }
 
+    @Override
+    public void editCustomer(CustomerDetailedDto customerDetailedDto){
+        Customer customerToEdit = customerRepo.findById(customerDetailedDto.getId()).get();
+        customerToEdit.setName(customerDetailedDto.getName());
+        customerToEdit.setEmail(customerDetailedDto.getEmail());
+        customerRepo.save(customerToEdit);
+    }
+
+    @Override
+    public CustomerDetailedDto findCustomerById(long id){
+        return customerToCustomerDetailedDto(customerRepo.getReferenceById(id));
+    }
+
 
     // Söker ut alla kunder
     @Override
