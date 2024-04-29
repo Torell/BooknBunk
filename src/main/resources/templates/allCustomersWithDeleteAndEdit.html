@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
+    <link rel=stylesheet th:href="@{/css/style.css}" type="text/css">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>List of Customers</title>
     <style>
@@ -32,7 +33,7 @@
         <td><a th:href="@{/customer/deleteCustomer/{id}(id=${customer.id})}">Cancel</a></td>
         <td><a th:href="@{/customers/editCustomerPage(id=${customer.id})}">Edit Customer</a></td>-->
         <td><a th:href="@{/customers/deleteCustomer/{id}(id=${customer.id})}" onclick="return confirm('Are you sure you want to delete this customer?')">Delete</a></td>
-        <td><a th:href="@{/customers/editCustomerPage(id=${customer.id})}">Edit Customer</a></td>
+        <td><a th:href="@{/customers/editCustomer/{id}(id=${customer.id})}">Edit Customer</a></td>
 
 
 

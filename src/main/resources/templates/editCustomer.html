@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
+    <link rel=stylesheet th:href="@{/css/style.css}" type="text/css">
     <meta charset="UTF-8">
     <title>Edit Customer</title>
 </head>
@@ -8,7 +9,7 @@
 
 <h1>Edit Customer</h1>
 
-<form action="#" th:action="@{/customers/updateCustomer/{id}(id=${customer.id})}" th:object="${customer}" method="post">
+<form action="#" th:action="@{/customers/updateCustomer}" th:object="${customer}" method="post">
     <label for="name">Name:</label><br>
     <input type="text" id="name" th:field="*{name}"><br>
     <label for="email">Email:</label><br>
@@ -18,4 +19,5 @@
 </form>
 
 </body>
+
 </html>

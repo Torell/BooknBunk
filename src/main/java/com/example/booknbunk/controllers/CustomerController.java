@@ -30,7 +30,7 @@ public class CustomerController {
     public String editCustomerPage(@RequestParam("id") long id, Model model) {
         CustomerDetailedDto customer = customerService.findCustomerById(id);
         model.addAttribute("customerId", id);
-        return "editCustomer.html";
+        return "editCustomer";
     }
 
  /*  @RequestMapping("/deleteCustomer/{id}")
@@ -56,19 +56,30 @@ public class CustomerController {
         return "redirect:/customers/all";
     }
 
-
+    /*
     @PutMapping("/updateCustomer/{id}")
     public String updateCustomer(@PathVariable long id, @RequestParam("name") String name, @RequestParam("email") String email) {
         customerService.updateCustomer(id, name, email);
         return "redirect:/customers/all";
     }
 
+     */
 
-    @PutMapping("/editCustomer/{id}")
+    @RequestMapping("/updateCustomer")
+    public String updateCustomer(CustomerDetailedDto customerDetailedDto) {
+        customerService.createCustomer(customerDetailedDto);
+
+        System.out.println("hit kommer vi");
+        return "redirect:/customers/all";
+    }
+
+
+    @RequestMapping("/editCustomer/{id}")
     public String editCustomer(@PathVariable long id, Model model) {
         CustomerDetailedDto customer = customerService.findCustomerById(id);
         model.addAttribute("customer", customer);
-        return "editCustomer.html"; // Korrekt?
+        model.addAttribute("bookingList",customer.getBookingMiniDtoList());
+        return "editCustomer"; // Korrekt?
     }
 
 
