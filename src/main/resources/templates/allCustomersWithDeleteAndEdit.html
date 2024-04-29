@@ -17,6 +17,8 @@
 
 <h1>List of Customers</h1>
 
+<div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
+
 <table>
     <tbody>
     <tr th:each="customer : ${allCustomers}">
