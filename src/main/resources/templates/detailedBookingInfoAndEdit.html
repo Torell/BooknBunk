@@ -8,20 +8,23 @@
 <div th:replace="navbar :: navbar"></div>
 <form th:action="@{/booking/modify}" method="post" th:object="${booking}">
     <label for="startDate">Start date:</label><br>
-    <input type="text" id="startDate" name="startDate" th:field="*{startDate}" />
+    <input type="date" id="startDate" name="startDate" th:field="*{startDate}" />
     <br><br>
 
     <label for="endDate">End Date:</label><br>
-    <input type="text" id="endDate" name="endDate" th:field="*{endDate}" />
+    <input type="date" id="endDate" name="endDate" th:field="*{endDate}" />
     <br><br>
 
-    <label for="roomMiniDtoId">Room:</label><br>
-    <input type="text" id="roomMiniDtoId" name="roomMiniDto.id" th:field="*{roomMiniDto.id}" />
-    <br><br>
+    <select id="roomMiniDtoId" name="roomMiniDto.id" th:field="*{roomMiniDto.id}">
+        <option value="" th:text="'Select Room'">Select Room</option>
+        <option th:each="room : ${rooms}" th:value="${room.id}" th:text="'Room number: ' + ${room.getId()} + ', Number of beds: ' + (${room.getRoomSize()} + 1)"></option>
+    </select>
+
 
     <label for="customerMiniDtoId">Customer:</label><br>
-    <input type="text" id="customerMiniDtoId" name="customerMiniDto.id" th:field="*{customerMiniDto.id}" />
+    <input type="text" id="customerMiniDtoId" name="customerMiniDto.id" th:field="*{customerMiniDto.id}" readonly />
     <br><br>
+
 
 
     <label for="extraBed">extraBed:</label><br>
