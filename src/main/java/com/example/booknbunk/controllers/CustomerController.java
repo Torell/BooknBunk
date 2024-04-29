@@ -33,8 +33,21 @@ public class CustomerController {
         return "editCustomer.html";
     }
 
-   // @RequestMapping("/deleteCustomer")
-   // public String
+ /*  @RequestMapping("/deleteCustomer/{id}")
+   public String deleteCustomerById(@PathVariable long id, Model model){
+        customerService.deleteCustomer(id);
+        List<CustomerDetailedDto> listOfCustomers = customerService.getAllCustomersDetailedDto();
+        model.addAttribute("allCustomers", listOfCustomers);
+        return "redirect:/customers/all";
+   }
+*/
+    @RequestMapping("/deleteCustomer/{id}")
+    public String deleteCustomerById(@PathVariable long id, Model model){
+        System.out.println("kommit in i metoden");
+        customerService.deleteCustomer(id);
+        System.out.println("Kund raderad");
+        return "redirect:/customers/all"; // Omdirigera till sidan för att visa alla kunder
+    }
 
 
     @PostMapping("/addCustomer")
@@ -62,15 +75,6 @@ public class CustomerController {
     @RequestMapping("/all")
     public String getAllCustomers(Model model) {
         List<CustomerDetailedDto> customerDetailedDtoList = customerService.getAllCustomersDetailedDto();
-
-        // Logga storleken på listan
-        System.out.println("Antal kunder hämtade: " + customerDetailedDtoList.size());
-
-        // Logga information om varje kund i listan
-        for (CustomerDetailedDto customer : customerDetailedDtoList) {
-            System.out.println("Kund ID: " + customer.getId() + ", Namn: " + customer.getName() + ", Email: " + customer.getEmail());
-        }
-
         model.addAttribute("allCustomers", customerDetailedDtoList);
         return "allCustomersWithDeleteAndEdit.html";
     }

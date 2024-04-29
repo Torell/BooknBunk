@@ -18,6 +18,8 @@ public interface CustomerService {
 
     void editCustomer(CustomerDetailedDto customerDetailedDto);
 
+    void deleteCustomer(long id);
+
     CustomerDetailedDto findCustomerById(long id);
 
     public List<CustomerDetailedDto> getAllCustomersDetailedDto();
