@@ -15,7 +15,7 @@
     </style>
 </head>
 <body>
-
+<div th:replace="navbar :: navbar"></div>
 <h1>List of Customers</h1>
 
 <div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>

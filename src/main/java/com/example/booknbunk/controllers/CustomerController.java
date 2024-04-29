@@ -23,14 +23,14 @@ public class CustomerController {
 
     @GetMapping("/addCustomerPage")
     public String addCustomerPage() {
-        return "addCustomer.html";
+        return "/customer/addCustomer";
     }
 
     @GetMapping("/editCustomerPage")
     public String editCustomerPage(@RequestParam("id") long id, Model model) {
         CustomerDetailedDto customer = customerService.findCustomerById(id);
         model.addAttribute("customerId", id);
-        return "editCustomer";
+        return "/customer/editCustomer";
     }
 
  /*  @RequestMapping("/deleteCustomer/{id}")
@@ -79,7 +79,7 @@ public class CustomerController {
         CustomerDetailedDto customer = customerService.findCustomerById(id);
         model.addAttribute("customer", customer);
         model.addAttribute("bookingList",customer.getBookingMiniDtoList());
-        return "editCustomer"; // Korrekt?
+        return "/customer/editCustomer"; // Korrekt?
     }
 
 
@@ -87,7 +87,7 @@ public class CustomerController {
     public String getAllCustomers(Model model) {
         List<CustomerDetailedDto> customerDetailedDtoList = customerService.getAllCustomersDetailedDto();
         model.addAttribute("allCustomers", customerDetailedDtoList);
-        return "allCustomersWithDeleteAndEdit.html";
+        return "/customer/allCustomersWithDeleteAndEdit";
     }
 
 

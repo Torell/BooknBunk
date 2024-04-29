@@ -41,12 +41,12 @@ public class BookingController {
 
             return "redirect:/booking/getAll";
         }
-        else return "notEnoughSpaceWarning";
+        else return "/booking/notEnoughSpaceWarning";
     }
 
     @RequestMapping("/findAvailability")
     public String findAvailability() {
-        return "findAvailability";
+        return "/booking/findAvailability";
     }
     @RequestMapping("/getAvailability")
     public String getAvailability(Model model, @RequestParam(name = "occupants") int occupants, @RequestParam(name = "startDate") String startDate, @RequestParam(name = "endDate") String endDate) {
@@ -54,7 +54,7 @@ public class BookingController {
         model.addAttribute("availableRoom",bookingService.getAvailabilityBasedOnRoomSizeAndDateIntervall(occupants,startDate,endDate));
         model.addAttribute("headline","Available Rooms");
 
-        return "showAvailability";
+        return "/booking/showAvailability";
     }
 
     @RequestMapping("/createBooking")
@@ -65,7 +65,7 @@ public class BookingController {
         model.addAttribute("rooms",roomService.getAllRoomsMiniDto());
         model.addAttribute("booking", booking);
         model.addAttribute("roomMiniDto", roomMiniDto);
-        return "addBooking";
+        return "/booking/addBooking";
 
     }
 
@@ -75,7 +75,7 @@ public class BookingController {
         model.addAttribute("rooms",roomService.getAllRoomsMiniDto());
         model.addAttribute("booking", booking);
         model.addAttribute("roomMiniDto");
-        return "detailedBookingInfoAndEdit";
+        return "/booking/detailedBookingInfoAndEdit";
     }
 
     @RequestMapping("/modify")
@@ -83,7 +83,7 @@ public class BookingController {
         if (bookingService.extraBedSpaceAvailable(booking)) {
             bookingService.modifyBooking(booking);
             return "redirect:/booking/getAll";
-        } else return "notEnoughSpaceWarning";
+        } else return "/booking/notEnoughSpaceWarning";
     }
 
 
@@ -94,7 +94,7 @@ public class BookingController {
         List<BookingDetailedDto> listOfBookings = bookingService.getAllBookingDetailedDto();
         model.addAttribute("allBookings", listOfBookings);
         model.addAttribute("bookingTitle", "All Bookings");
-        return "allBookings";
+        return "/booking/allBookings";
     }
 
     @RequestMapping("/cancelBooking/{id}")
