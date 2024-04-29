@@ -1,0 +1,42 @@
+<!--<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <link rel=stylesheet th:href="@{/css/style.css}" type="text/css">
+  <title>Add Customer</title>
+</head>
+<body>
+
+<h1>Add Customer</h1>
+<form th:action="@{/customers/addCustomer}" method="post" th:object="${customer}">
+  <label for="name">Name:</label><br>
+  <input type="text" id="name" name="name" th:field="*{name}"/>
+  <br>
+
+  <label for="email">Email:</label><br>
+  <input type="email" id="email" name="email" th:field="*{email}">
+  <br><br>
+
+  <input type="hidden" id="id" name="id" th:field="*{id}" />
+
+  <button type="submit">Add to Customer List</button>
+</form> -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <link rel=stylesheet th:href="@{/css/style.css}" type="text/css">
+  <title>Add Customer</title>
+</head>
+<body>
+
+<h1>Add Customer</h1>
+
+<form action="/customers/addCustomer" method="post">
+  <label for="name">Name:</label><br>
+  <input type="text" id="name" name="name"><br>
+  <label for="email">Email:</label><br>
+  <input type="email" id="email" name="email"><br><br>
+  <button type="submit">Add to Customer List</button>
+</form>
+</body>
+</html>

@@ -27,6 +27,8 @@ public class BookingController {
     public List<BookingDetailedDto> listAllBooking() {
        return bookingService.getAllBookingDetailedDto();
     }
+
+
     @PostMapping("/add")
     public String addBooking(Model model, BookingDetailedDto bookingDetailedDto){
 

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Collections;
 import java.util.List;
 
 @Data
@@ -17,5 +18,13 @@ public class CustomerDetailedDto {
     private String name;
     private String email;
     private List<BookingMiniDto> bookingMiniDtoList;
+
+    public List<BookingMiniDto> getBookingMiniDtoList() {
+        if (this.bookingMiniDtoList == null) {
+            return Collections.emptyList();
+        }
+        return this.bookingMiniDtoList;
+    }
+
 
 }
