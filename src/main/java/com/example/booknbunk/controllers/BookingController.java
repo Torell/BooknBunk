@@ -1,7 +1,6 @@
 package com.example.booknbunk.controllers;
 
 import com.example.booknbunk.dtos.BookingDetailedDto;
-import com.example.booknbunk.dtos.RoomDetailedDto;
 import com.example.booknbunk.dtos.RoomMiniDto;
 import com.example.booknbunk.services.interfaces.BookingService;
 import com.example.booknbunk.services.interfaces.RoomService;
@@ -32,7 +31,8 @@ public class BookingController {
     public String addBooking(Model model, BookingDetailedDto bookingDetailedDto){
 
         if (bookingService.extraBedSpaceAvailable(bookingDetailedDto)
-                && bookingService.compareDesiredDatesToBookedDates(bookingDetailedDto, roomService.findRoomById(bookingDetailedDto.getRoomMiniDto().getId()))) {
+                && bookingService.compareDesiredDatesToBookedDates(bookingDetailedDto, roomService.findRoomById(bookingDetailedDto.getRoomMiniDto().getId()))
+        && bookingService.startDateIsBeforeEndDate(bookingDetailedDto)) {
             bookingService.createBooking(bookingDetailedDto);
             List<BookingDetailedDto> listOfBookings = bookingService.getAllBookingDetailedDto();
             model.addAttribute("allBookings", listOfBookings);

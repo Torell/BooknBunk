@@ -197,6 +197,10 @@ public class BookingServiceImplementation implements BookingService {
 
     @Override
     public boolean compareDesiredDatesToBookedDates(BookingDetailedDto booking, RoomDetailedDto room) {
+        LocalDate currentDate = LocalDate.now();
+        if (booking.getStartDate().isBefore(currentDate)) {
+            return false;
+        }
         List<LocalDate> desiredDates = getAllDatesBetweenStartAndEndDate(booking.getStartDate(), booking.getEndDate());
         List<LocalDate> bookedDates = room.getBookingMiniDtoList()
                 .stream()
@@ -217,5 +221,13 @@ public class BookingServiceImplementation implements BookingService {
         booking.setStartDate(LocalDate.parse(endDate));
         bookingRepository.save(booking);
         return SUCCESS;
+    }
+
+    @Override
+    public boolean startDateIsBeforeEndDate(BookingDetailedDto booking) {
+
+        return booking.getStartDate().isBefore(booking.getEndDate());
+
+
     }
 }

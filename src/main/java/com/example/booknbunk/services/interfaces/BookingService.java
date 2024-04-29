@@ -46,6 +46,8 @@ public interface BookingService {
     List<RoomDetailedDto> getAllRooms();
     public RoomDetailedDto roomToRoomDetailedDto(Room room);
 
+    public boolean startDateIsBeforeEndDate(BookingDetailedDto booking);
+
     int changePeriod(BookingDetailedDto bookingDetailedDto, String startDate, String endDate);
 
 
