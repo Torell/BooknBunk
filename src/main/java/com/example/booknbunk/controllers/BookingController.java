@@ -42,6 +42,19 @@ public class BookingController {
         else return "notEnoughSpaceWarning";
     }
 
+    @RequestMapping("/findAvailability")
+    public String findAvailability() {
+        return "findAvailability";
+    }
+    @RequestMapping("/getAvailability")
+    public String getAvailability(Model model, @RequestParam(name = "occupants") int occupants, @RequestParam(name = "startDate") String startDate, @RequestParam(name = "endDate") String endDate) {
+
+        model.addAttribute("availableRoom",bookingService.getAvailabilityBasedOnRoomSizeAndDateIntervall(occupants,startDate,endDate));
+        model.addAttribute("headline","Available Rooms");
+
+        return "showAvailability";
+    }
+
     @RequestMapping("/createBooking")
     public String createBooking(Model model) {
         BookingDetailedDto booking = new BookingDetailedDto();

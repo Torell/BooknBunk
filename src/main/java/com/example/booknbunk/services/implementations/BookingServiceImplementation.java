@@ -131,15 +131,22 @@ public class BookingServiceImplementation implements BookingService {
 
 
     @Override
-    public List<LocalDate> getAvailabilityBasedOnRoomSize(int occupants) {
-        List<RoomDetailedDto> allRooms = getAllRooms();
-        List<LocalDate> bookedDates = allRooms.stream()
-                .filter(roomDetailedDto -> roomDetailedDto.getRoomSize() >= occupants)
-                .flatMap(room -> room.getBookingMiniDtoList().stream())
-                .flatMap(bookingMiniDto -> getAllDatesBetweenStartAndEndDate(bookingMiniDto.getStartDate(), bookingMiniDto.getEndDate()).stream())
+    public List<RoomDetailedDto> getAvailabilityBasedOnRoomSizeAndDateIntervall(int occupants, String startDate, String endDate) {
+        List<RoomDetailedDto> allRoomsWithEnoughSpace = getAllRooms().stream()
+                .filter(roomDetailedDto -> roomDetailedDto.getRoomSize() >= occupants-1)
                 .toList();
+        List<RoomDetailedDto> availableRooms = new ArrayList<>();
+        BookingDetailedDto mockBooking = new BookingDetailedDto();
+        mockBooking.setStartDate(LocalDate.parse(startDate));
+        mockBooking.setEndDate(LocalDate.parse(endDate));
 
-        return null;
+        allRoomsWithEnoughSpace.forEach(room -> {
+            if (compareDesiredDatesToBookedDates(mockBooking, room)) {
+                availableRooms.add(room);
+            }
+        });
+
+        return availableRooms;
     }
 
 
@@ -214,14 +221,7 @@ public class BookingServiceImplementation implements BookingService {
 
     }
 
-    @Override
-    public int changePeriod(BookingDetailedDto bookingDetailedDto, String startdate, String endDate) {
-        Booking booking = bookingDetailedDtoToBooking(bookingDetailedDto);
-        booking.setStartDate(LocalDate.parse(startdate));
-        booking.setStartDate(LocalDate.parse(endDate));
-        bookingRepository.save(booking);
-        return SUCCESS;
-    }
+
 
     @Override
     public boolean startDateIsBeforeEndDate(BookingDetailedDto booking) {

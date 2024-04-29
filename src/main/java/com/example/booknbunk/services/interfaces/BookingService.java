@@ -41,14 +41,12 @@ public interface BookingService {
 
     void modifyBooking(BookingDetailedDto bookingDetailedDto);
 
-    List<LocalDate> getAvailabilityBasedOnRoomSize(int occupants);
+    List<RoomDetailedDto> getAvailabilityBasedOnRoomSizeAndDateIntervall(int occupants, String startDate, String endDate);
 
     List<RoomDetailedDto> getAllRooms();
     public RoomDetailedDto roomToRoomDetailedDto(Room room);
 
     public boolean startDateIsBeforeEndDate(BookingDetailedDto booking);
-
-    int changePeriod(BookingDetailedDto bookingDetailedDto, String startDate, String endDate);
 
 
 }

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <link rel=stylesheet th:href="@{/css/style.css}" type="text/css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>All bookings</title>
+</head>
+<body>
+
+<h2 th:text="${headline}"></h2>
+<table>
+    <tbody>
+    <tr th:each="cat : ${availableRoom}">
+        <td th:text="'ID:'"></td>
+        <td th:text="${cat.id}"></td>
+        <td th:text="'Room Size:'"></td>
+        <td th:text="${cat.getRoomSize()}"></td>
+
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
