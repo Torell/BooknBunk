@@ -6,7 +6,9 @@
     <title>All bookings</title>
 </head>
 <body>
-
+<div th:replace="navbar :: navbar"></div>
+<script th:src="@{/javascript/navbar.js}"></script>
+<div id="navbarPlaceholder" class = "container-fluid"></div>
 <h2 th:text="${bookingTitle}"></h2>
 <table>
     <tbody>

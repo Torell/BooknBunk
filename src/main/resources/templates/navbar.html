@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
+  <title>Navbar Fragment</title>
+</head>
+<body>
+<div th:fragment="navbar">
+  <nav>
+    <ul>
+      <li class="dropdown">
+        <a href="javascript:void(0)">Bookings</a>
+        <ul class="dropdown-content">
+          <li><a th:href="@{/booking/getAll}">All Bookings</a></li>
+          <li><a th:href="@{/booking/findAvailability}">Availability</a></li>
+          <li><a th:href="@{/booking/createBooking}">Create Booking</a></li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="javascript:void(0)">Customers</a>
+        <ul class="dropdown-content">
+          <li><a th:href="@{/Customer/all}">All Customers</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+</div>
+</body>
+</html>
