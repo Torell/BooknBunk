@@ -8,15 +8,11 @@ import com.example.booknbunk.repositories.BookingRepository;
 import com.example.booknbunk.repositories.RoomRepository;
 import com.example.booknbunk.services.interfaces.BookingService;
 import com.example.booknbunk.services.interfaces.RoomService;
-import com.sun.net.httpserver.Authenticator;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class BookingServiceImplementation implements BookingService {
@@ -185,7 +181,7 @@ public class BookingServiceImplementation implements BookingService {
     public RoomDetailedDto roomToRoomDetailedDto(Room room){
         return RoomDetailedDto.builder()
                 .id(room.getId())
-                .RoomSize(room.getRoomSize())
+                .roomSize(room.getRoomSize())
                 .bookingMiniDtoList(room.getBookings()
                         .stream().map(booking -> bookingToBookingMiniDto(booking))
                         .toList()).build();

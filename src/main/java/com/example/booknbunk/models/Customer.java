@@ -14,7 +14,6 @@ import java.util.List;
 @Entity
 @Builder
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Customer {
 
@@ -29,10 +28,19 @@ public class Customer {
 
 
 
-    public Customer(String name, String email){
+    public Customer(Long id, String name, String email){
+        this.id = id;
         this.name = name;
         this.email = email;
     }
+
+    public Customer(Long id, String name, String email, List<Booking> bookings) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.bookings = bookings;
+    }
+
 
 
 }

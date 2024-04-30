@@ -14,6 +14,6 @@ import java.util.List;
 public class RoomDetailedDto {
 
     private Long id;
-    private int RoomSize;
+    private int roomSize;
     private List<BookingMiniDto> bookingMiniDtoList;
 }

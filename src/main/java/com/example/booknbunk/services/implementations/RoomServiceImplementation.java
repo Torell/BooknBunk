@@ -6,6 +6,7 @@ import com.example.booknbunk.dtos.RoomMiniDto;
 import com.example.booknbunk.models.Booking;
 import com.example.booknbunk.models.Room;
 import com.example.booknbunk.repositories.BookingRepository;
+import com.example.booknbunk.repositories.CustomerRepository;
 import com.example.booknbunk.repositories.RoomRepository;
 import com.example.booknbunk.services.interfaces.RoomService;
 import org.springframework.stereotype.Service;
@@ -17,10 +18,13 @@ public class RoomServiceImplementation implements RoomService {
 
     private final RoomRepository roomRepository;
     private final BookingRepository bookingRepository;
+    private final CustomerRepository customerRepository;
 
-    public RoomServiceImplementation(RoomRepository roomRepository, BookingRepository bookingRepository) {
+    public RoomServiceImplementation(RoomRepository roomRepository, BookingRepository bookingRepository,
+                                     CustomerRepository customerRepository) {
         this.roomRepository = roomRepository;
         this.bookingRepository = bookingRepository;
+        this.customerRepository = customerRepository;
     }
 
 
@@ -39,7 +43,7 @@ public class RoomServiceImplementation implements RoomService {
     public RoomDetailedDto roomToRoomDetailedDto(Room room){
         return RoomDetailedDto.builder()
                 .id(room.getId())
-                .RoomSize(room.getRoomSize())
+                .roomSize(room.getRoomSize())
                 .bookingMiniDtoList(room.getBookings()
                         .stream().map(booking -> bookingToBookingMiniDto(booking))
                         .toList()).build();
@@ -88,7 +92,7 @@ public class RoomServiceImplementation implements RoomService {
 
     @Override
     public RoomDetailedDto findRoomById(long id) {
-        return roomToRoomDetailedDto(roomRepository.getReferenceById(id));
+        return roomToRoomDetailedDto(roomRepository.findById(id).orElse(null));
     }
 
 
