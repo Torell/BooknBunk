@@ -12,13 +12,12 @@ public interface BookingService {
 
 
     //Conversion
-    BookingDetailedDto bookingToBookingdetailedDto(Booking booking);
+    BookingDetailedDto bookingToBookingDetailedDto(Booking booking);
     BookingMiniDto bookingToBookingMiniDto(Booking booking);
     Booking bookingDetailedDtoToBooking(BookingDetailedDto bookingDetailedDto);
 
     Room roomMiniDtoRoom(RoomMiniDto roomMiniDto);
 
-    Booking bookingMiniDtoToBooking(BookingMiniDto bookingMiniDto);
     CustomerMiniDto customerToCustomerMiniDto(Customer customer);
     Customer customerMiniDtoToCustomer(CustomerMiniDto customerMiniDto);
     RoomMiniDto roomToRoomMiniDto(Room room);
@@ -41,7 +40,7 @@ public interface BookingService {
 
     void modifyBooking(BookingDetailedDto bookingDetailedDto);
 
-    List<RoomDetailedDto> getAvailabilityBasedOnRoomSizeAndDateIntervall(int occupants, String startDate, String endDate);
+    List<RoomDetailedDto> getAllAvailabileRoomsBasedOnRoomSizeAndDateIntervall(int occupants, String startDate, String endDate);
 
     List<RoomDetailedDto> getAllRooms();
     public RoomDetailedDto roomToRoomDetailedDto(Room room);

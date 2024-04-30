@@ -33,9 +33,15 @@ public class BookingController {
     public String addBooking(Model model, BookingDetailedDto bookingDetailedDto){
 
         if (bookingService.extraBedSpaceAvailable(bookingDetailedDto)
-                && bookingService.compareDesiredDatesToBookedDates(bookingDetailedDto, roomService.findRoomById(bookingDetailedDto.getRoomMiniDto().getId()))
-        && bookingService.startDateIsBeforeEndDate(bookingDetailedDto)) {
+                &&
+
+                bookingService.compareDesiredDatesToBookedDates(bookingDetailedDto, roomService.findRoomById(bookingDetailedDto.getRoomMiniDto().getId()))
+        &&
+
+                bookingService.startDateIsBeforeEndDate(bookingDetailedDto)) {
             bookingService.createBooking(bookingDetailedDto);
+
+
             List<BookingDetailedDto> listOfBookings = bookingService.getAllBookingDetailedDto();
             model.addAttribute("allBookings", listOfBookings);
 
@@ -51,7 +57,7 @@ public class BookingController {
     @RequestMapping("/getAvailability")
     public String getAvailability(Model model, @RequestParam(name = "occupants") int occupants, @RequestParam(name = "startDate") String startDate, @RequestParam(name = "endDate") String endDate) {
 
-        model.addAttribute("availableRoom",bookingService.getAvailabilityBasedOnRoomSizeAndDateIntervall(occupants,startDate,endDate));
+        model.addAttribute("availableRoom",bookingService.getAllAvailabileRoomsBasedOnRoomSizeAndDateIntervall(occupants,startDate,endDate));
         model.addAttribute("headline","Available Rooms");
 
         return "/booking/showAvailability";

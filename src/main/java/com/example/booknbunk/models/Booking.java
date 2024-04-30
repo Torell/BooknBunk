@@ -16,7 +16,6 @@ import java.util.Date;
 @Entity
 @Builder
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class Booking {
 
@@ -37,7 +36,16 @@ public class Booking {
     @NonNull
     private Customer customer;
 
-    public Booking(LocalDate startDate,LocalDate endDate, @NonNull Room room, int extraBed, @NonNull Customer customer) {
+    public Booking(Long id, LocalDate startDate, LocalDate endDate, @NonNull Room room, int extraBed, @NonNull Customer customer) {
+        this.id = id;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.room = room;
+        this.extraBed = extraBed;
+        this.customer = customer;
+    }
+
+    public Booking(LocalDate startDate, LocalDate endDate, @NonNull Room room, int extraBed, @NonNull Customer customer) {
 
         this.room = room;
         this.extraBed = extraBed;

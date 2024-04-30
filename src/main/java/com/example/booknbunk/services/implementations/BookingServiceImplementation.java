@@ -8,15 +8,12 @@ import com.example.booknbunk.repositories.BookingRepository;
 import com.example.booknbunk.repositories.RoomRepository;
 import com.example.booknbunk.services.interfaces.BookingService;
 import com.example.booknbunk.services.interfaces.RoomService;
-import com.sun.net.httpserver.Authenticator;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+
 
 @Service
 public class BookingServiceImplementation implements BookingService {
@@ -28,14 +25,14 @@ public class BookingServiceImplementation implements BookingService {
 
     private final RoomRepository roomRepository;
 
-    public BookingServiceImplementation(BookingRepository bookingRepository, RoomRepository roomRepository, RoomService roomService) {
+    public BookingServiceImplementation(BookingRepository bookingRepository, RoomRepository roomRepository) {
         this.bookingRepository = bookingRepository;
         this.roomRepository = roomRepository;
 
     }
 
     @Override
-    public BookingDetailedDto bookingToBookingdetailedDto(Booking booking) {
+    public BookingDetailedDto bookingToBookingDetailedDto(Booking booking) {
         return BookingDetailedDto.builder()
                 .id(booking.getId()).extraBed(booking.getExtraBed())
                 .startDate(booking.getStartDate())
@@ -77,16 +74,6 @@ public class BookingServiceImplementation implements BookingService {
     }
 
     @Override
-    public Booking bookingMiniDtoToBooking(BookingMiniDto bookingMiniDto) {
-        return Booking.builder()
-                .id(bookingMiniDto.getId())
-                .startDate(bookingMiniDto.getStartDate())
-                .endDate(bookingMiniDto.getEndDate())
-                .build();
-    }
-
-
-    @Override
     public CustomerMiniDto customerToCustomerMiniDto(Customer customer) {
         return CustomerMiniDto.builder()
                 .id(customer.getId())
@@ -113,7 +100,7 @@ public class BookingServiceImplementation implements BookingService {
 
     @Override
     public BookingDetailedDto findBookingById(long id) {
-        return bookingToBookingdetailedDto(bookingRepository.getReferenceById(id));
+        return bookingToBookingDetailedDto(bookingRepository.getReferenceById(id));
     }
 
     @Override
@@ -131,11 +118,14 @@ public class BookingServiceImplementation implements BookingService {
 
 
     @Override
-    public List<RoomDetailedDto> getAvailabilityBasedOnRoomSizeAndDateIntervall(int occupants, String startDate, String endDate) {
+    public List<RoomDetailedDto> getAllAvailabileRoomsBasedOnRoomSizeAndDateIntervall(int occupants, String startDate, String endDate) {
+
         List<RoomDetailedDto> allRoomsWithEnoughSpace = getAllRooms().stream()
                 .filter(roomDetailedDto -> roomDetailedDto.getRoomSize() >= occupants-1)
                 .toList();
+
         List<RoomDetailedDto> availableRooms = new ArrayList<>();
+
         BookingDetailedDto mockBooking = new BookingDetailedDto();
         mockBooking.setStartDate(LocalDate.parse(startDate));
         mockBooking.setEndDate(LocalDate.parse(endDate));
@@ -169,7 +159,7 @@ public class BookingServiceImplementation implements BookingService {
     public List<BookingDetailedDto> getAllBookingDetailedDto() {
         return bookingRepository.findAll()
                 .stream()
-                .map(booking -> bookingToBookingdetailedDto(booking))
+                .map(booking -> bookingToBookingDetailedDto(booking))
                 .toList();
     }
 
@@ -205,6 +195,7 @@ public class BookingServiceImplementation implements BookingService {
     @Override
     public boolean compareDesiredDatesToBookedDates(BookingDetailedDto booking, RoomDetailedDto room) {
         LocalDate currentDate = LocalDate.now();
+
         if (booking.getStartDate().isBefore(currentDate)) {
             return false;
         }
@@ -225,9 +216,8 @@ public class BookingServiceImplementation implements BookingService {
 
     @Override
     public boolean startDateIsBeforeEndDate(BookingDetailedDto booking) {
-
         return booking.getStartDate().isBefore(booking.getEndDate());
-
-
     }
+
+
 }
