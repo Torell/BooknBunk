@@ -28,10 +28,7 @@ class BookingServiceImplementationTest {
     private BookingRepository bookingRepository;
     @Mock
     private RoomRepository roomRepository;
-
     private final BookingServiceImplementation bookingService = new BookingServiceImplementation(bookingRepository,roomRepository);
-
-
     private final Long id = 1L;
     private final int roomSize = 1;
     private final String name = "testName";
