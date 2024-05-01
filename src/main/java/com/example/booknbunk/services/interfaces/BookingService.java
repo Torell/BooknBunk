@@ -18,7 +18,6 @@ public interface BookingService {
 
     Room roomMiniDtoRoom(RoomMiniDto roomMiniDto);
 
-    Booking bookingMiniDtoToBooking(BookingMiniDto bookingMiniDto);
     CustomerMiniDto customerToCustomerMiniDto(Customer customer);
     Customer customerMiniDtoToCustomer(CustomerMiniDto customerMiniDto);
     RoomMiniDto roomToRoomMiniDto(Room room);
@@ -28,13 +27,13 @@ public interface BookingService {
 
     BookingDetailedDto findBookingById(long id);
 
-    void createBooking(BookingDetailedDto bookingDetailedDto);
+    StringBuilder createOrChangeBooking(BookingDetailedDto bookingDetailedDto, RoomDetailedDto roomDetailedDto);
 
     boolean extraBedSpaceAvailable(BookingDetailedDto bookingDetailedDto);
 
     List<LocalDate> getAllDatesBetweenStartAndEndDate(LocalDate startDate,LocalDate endDate);
 
-    public boolean compareDesiredDatesToBookedDates(BookingDetailedDto booking, RoomDetailedDto room);
+    public boolean checkRoomForAvailability(BookingDetailedDto booking, RoomDetailedDto room);
     List<BookingDetailedDto> getAllBookingDetailedDto();
 
     void cancelBooking(long id);

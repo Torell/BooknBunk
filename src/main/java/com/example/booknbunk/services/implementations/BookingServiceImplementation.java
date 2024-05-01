@@ -8,15 +8,11 @@ import com.example.booknbunk.repositories.BookingRepository;
 import com.example.booknbunk.repositories.RoomRepository;
 import com.example.booknbunk.services.interfaces.BookingService;
 import com.example.booknbunk.services.interfaces.RoomService;
-import com.sun.net.httpserver.Authenticator;
 import org.springframework.stereotype.Service;
-import org.springframework.ui.Model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 public class BookingServiceImplementation implements BookingService {
@@ -76,14 +72,6 @@ public class BookingServiceImplementation implements BookingService {
                 .build();
     }
 
-    @Override
-    public Booking bookingMiniDtoToBooking(BookingMiniDto bookingMiniDto) {
-        return Booking.builder()
-                .id(bookingMiniDto.getId())
-                .startDate(bookingMiniDto.getStartDate())
-                .endDate(bookingMiniDto.getEndDate())
-                .build();
-    }
 
 
     @Override
@@ -117,9 +105,24 @@ public class BookingServiceImplementation implements BookingService {
     }
 
     @Override
-    public void createBooking(BookingDetailedDto bookingDetailedDto) {
+    public StringBuilder createOrChangeBooking(BookingDetailedDto bookingDetailedDto,RoomDetailedDto roomDetailedDto) {
+        StringBuilder returnMessage = new StringBuilder();
+        boolean allConditionsMet = true;
+        if (!extraBedSpaceAvailable(bookingDetailedDto)) {
+            returnMessage.append("Not enough space for extra beds. ");
+            allConditionsMet = false;
+        } if (!startDateIsBeforeEndDate(bookingDetailedDto)) {
+            returnMessage.append("End date must be after start date. ");
+            allConditionsMet = false;
+        } if (!checkRoomForAvailability(bookingDetailedDto, roomDetailedDto)) {
+            returnMessage.append("The room is not available the chosen dates.");
+            allConditionsMet = false;
+        } if (allConditionsMet) {
+            returnMessage.append("Booking successfully saved");
+            bookingRepository.save(bookingDetailedDtoToBooking(bookingDetailedDto));
+        }
 
-        bookingRepository.save(bookingDetailedDtoToBooking(bookingDetailedDto));
+        return returnMessage;
     }
 
     @Override
@@ -141,7 +144,7 @@ public class BookingServiceImplementation implements BookingService {
         mockBooking.setEndDate(LocalDate.parse(endDate));
 
         allRoomsWithEnoughSpace.forEach(room -> {
-            if (compareDesiredDatesToBookedDates(mockBooking, room)) {
+            if (checkRoomForAvailability(mockBooking, room)) {
                 availableRooms.add(room);
             }
         });
@@ -155,7 +158,7 @@ public class BookingServiceImplementation implements BookingService {
     public boolean extraBedSpaceAvailable(BookingDetailedDto bookingDetailedDto) {
 
         int numberOfBeds = bookingDetailedDto.getExtraBed();
-        int availableSpace = bookingDetailedDto.getRoomMiniDto().getRoomSize();
+        int availableSpace = bookingDetailedDto.getRoomMiniDto().getRoomSize()+1;
         return availableSpace >= numberOfBeds;
     }
 
@@ -203,7 +206,7 @@ public class BookingServiceImplementation implements BookingService {
     }
 
     @Override
-    public boolean compareDesiredDatesToBookedDates(BookingDetailedDto booking, RoomDetailedDto room) {
+    public boolean checkRoomForAvailability(BookingDetailedDto booking, RoomDetailedDto room) {
         LocalDate currentDate = LocalDate.now();
         if (booking.getStartDate().isBefore(currentDate)) {
             return false;
@@ -211,6 +214,7 @@ public class BookingServiceImplementation implements BookingService {
         List<LocalDate> desiredDates = getAllDatesBetweenStartAndEndDate(booking.getStartDate(), booking.getEndDate());
         List<LocalDate> bookedDates = room.getBookingMiniDtoList()
                 .stream()
+                .filter(bookingMiniDto -> !bookingMiniDto.getId().equals(booking.getId()))
                 .flatMap(bookingMiniDto -> getAllDatesBetweenStartAndEndDate(bookingMiniDto.getStartDate(), bookingMiniDto.getEndDate()).stream())
                 .toList();
 

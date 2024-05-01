@@ -3,6 +3,16 @@
 <head>
   <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
   <title>Add Booking</title>
+  <script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+      /*[# th:if="${returnMessage} != null"]*/
+      let returnMessage = /*[[${returnMessage}]]*/ 'default message';
+      if (returnMessage && returnMessage !== 'default message') {
+        alert(returnMessage);
+      }
+      /*[/]*/
+    });
+  </script>
 </head>
 <body>
 <div th:replace="navbar :: navbar"></div>

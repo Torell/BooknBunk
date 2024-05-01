@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class CustomerMiniDto {
 
-    private long id;
+    private Long id;
     private String name;
 }

@@ -12,7 +12,7 @@ import java.time.Period;
 @NoArgsConstructor
 @Builder
 public class BookingMiniDto {
-    private long id;
+    private Long id;
     private LocalDate startDate;
     private LocalDate endDate;
 }

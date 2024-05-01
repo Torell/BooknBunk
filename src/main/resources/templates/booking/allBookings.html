@@ -4,6 +4,16 @@
     <link rel=stylesheet th:href="@{/css/style.css}" type="text/css">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>All bookings</title>
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            /*[# th:if="${returnMessage} != null"]*/
+            let returnMessage = /*[[${returnMessage}]]*/ 'default message';
+            if (returnMessage && returnMessage !== 'default message') {
+                alert(returnMessage);
+            }
+            /*[/]*/
+        });
+    </script>
 </head>
 <body>
 <div th:replace="navbar :: navbar"></div>

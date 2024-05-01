@@ -1,6 +1,7 @@
 package com.example.booknbunk.controllers;
 
 import com.example.booknbunk.dtos.BookingDetailedDto;
+import com.example.booknbunk.dtos.RoomDetailedDto;
 import com.example.booknbunk.dtos.RoomMiniDto;
 import com.example.booknbunk.services.interfaces.BookingService;
 import com.example.booknbunk.services.interfaces.RoomService;
@@ -8,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -30,18 +32,14 @@ public class BookingController {
 
 
     @PostMapping("/add")
-    public String addBooking(Model model, BookingDetailedDto bookingDetailedDto){
+    public String addBooking(Model model, BookingDetailedDto bookingDetailedDto, RedirectAttributes redirectAttributes){
+        RoomDetailedDto desiredRoom = roomService.findRoomById(bookingDetailedDto.getRoomMiniDto().getId());
+        StringBuilder returnMessage = bookingService.createOrChangeBooking(bookingDetailedDto,desiredRoom);
 
-        if (bookingService.extraBedSpaceAvailable(bookingDetailedDto)
-                && bookingService.compareDesiredDatesToBookedDates(bookingDetailedDto, roomService.findRoomById(bookingDetailedDto.getRoomMiniDto().getId()))
-        && bookingService.startDateIsBeforeEndDate(bookingDetailedDto)) {
-            bookingService.createBooking(bookingDetailedDto);
-            List<BookingDetailedDto> listOfBookings = bookingService.getAllBookingDetailedDto();
-            model.addAttribute("allBookings", listOfBookings);
+        redirectAttributes.addFlashAttribute("returnMessage",returnMessage);
+        model.addAttribute("booking",bookingDetailedDto);
 
-            return "redirect:/booking/getAll";
-        }
-        else return "/booking/notEnoughSpaceWarning";
+            return "redirect:/booking/createBooking";
     }
 
     @RequestMapping("/findAvailability")
@@ -79,11 +77,17 @@ public class BookingController {
     }
 
     @RequestMapping("/modify")
-    public String editBooking(BookingDetailedDto booking) {
-        if (bookingService.extraBedSpaceAvailable(booking)) {
-            bookingService.modifyBooking(booking);
-            return "redirect:/booking/getAll";
-        } else return "/booking/notEnoughSpaceWarning";
+    public String editBooking(BookingDetailedDto bookingDetailedDto,Model model, RedirectAttributes redirectAttributes) {
+
+        RoomDetailedDto desiredRoom = roomService.findRoomById(bookingDetailedDto.getRoomMiniDto().getId());
+        StringBuilder returnMessage = bookingService.createOrChangeBooking(bookingDetailedDto,desiredRoom);
+
+        redirectAttributes.addFlashAttribute("returnMessage",returnMessage);
+        model.addAttribute("booking",bookingDetailedDto);
+
+        return "redirect:/booking/editBooking/" + bookingDetailedDto.getId();
+
+
     }
 
 
