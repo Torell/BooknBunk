@@ -16,6 +16,7 @@ import org.mockito.quality.Strictness;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -70,7 +71,16 @@ class CustomerServiceImplementationTest {
 
     @Test
     void getAllCustomersDetailedDto() {
-
+            List<CustomerDetailedDto> detailedDtoList = Collections.singletonList(customerDetailedDto);
+            when(customerRepo.findAll())
+                    .thenReturn(detailedDtoList.stream().map(service::customerDetailedDtoToCustomer).collect(Collectors.toList()));
+            List<CustomerDetailedDto> result = service.getAllCustomersDetailedDto();
+            verify(customerRepo, times(1)).findAll();
+            assertEquals(1, result.size());
+            CustomerDetailedDto detailedDto = result.get(0);
+            assertEquals(customerDetailedDto.getId(), detailedDto.getId());
+            assertEquals(customerDetailedDto.getName(), detailedDto.getName());
+            assertEquals(customerDetailedDto.getEmail(), detailedDto.getEmail());
     }
 
     @Test
