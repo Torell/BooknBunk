@@ -36,11 +36,10 @@
   <br><br>
 
   <label for="extraBed">Extra Bed:</label><br>
-  <select id="extraBed" name="Extra bed">
+  <select id="extraBed" name="Extra bed" th:field="*{extraBed}">
     <option value="0">0</option>
     <option value="1">1</option>
     <option value="2">2</option>
-    <option value="3">3</option>
   </select><br><br>
 
   <input type="hidden" id="id" name="id" th:field="*{id}" />

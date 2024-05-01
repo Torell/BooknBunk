@@ -158,7 +158,7 @@ public class BookingServiceImplementation implements BookingService {
     public boolean extraBedSpaceAvailable(BookingDetailedDto bookingDetailedDto) {
 
         int numberOfBeds = bookingDetailedDto.getExtraBed();
-        int availableSpace = bookingDetailedDto.getRoomMiniDto().getRoomSize()+1;
+        int availableSpace = bookingDetailedDto.getRoomMiniDto().getRoomSize();
         return availableSpace >= numberOfBeds;
     }
 
