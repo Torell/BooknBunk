@@ -27,13 +27,24 @@ public class CustomerServiceImplementation implements CustomerService {
     }
 
 
-    @Override
-    public void deleteCustomer(long id){
+   /* @Override
+    public void deleteCustomer(long id){ // funkar bra!!
         Customer customer = customerRepo.findById(id).orElse(null);
         List<Booking> booking = customer.getBookings();
         if (booking.isEmpty()){
             customerRepo.deleteById(id);
         }
+    }*/
+
+    @Override
+    public String deleteCustomer(long id){
+        Customer customer = customerRepo.findById(id).orElse(null);
+        List<Booking> booking = customer.getBookings();
+        if (booking.isEmpty()){
+            customerRepo.deleteById(id);
+            return "Customer has been deleted";
+        } else
+            return "Customer with booking can not be deleted";
     }
 
     @Override

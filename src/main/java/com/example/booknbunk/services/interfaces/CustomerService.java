@@ -18,7 +18,9 @@ public interface CustomerService {
 
     void editCustomer(CustomerDetailedDto customerDetailedDto);
 
-    void deleteCustomer(long id);
+    //void deleteCustomer(long id); den gamla!
+
+    String deleteCustomer(long id); // den nya som returnerar ett String meddelande
 
     CustomerDetailedDto findCustomerById(long id);
 

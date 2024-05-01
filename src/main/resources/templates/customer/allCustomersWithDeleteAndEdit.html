@@ -29,9 +29,6 @@
         <td class="table-cell" th:text="${customer.name}"></td>
         <td class="bold-text" th:text="'Email:'"></td>
         <td class="table-cell" th:text="${customer.email}"></td>
-       <!-- <td> <a href="/customers/editCustomer" class="button-link" >edit customer</a></td>
-        <td><a th:href="@{/customer/deleteCustomer/{id}(id=${customer.id})}">Cancel</a></td>
-        <td><a th:href="@{/customers/editCustomerPage(id=${customer.id})}">Edit Customer</a></td>-->
         <td><a th:href="@{/customers/deleteCustomer/{id}(id=${customer.id})}" onclick="return confirm('Are you sure you want to delete this customer?')">Delete</a></td>
         <td><a th:href="@{/customers/editCustomer/{id}(id=${customer.id})}">Edit Customer</a></td>
 
@@ -40,6 +37,10 @@
     </tr>
     </tbody>
 </table>
+
+<!-- Visa meddelandet om det finns -->
+<div th:if="${message}" class="message" th:text="${message}"></div>
+
 
 <a href="/customers/addCustomerPage" class="button-link">Add Customer</a>
 
