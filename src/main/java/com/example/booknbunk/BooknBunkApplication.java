@@ -23,8 +23,8 @@ public class BooknBunkApplication {
     }
 
 
+    /*
 
-/*
         @Bean
         public CommandLineRunner commandLineRunner(CustomerRepository customerRepository, RoomRepository roomRepository, BookingRepository bookingRepository){
             return args -> {
@@ -75,6 +75,8 @@ public class BooknBunkApplication {
         }
 
 
- */
+
+     */
+
 
 }

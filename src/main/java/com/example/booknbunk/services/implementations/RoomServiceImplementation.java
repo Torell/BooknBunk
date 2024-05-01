@@ -27,7 +27,6 @@ public class RoomServiceImplementation implements RoomService {
         this.customerRepository = customerRepository;
     }
 
-
     @Override
     public Room roomDetailedDtoToRoom(RoomDetailedDto roomDetailedDto){
         return Room.builder()
@@ -94,6 +93,5 @@ public class RoomServiceImplementation implements RoomService {
     public RoomDetailedDto findRoomById(long id) {
         return roomToRoomDetailedDto(roomRepository.findById(id).orElse(null));
     }
-
 
 }

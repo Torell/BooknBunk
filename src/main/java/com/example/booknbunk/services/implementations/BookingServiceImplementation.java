@@ -128,11 +128,7 @@ public class BookingServiceImplementation implements BookingService {
     @Override
     public void modifyBooking(BookingDetailedDto bookingDetailedDto) {
             bookingRepository.save(bookingDetailedDtoToBooking(bookingDetailedDto));
-
-
     }
-
-
     @Override
     public List<RoomDetailedDto> getAvailabilityBasedOnRoomSizeAndDateIntervall(int occupants, String startDate, String endDate) {
         List<RoomDetailedDto> allRoomsWithEnoughSpace = getAllRooms().stream()
@@ -154,8 +150,6 @@ public class BookingServiceImplementation implements BookingService {
         return availableRooms;
     }
 
-
-
     @Override
     public boolean extraBedSpaceAvailable(BookingDetailedDto bookingDetailedDto) {
 
@@ -163,7 +157,6 @@ public class BookingServiceImplementation implements BookingService {
         int availableSpace = bookingDetailedDto.getRoomMiniDto().getRoomSize()+1;
         return availableSpace >= numberOfBeds;
     }
-
 
     @Override
     public void cancelBooking(long id) {
@@ -226,8 +219,6 @@ public class BookingServiceImplementation implements BookingService {
         return !hasConflict;
 
     }
-
-
 
     @Override
     public boolean startDateIsBeforeEndDate(BookingDetailedDto booking) {

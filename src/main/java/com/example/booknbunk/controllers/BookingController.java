@@ -110,5 +110,4 @@ public class BookingController {
         return "redirect:/booking/getAll";
     }
 
-
 }

@@ -17,7 +17,6 @@ import java.util.List;
 @RequestMapping("/customers")
 public class CustomerController {
 
-    //private static final Logger log = LoggerFactory.getLogger(CustomerController.class); vad gör denna?/ Steffi :)
 
     @Autowired
     private CustomerService customerService;
@@ -34,14 +33,6 @@ public class CustomerController {
         return "/customer/editCustomer";
     }
 
- /*  @RequestMapping("/deleteCustomer/{id}")
-   public String deleteCustomerById(@PathVariable long id, Model model){
-        customerService.deleteCustomer(id);
-        List<CustomerDetailedDto> listOfCustomers = customerService.getAllCustomersDetailedDto();
-        model.addAttribute("allCustomers", listOfCustomers);
-        return "redirect:/customers/all";
-   }
-*/
  @RequestMapping("/deleteCustomer/{id}") // den nya som returnerar response!
  public String deleteCustomerById(@PathVariable long id, RedirectAttributes redirectAttributes){
      String message = customerService.deleteCustomer(id);
@@ -50,27 +41,13 @@ public class CustomerController {
  }
 
 
-   /* @RequestMapping("/deleteCustomer/{id}") // Den gamla som inte retunerar något meddelande response
-    public String deleteCustomerById(@PathVariable long id, Model model){
-        customerService.deleteCustomer(id);
-        return "redirect:/customers/all"; // Omdirigera till sidan för att visa alla kunder
-    }*/
-
-
     @PostMapping("/addCustomer")
     public String addCustomer(@RequestParam("name") String name, @RequestParam("email") String email) {
         customerService.createCustomer(name, email);
         return "redirect:/customers/all";
     }
 
-    /*
-    @PutMapping("/updateCustomer/{id}")
-    public String updateCustomer(@PathVariable long id, @RequestParam("name") String name, @RequestParam("email") String email) {
-        customerService.updateCustomer(id, name, email);
-        return "redirect:/customers/all";
-    }
 
-     */
 
     @RequestMapping("/updateCustomer")
     public String updateCustomer(CustomerDetailedDto customerDetailedDto) {

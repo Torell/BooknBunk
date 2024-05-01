@@ -26,16 +26,6 @@ public class CustomerServiceImplementation implements CustomerService {
         this.customerRepo = customerRepo;
     }
 
-
-   /* @Override
-    public void deleteCustomer(long id){ // funkar bra!!
-        Customer customer = customerRepo.findById(id).orElse(null);
-        List<Booking> booking = customer.getBookings();
-        if (booking.isEmpty()){
-            customerRepo.deleteById(id);
-        }
-    }*/
-
     @Override
     public String deleteCustomer(long id){
         Customer customer = customerRepo.findById(id).orElse(null);
@@ -51,8 +41,6 @@ public class CustomerServiceImplementation implements CustomerService {
     public CustomerDetailedDto findCustomerById(long id){
         return customerToCustomerDetailedDto(customerRepo.findById(id).orElse(null));
     }
-
-
     // Söker ut alla kunder
     @Override
     public List<CustomerDetailedDto> getAllCustomersDetailedDto() {
@@ -118,9 +106,6 @@ public class CustomerServiceImplementation implements CustomerService {
                         .map(booking -> bookingToBookingMiniDto(booking)).
                         toList()).build();
     }
-
-
-
     //miniDto -> customer
     @Override
     public Customer customerMiniDtoToCustomer(CustomerMiniDto customerMiniDto){
@@ -129,7 +114,6 @@ public class CustomerServiceImplementation implements CustomerService {
                 .name(customerMiniDto.getName())
                 .build();
     }
-
     // customer -> CustomerMiniDto
     @Override
     public CustomerMiniDto customerToCustomerMiniDto(Customer customer){
@@ -138,9 +122,6 @@ public class CustomerServiceImplementation implements CustomerService {
                 .name(customer.getName())
                 .build();
     }
-
-
-
     @Override
     public BookingMiniDto bookingToBookingMiniDto(Booking booking) {
         return BookingMiniDto.builder()
