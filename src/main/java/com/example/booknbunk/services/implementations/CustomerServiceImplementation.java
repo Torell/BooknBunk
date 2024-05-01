@@ -44,7 +44,7 @@ public class CustomerServiceImplementation implements CustomerService {
             customerRepo.deleteById(id);
             return "Customer has been deleted";
         } else
-            return "Customer with booking can not be deleted";
+            return "Customers with bookings cannot be deleted.";
     }
 
     @Override
