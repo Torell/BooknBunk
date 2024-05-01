@@ -17,6 +17,7 @@ public class CustomerDetailedDto {
     private Long id;
     private String name;
     private String email;
+
     private List<BookingMiniDto> bookingMiniDtoList;
 
     public List<BookingMiniDto> getBookingMiniDtoList() {
