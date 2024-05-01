@@ -138,8 +138,10 @@ public class BookingServiceImplementation implements BookingService {
         List<RoomDetailedDto> allRoomsWithEnoughSpace = getAllRooms().stream()
                 .filter(roomDetailedDto -> roomDetailedDto.getRoomSize() >= occupants-1)
                 .toList();
+
         List<RoomDetailedDto> availableRooms = new ArrayList<>();
         BookingDetailedDto mockBooking = new BookingDetailedDto();
+
         mockBooking.setStartDate(LocalDate.parse(startDate));
         mockBooking.setEndDate(LocalDate.parse(endDate));
 
