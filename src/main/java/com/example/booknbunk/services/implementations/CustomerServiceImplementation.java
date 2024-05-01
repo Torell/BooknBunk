@@ -16,7 +16,6 @@ import java.util.List;
 
 
 @Service
-@RequiredArgsConstructor
 public class CustomerServiceImplementation implements CustomerService {
 
     CustomerRepository customerRepo;

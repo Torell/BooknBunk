@@ -32,15 +32,14 @@ public class Room {
         this.roomSize = roomSize;
     }
 
-
-    public Room(Long id, int roomSize) {
-        this.id = id;
-        this.roomSize = roomSize;
-    }
-
     public Room(Long id, int roomSize, List<Booking> bookings) {
         this.id = id;
         this.roomSize = roomSize;
         this.bookings = bookings;
+    }
+
+    public Room(Long id, int roomSize) {
+        this.id = id;
+        this.roomSize = roomSize;
     }
 }

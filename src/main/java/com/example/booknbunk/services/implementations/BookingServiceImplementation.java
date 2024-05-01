@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+
 @Service
 public class BookingServiceImplementation implements BookingService {
 
@@ -24,14 +25,14 @@ public class BookingServiceImplementation implements BookingService {
 
     private final RoomRepository roomRepository;
 
-    public BookingServiceImplementation(BookingRepository bookingRepository, RoomRepository roomRepository, RoomService roomService) {
+    public BookingServiceImplementation(BookingRepository bookingRepository, RoomRepository roomRepository) {
         this.bookingRepository = bookingRepository;
         this.roomRepository = roomRepository;
 
     }
 
     @Override
-    public BookingDetailedDto bookingToBookingdetailedDto(Booking booking) {
+    public BookingDetailedDto bookingToBookingDetailedDto(Booking booking) {
         return BookingDetailedDto.builder()
                 .id(booking.getId()).extraBed(booking.getExtraBed())
                 .startDate(booking.getStartDate())
@@ -101,7 +102,7 @@ public class BookingServiceImplementation implements BookingService {
 
     @Override
     public BookingDetailedDto findBookingById(long id) {
-        return bookingToBookingdetailedDto(bookingRepository.getReferenceById(id));
+        return bookingToBookingDetailedDto(bookingRepository.getReferenceById(id));
     }
 
     @Override
@@ -130,7 +131,8 @@ public class BookingServiceImplementation implements BookingService {
             bookingRepository.save(bookingDetailedDtoToBooking(bookingDetailedDto));
     }
     @Override
-    public List<RoomDetailedDto> getAvailabilityBasedOnRoomSizeAndDateIntervall(int occupants, String startDate, String endDate) {
+    public List<RoomDetailedDto> getAllAvailabileRoomsBasedOnRoomSizeAndDateIntervall(int occupants, String startDate, String endDate) {
+
         List<RoomDetailedDto> allRoomsWithEnoughSpace = getAllRooms().stream()
                 .filter(roomDetailedDto -> roomDetailedDto.getRoomSize() >= occupants-1)
                 .toList();
@@ -150,6 +152,8 @@ public class BookingServiceImplementation implements BookingService {
         return availableRooms;
     }
 
+
+
     @Override
     public boolean extraBedSpaceAvailable(BookingDetailedDto bookingDetailedDto) {
 
@@ -167,7 +171,7 @@ public class BookingServiceImplementation implements BookingService {
     public List<BookingDetailedDto> getAllBookingDetailedDto() {
         return bookingRepository.findAll()
                 .stream()
-                .map(booking -> bookingToBookingdetailedDto(booking))
+                .map(booking -> bookingToBookingDetailedDto(booking))
                 .toList();
     }
 
@@ -222,9 +226,8 @@ public class BookingServiceImplementation implements BookingService {
 
     @Override
     public boolean startDateIsBeforeEndDate(BookingDetailedDto booking) {
-
         return booking.getStartDate().isBefore(booking.getEndDate());
-
-
     }
+
+
 }
