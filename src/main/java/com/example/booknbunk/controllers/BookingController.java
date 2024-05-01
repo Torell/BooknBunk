@@ -1,6 +1,7 @@
 package com.example.booknbunk.controllers;
 
 import com.example.booknbunk.dtos.BookingDetailedDto;
+import com.example.booknbunk.dtos.RoomDetailedDto;
 import com.example.booknbunk.dtos.RoomMiniDto;
 import com.example.booknbunk.services.interfaces.BookingService;
 import com.example.booknbunk.services.interfaces.RoomService;
@@ -8,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 

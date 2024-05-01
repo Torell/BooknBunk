@@ -196,11 +196,11 @@ class BookingServiceImplementationTest {
     void compareDesiredDatesToBookedDates() {
         BookingDetailedDto startDateIsBeforeToday = new BookingDetailedDto(id,today.minusDays(1),tomorrow,customerMiniDto,roomMiniDto,1);
 
-        RoomDetailedDto bookedRoom = new RoomDetailedDto(id,1,List.of(new BookingMiniDto(id,today,tomorrow)));
+        RoomDetailedDto bookedRoom = new RoomDetailedDto(id,1,List.of(new BookingMiniDto(id+1,today,tomorrow)));
 
-        assertTrue(bookingService.compareDesiredDatesToBookedDates(bookingDetailedDto,roomDetailedDto));
-        assertFalse(bookingService.compareDesiredDatesToBookedDates(startDateIsBeforeToday,roomDetailedDto));
-        assertFalse(bookingService.compareDesiredDatesToBookedDates(bookingDetailedDto,bookedRoom));
+        assertTrue(bookingService.checkRoomForAvailability(bookingDetailedDto,roomDetailedDto));
+        assertFalse(bookingService.checkRoomForAvailability(startDateIsBeforeToday,roomDetailedDto));
+        assertFalse(bookingService.checkRoomForAvailability(bookingDetailedDto,bookedRoom));
     }
 
     @Test

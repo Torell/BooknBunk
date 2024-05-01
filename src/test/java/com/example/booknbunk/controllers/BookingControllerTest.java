@@ -91,15 +91,11 @@ class BookingControllerTest {
                 .roomMiniDto(new RoomMiniDto(1L, 2))
                 .build();
 
-        when(bookingService.extraBedSpaceAvailable(any())).thenReturn(true);
-        when(bookingService.compareDesiredDatesToBookedDates(any(), any())).thenReturn(true);
-        when(bookingService.startDateIsBeforeEndDate(any())).thenReturn(true);
-
         // Execute & Assert
         mockMvc.perform(post("/booking/add")
                         .flashAttr("bookingDetailedDto", bookingDto))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/booking/getAll"));
+                .andExpect(redirectedUrl("/booking/createBooking"));
     }
 
 
