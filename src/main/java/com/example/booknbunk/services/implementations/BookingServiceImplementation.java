@@ -190,7 +190,7 @@ public class BookingServiceImplementation implements BookingService {
     public RoomDetailedDto roomToRoomDetailedDto(Room room){
         return RoomDetailedDto.builder()
                 .id(room.getId())
-                .RoomSize(room.getRoomSize())
+                .roomSize(room.getRoomSize())
                 .bookingMiniDtoList(room.getBookings()
                         .stream().map(booking -> bookingToBookingMiniDto(booking))
                         .toList()).build();

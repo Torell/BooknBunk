@@ -28,7 +28,7 @@ public class Customer {
 
 
 
-    public Customer(long id, String name, String email){
+    public Customer(Long id, String name, String email){
         this.id = id;
         this.name = name;
         this.email = email;
@@ -40,4 +40,6 @@ public class Customer {
         this.email = email;
         this.bookings = bookings;
     }
+
+
 }
