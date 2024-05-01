@@ -36,7 +36,14 @@
   <input type="text" id="name" name="name"><br>
   <label for="email">Email:</label><br>
   <input type="email" id="email" name="email"><br><br>
-  <button type="submit">Add to Customer List</button>
+  <button type="submit" onclick="showMessage()">Add to Customer List</button>
 </form>
+
+<script>
+  function showMessage() {
+    alert('Customer has been added');
+  }
+</script>
+
 </body>
 </html>
