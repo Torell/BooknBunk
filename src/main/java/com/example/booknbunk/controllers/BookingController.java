@@ -83,8 +83,8 @@ public class BookingController {
     }
 
     @RequestMapping("/editBooking/{id}")
-    public String editBooking(@PathVariable long id, Model model) {
-        BookingDetailedDto booking = bookingService.findBookingById(id);
+    public String editBooking(@PathVariable long id, Model model,BookingDetailedDto booking) {
+        booking = bookingService.findBookingById(id);
         RoomMiniDto roomMiniDto = new RoomMiniDto();
         model.addAttribute("rooms",roomService.getAllRoomsMiniDto());
         model.addAttribute("booking", booking);
