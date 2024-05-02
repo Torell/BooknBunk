@@ -131,7 +131,7 @@ public class BookingServiceImplementation implements BookingService {
             bookingRepository.save(bookingDetailedDtoToBooking(bookingDetailedDto));
     }
     @Override
-    public List<RoomDetailedDto> getAllAvailabileRoomsBasedOnRoomSizeAndDateIntervall(int occupants, String startDate, String endDate) {
+    public List<RoomDetailedDto> getAllAvailabileRoomsBasedOnRoomSizeAndDateIntervall(int occupants, BookingDetailedDto bookingDetailedDto) {
 
         List<RoomDetailedDto> allRoomsWithEnoughSpace = getAllRooms().stream()
                 .filter(roomDetailedDto -> roomDetailedDto.getRoomSize() >= occupants-1)
@@ -140,8 +140,8 @@ public class BookingServiceImplementation implements BookingService {
         List<RoomDetailedDto> availableRooms = new ArrayList<>();
         BookingDetailedDto mockBooking = new BookingDetailedDto();
 
-        mockBooking.setStartDate(LocalDate.parse(startDate));
-        mockBooking.setEndDate(LocalDate.parse(endDate));
+        mockBooking.setStartDate(bookingDetailedDto.getStartDate());
+        mockBooking.setEndDate(bookingDetailedDto.getEndDate());
 
         allRoomsWithEnoughSpace.forEach(room -> {
             if (checkRoomForAvailability(mockBooking, room)) {

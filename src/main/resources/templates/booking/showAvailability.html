@@ -16,6 +16,16 @@
         <td th:text="'Room Size:'"></td>
         <td th:text="${cat.getRoomSize()}"></td>
 
+        <td>
+            <form th:action="@{/booking/createBookingFromAvailableRoom}" th:method="post" th:object="${booking}">
+                <input type="hidden" th:name="roomMiniDto.id" th:value="${cat.id}" />
+                <input type="hidden" th:name="startDate" th:value="${booking.getStartDate()}" />
+                <input type="hidden" th:name="endDate" th:value="${booking.getEndDate()}" />
+                <button type="submit">Book Room</button>
+            </form>
+        </td>
+
+
     </tr>
     </tbody>
 </table>
