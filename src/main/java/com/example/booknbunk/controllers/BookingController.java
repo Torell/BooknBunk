@@ -4,6 +4,7 @@ import com.example.booknbunk.dtos.BookingDetailedDto;
 import com.example.booknbunk.dtos.RoomDetailedDto;
 import com.example.booknbunk.dtos.RoomMiniDto;
 import com.example.booknbunk.services.interfaces.BookingService;
+import com.example.booknbunk.services.interfaces.CustomerService;
 import com.example.booknbunk.services.interfaces.RoomService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ public class BookingController {
 
     private final BookingService bookingService;
     private final RoomService roomService;
+    private final CustomerService customerService;
     @RequestMapping("/{id}")
     public BookingDetailedDto findBookingById(@PathVariable long id) {
         return bookingService.findBookingById(id);
@@ -61,6 +63,7 @@ public class BookingController {
         RoomMiniDto roomMiniDto = new RoomMiniDto();
         model.addAttribute("defaultRoomId",1L);
         model.addAttribute("rooms",roomService.getAllRoomsMiniDto());
+        model.addAttribute("customers",customerService.getAllCustomersDetailedDto());
         model.addAttribute("booking", booking);
         model.addAttribute("roomMiniDto", roomMiniDto);
         return "/booking/addBooking";

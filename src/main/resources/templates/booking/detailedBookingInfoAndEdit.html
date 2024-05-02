@@ -31,8 +31,8 @@
     </select>
 
 
-    <label for="customerMiniDtoId">Customer:</label><br>
-    <input type="text" id="customerMiniDtoId" name="customerMiniDto.id" th:field="*{customerMiniDto.id}" readonly />
+    <label for="customerName">Customer:</label><br>
+    <p id="customerName" th:text="'Customer name: ' + ${booking.getCustomerMiniDto().getName()} + '   ||   ' + 'Customer number: ' + ${booking.getCustomerMiniDto().getId()}"></p>
     <br><br>
 
 
