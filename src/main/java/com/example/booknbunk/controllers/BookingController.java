@@ -73,9 +73,12 @@ public class BookingController {
     @RequestMapping("/editBooking/{id}")
     public String editBooking(@PathVariable long id, Model model) {
         BookingDetailedDto booking = bookingService.findBookingById(id);
+        System.out.println(booking.getCustomerMiniDto().getId() + booking.getCustomerMiniDto().getName());
+        RoomMiniDto roomMiniDto = new RoomMiniDto();
         model.addAttribute("rooms",roomService.getAllRoomsMiniDto());
         model.addAttribute("booking", booking);
-        model.addAttribute("roomMiniDto");
+        model.addAttribute("customers",customerService.getAllCustomersDetailedDto());
+        model.addAttribute("roomMiniDto", roomMiniDto);
         return "/booking/detailedBookingInfoAndEdit";
     }
 
@@ -86,6 +89,7 @@ public class BookingController {
         StringBuilder returnMessage = bookingService.createOrChangeBooking(bookingDetailedDto,desiredRoom);
 
         redirectAttributes.addFlashAttribute("returnMessage",returnMessage);
+        redirectAttributes.addFlashAttribute("booking",bookingDetailedDto);
         model.addAttribute("booking",bookingDetailedDto);
 
         return "redirect:/booking/editBooking/" + bookingDetailedDto.getId();
