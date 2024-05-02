@@ -18,14 +18,14 @@
 <div th:replace="navbar :: navbar"></div>
 <form th:action="@{/booking/modify}" method="post" th:object="${booking}">
     <label for="startDate">Start date:</label><br>
-    <input type="date" id="startDate" name="startDate" th:field="*{startDate}" />
+    <input type="date" id="startDate" name="startDate" th:field="*{startDate}" required/>
     <br><br>
 
     <label for="endDate">End Date:</label><br>
-    <input type="date" id="endDate" name="endDate" th:field="*{endDate}" />
+    <input type="date" id="endDate" name="endDate" th:field="*{endDate}" required/>
     <br><br>
 
-    <select id="roomMiniDtoId" name="roomMiniDto.id" th:field="*{roomMiniDto.id}">
+    <select id="roomMiniDtoId" name="roomMiniDto.id" th:field="*{roomMiniDto.id}" required>
         <option value="" th:text="'Select Room'">Select Room</option>
         <option th:each="room : ${rooms}" th:value="${room.id}" th:text="'Room number: ' + ${room.getId()} + ', Number of beds: ' + (${room.getRoomSize()} + 1)"></option>
     </select>

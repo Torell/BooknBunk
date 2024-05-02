@@ -53,7 +53,6 @@ public class CustomerController {
     public String updateCustomer(CustomerDetailedDto customerDetailedDto) {
         customerService.createCustomer(customerDetailedDto);
 
-        System.out.println("hit kommer vi");
         return "redirect:/customers/all";
     }
 

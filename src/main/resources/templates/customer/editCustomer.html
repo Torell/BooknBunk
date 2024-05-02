@@ -9,7 +9,7 @@
 <div th:replace="navbar :: navbar"></div>
 <h1>Edit Customer</h1>
 
-<form action="#" th:action="@{/customers/updateCustomer}" th:object="${customer}" method="post">
+<form action="#" th:action="@{/customers/updateCustomer}" th:object="${customer}" method="post" onsubmit="validateForm()">
     <label for="name">Name:</label><br>
     <input type="text" id="name" th:field="*{name}"><br>
     <label for="email">Email:</label><br>
@@ -17,7 +17,22 @@
     <input type="hidden" id="id" th:field="*{id}"><br>
     <input type="submit" value="Submit">
 </form>
+<script>
+    function showMessage() {
+        alert('Customer has been added');
+    }
 
+    function validateForm() {
+        var name = document.getElementById('name').value;
+        var email = document.getElementById('email').value;
+        if (name.trim() === '' || email.trim() === '') {
+            alert('Please enter both name and email');
+            return false;
+        }
+        showMessage();
+        return true;
+    }
+</script>
 </body>
 
 </html>
