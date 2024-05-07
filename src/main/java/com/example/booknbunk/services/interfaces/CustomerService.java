@@ -5,7 +5,9 @@ import com.example.booknbunk.dtos.CustomerDetailedDto;
 import com.example.booknbunk.dtos.CustomerMiniDto;
 import com.example.booknbunk.models.Booking;
 import com.example.booknbunk.models.Customer;
+import org.springframework.data.domain.Page;
 
+import org.springframework.data.domain.Pageable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +26,7 @@ public interface CustomerService {
 
     CustomerDetailedDto findCustomerById(long id);
 
-    public List<CustomerDetailedDto> getAllCustomersDetailedDto();
+    public Page<CustomerDetailedDto> getAllCustomersDetailedDto(String search, Pageable pageable);
 
     List<BookingMiniDto> bookings = new ArrayList<>(); //???
 

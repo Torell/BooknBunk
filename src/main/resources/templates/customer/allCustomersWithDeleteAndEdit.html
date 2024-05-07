@@ -16,24 +16,44 @@
 </head>
 <body>
 <div th:replace="navbar :: navbar"></div>
+
+<form action="#" th:action="@{/all}" method="get">
+    <input type="text" name="search" th:value="${search}" placeholder="Search customers...">
+    <button type="submit">Search</button>
+
+</form>
 <h1>List of Customers</h1>
 
 <div th:if="${errorMessage}" class="error-message" th:text="${errorMessage}"></div>
 
 <table>
+    <thead>
+    <tr>
+        <th>
+            <a href="?page=0&sort=id&dir=asc">ID ↑</a>
+            |
+            <a href="?page=0&sort=id&dir=desc">ID ↓</a>
+        </th>
+        <th>
+            <a href="?page=0&sort=name&dir=asc">Name ↑</a>
+            |
+            <a href="?page=0&sort=name&dir=desc">Name ↓</a>
+        </th>
+        <th>
+            <a href="?page=0&sort=email&dir=asc">Email ↑</a>
+            |
+            <a href="?page=0&sort=email&dir=desc">Email ↓</a>
+        </th>
+        <th>Actions</th>
+    </tr>
+    </thead>
     <tbody>
     <tr th:each="customer : ${allCustomers}">
-        <td class="bold-text" th:text="'ID:'"></td>
         <td class="table-cell" th:text="${customer.id}"></td>
-        <td class="bold-text" th:text="'Name:'"></td>
         <td class="table-cell" th:text="${customer.name}"></td>
-        <td class="bold-text" th:text="'Email:'"></td>
         <td class="table-cell" th:text="${customer.email}"></td>
         <td><a th:href="@{/customers/deleteCustomer/{id}(id=${customer.id})}" onclick="return confirm('Are you sure you want to delete this customer?')">Delete</a></td>
         <td><a th:href="@{/customers/editCustomer/{id}(id=${customer.id})}">Edit Customer</a></td>
-
-
-
     </tr>
     </tbody>
 </table>

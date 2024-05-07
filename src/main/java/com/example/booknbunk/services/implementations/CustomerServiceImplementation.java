@@ -7,11 +7,11 @@ import com.example.booknbunk.models.Booking;
 import com.example.booknbunk.models.Customer;
 import com.example.booknbunk.repositories.CustomerRepository;
 import com.example.booknbunk.services.interfaces.CustomerService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 
@@ -42,10 +42,17 @@ public class CustomerServiceImplementation implements CustomerService {
     }
     // Söker ut alla kunder
     @Override
-    public List<CustomerDetailedDto> getAllCustomersDetailedDto() {
-        return customerRepo.findAll()
-                .stream()
-                .map(customer -> customerToCustomerDetailedDto(customer)).toList();
+    public Page<CustomerDetailedDto> getAllCustomersDetailedDto(String search,Pageable pageable) {
+        if (search != null && !search.trim().isEmpty()) {
+
+            return customerRepo.findByNameContainingIgnoreCaseOrEmailContainingIgnoreCase(search, search, pageable)
+                    .map(this::customerToCustomerDetailedDto);
+
+        } else {
+            return customerRepo.findAll(pageable)
+                    .map(this::customerToCustomerDetailedDto);
+        }
+
     }
 
     @Override

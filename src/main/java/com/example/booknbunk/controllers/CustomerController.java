@@ -4,11 +4,16 @@ import com.example.booknbunk.dtos.CustomerDetailedDto;
 import com.example.booknbunk.services.interfaces.CustomerService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.print.attribute.standard.PageRanges;
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 
@@ -67,10 +72,19 @@ public class CustomerController {
     }
 
 
-    @RequestMapping("/all")
-    public String getAllCustomers(Model model) {
-        List<CustomerDetailedDto> customerDetailedDtoList = customerService.getAllCustomersDetailedDto();
-        model.addAttribute("allCustomers", customerDetailedDtoList);
+    @GetMapping("/all")
+    public String getAllCustomers(Model model,
+                                  @RequestParam(defaultValue = "0") int page,
+                                  @RequestParam(defaultValue = "id") String sort,
+                                  @RequestParam(defaultValue = "asc") String dir,
+                                  @RequestParam(required = false) String search)
+    {
+
+        int pageSize = 10;
+        Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.fromString(dir), sort));
+        Page<CustomerDetailedDto> customerDtoPage = customerService.getAllCustomersDetailedDto(search,pageable);
+        model.addAttribute("allCustomers", customerDtoPage);
+        model.addAttribute("search",search);
         return "/customer/allCustomersWithDeleteAndEdit";
     }
 

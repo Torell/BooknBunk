@@ -58,7 +58,7 @@ public class BookingController {
 
         return "/booking/showAvailability";
     }
-
+    /*
     @RequestMapping("/createBooking")
     public String createBooking(Model model) {
         BookingDetailedDto booking = new BookingDetailedDto();
@@ -72,6 +72,8 @@ public class BookingController {
 
     }
 
+
+
     @PostMapping("/createBookingFromAvailableRoom")
     public String createBookingFromAvailableRoom(Model model, @ModelAttribute BookingDetailedDto booking) {
         RoomMiniDto roomMiniDto = new RoomMiniDto();
@@ -81,7 +83,7 @@ public class BookingController {
         model.addAttribute("roomMiniDto", roomMiniDto);
         return "booking/addBooking";
     }
-
+*/
     @RequestMapping("/editBooking/{id}")
     public String editBooking(@PathVariable long id, Model model,BookingDetailedDto booking) {
         booking = bookingService.findBookingById(id);
