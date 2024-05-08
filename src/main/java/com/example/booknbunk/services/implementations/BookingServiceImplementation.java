@@ -134,6 +134,7 @@ public class BookingServiceImplementation implements BookingService {
         } if (!checkBlacklist(customerRepository.findById(bookingDetailedDto.getCustomerMiniDto().
                 getId()).get().getEmail())){
             returnMessage.append("Customer is on Blacklist.");
+            allConditionsMet = false;
         } if (allConditionsMet) {
             returnMessage.append("Booking successfully saved");
             bookingRepository.save(bookingDetailedDtoToBooking(bookingDetailedDto));
