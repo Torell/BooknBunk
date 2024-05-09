@@ -5,9 +5,11 @@ import com.example.booknbunk.models.ContractCustomer;
 import com.example.booknbunk.repositories.ContractCustomerRepository;
 import com.example.booknbunk.services.interfaces.ContractCustomerService;
 import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class ContractCustomerServiceImplementation implements ContractCustomerService {
 
     ContractCustomerRepository contractCustomerRepository;
@@ -33,7 +35,7 @@ public class ContractCustomerServiceImplementation implements ContractCustomerSe
     @Override
     public ContractCustomerDetailedDTO contractCustomerToDetailedDTO(ContractCustomer contractCustomer) {
         return ContractCustomerDetailedDTO.builder()
-                .id(contractCustomer.getId())
+                .localId(contractCustomer.getLocalId())
                 .externalSystemId(contractCustomer.getExternalSystemId())
                 .companyName(contractCustomer.getCompanyName())
                 .contactTitle(contractCustomer.getContactTitle())
@@ -50,7 +52,7 @@ public class ContractCustomerServiceImplementation implements ContractCustomerSe
     @Override
     public ContractCustomer detailedDtotoContractCustomer(ContractCustomerDetailedDTO contractCustomerDetailedDTO) {
         return ContractCustomer.builder()
-                .id(contractCustomerDetailedDTO.getId())
+                .localId(contractCustomerDetailedDTO.getLocalId())
                 .externalSystemId(contractCustomerDetailedDTO.getExternalSystemId())
                 .companyName(contractCustomerDetailedDTO.getCompanyName())
                 .contactTitle(contractCustomerDetailedDTO.getContactTitle())

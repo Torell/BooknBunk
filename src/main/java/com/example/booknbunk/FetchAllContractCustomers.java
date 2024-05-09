@@ -13,12 +13,15 @@ import org.springframework.stereotype.Component;
 import java.net.URL;
 import java.util.List;
 
-@Component
+@ComponentScan
 public class FetchAllContractCustomers implements CommandLineRunner {
 
-    @Autowired
     ContractCustomerService contractCustomerService;
 
+
+    public FetchAllContractCustomers(ContractCustomerService contractCustomerService) {
+        this.contractCustomerService = contractCustomerService;
+    }
 
     @Override
     public void run(String...args) throws Exception {
@@ -33,7 +36,6 @@ public class FetchAllContractCustomers implements CommandLineRunner {
         System.out.println("mapper reading values...");
         List<ContractCustomer> customers = allCustomers.getCustomers();
 
-        customers.forEach(System.out::println);
         contractCustomerService.createOrUpdateContractCustomers(customers);
         System.out.println("customers saved to database");
 
