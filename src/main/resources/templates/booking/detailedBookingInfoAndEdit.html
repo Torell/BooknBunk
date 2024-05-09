@@ -31,22 +31,21 @@
     </select>
 
 
-    <label for="customerMiniDtoId">Customer:</label><br>
-    <input type="text" id="customerMiniDtoId" name="customerMiniDto.id" th:field="*{customerMiniDto.id}" readonly />
+    <label for="customerName">Customer:</label><br>
+    <p id="customerName" th:text="'Customer name: ' + ${booking.getCustomerMiniDto().getName()} + '   ||   ' + 'Customer number: ' + ${booking.getCustomerMiniDto().getId()}"></p>
     <br><br>
 
 
 
-    <label for="extraBed">extraBed:</label><br>
-    <select id="extraBed" name="Extra bed">
+    <label for="extraBed">Extra Bed:</label><br>
+    <select id="extraBed" name="Extra bed" th:field="*{extraBed}">
         <option value="0">0</option>
         <option value="1">1</option>
         <option value="2">2</option>
-        <option value="3">3</option>
     </select><br><br>
-    <br><br>
 
     <input type="hidden" id="id" name="id" th:field="*{id}" />
+    <input type="hidden" id="customerMiniDto" name="customerMini.id" th:field="*{customerMiniDto.id}" />
 
     <input type="submit" value="Submit">
 </form>

@@ -3,54 +3,37 @@ package com.example.booknbunk;
 import com.example.booknbunk.models.Booking;
 import com.example.booknbunk.models.Customer;
 import com.example.booknbunk.models.Room;
-import com.example.booknbunk.models.Shipper;
 import com.example.booknbunk.repositories.BookingRepository;
 import com.example.booknbunk.repositories.CustomerRepository;
 import com.example.booknbunk.repositories.RoomRepository;
-import com.example.booknbunk.repositories.ShipperRepository;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.web.client.RestTemplate;
 
-import java.net.URL;
 import java.time.LocalDate;
 import java.time.Period;
-import java.util.Arrays;
-import java.util.List;
-
+import java.util.Objects;
 
 @SpringBootApplication
-public class BooknBunkApplication implements CommandLineRunner {
+public class BooknBunkApplication {
 
-    @Autowired
-    private ShipperRepository shipperRepository;
 
     public static void main(String[] args) {
+        if (args.length == 0)
         SpringApplication.run(BooknBunkApplication.class, args);
-    }
+        else if (Objects.equals(args[0], "fetchallcustomers")) {
+            SpringApplication springApplication = new SpringApplication(FetchAllContractCustomers.class);
+            springApplication.setWebApplicationType(WebApplicationType.NONE);
+            springApplication.run(args);
 
-    @Override
-    public void run(String... args) throws Exception {
-        String apiUrl = "https://javaintegration.systementor.se/shippers";
 
-        try {
-            RestTemplate restTemplate = new RestTemplate();
-            Shipper[] shippers = restTemplate.getForObject(apiUrl, Shipper[].class);
-
-            shipperRepository.saveAll(Arrays.asList(shippers));
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
-}
+
+
     /*
 
         @Bean
@@ -99,5 +82,12 @@ public class BooknBunkApplication implements CommandLineRunner {
                 bookingRepository.save(booking5);
 
             };
+
         }
-}*/
+
+
+
+     */
+
+
+}

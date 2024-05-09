@@ -40,7 +40,7 @@ public interface BookingService {
 
     void modifyBooking(BookingDetailedDto bookingDetailedDto);
 
-    List<RoomDetailedDto> getAllAvailabileRoomsBasedOnRoomSizeAndDateIntervall(int occupants, String startDate, String endDate);
+    List<RoomDetailedDto> getAllAvailabileRoomsBasedOnRoomSizeAndDateIntervall(int occupants, BookingDetailedDto bookingDetailedDto);
 
     List<RoomDetailedDto> getAllRooms();
     public RoomDetailedDto roomToRoomDetailedDto(Room room);

@@ -10,17 +10,28 @@
 <div th:replace="navbar :: navbar"></div>
 <h1>Add Customer</h1>
 
-<form action="/customers/addCustomer" method="post">
+<form action="/customers/addCustomer" method="post" onsubmit="return validateForm()">
   <label for="name">Name:</label><br>
   <input type="text" id="name" name="name"><br>
   <label for="email">Email:</label><br>
   <input type="email" id="email" name="email"><br><br>
-  <button type="submit" onclick="showMessage()">Add to Customer List</button>
+  <button type="submit">Add to Customer List</button>
 </form>
 
 <script>
   function showMessage() {
     alert('Customer has been added');
+  }
+
+  function validateForm() {
+    var name = document.getElementById('name').value;
+    var email = document.getElementById('email').value;
+    if (name.trim() === '' || email.trim() === '') {
+      alert('Please enter both name and email');
+      return false;
+    }
+    showMessage();
+    return true;
   }
 </script>
 
