@@ -1,28 +1,34 @@
 package com.example.booknbunk;
 
-import com.example.booknbunk.models.ContractCustomer;
-import com.example.booknbunk.services.interfaces.ShippingService;
-import com.example.booknbunk.utils.ContractCustomerListWrapper;
-import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
-import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+
+import com.example.booknbunk.models.Shipper;
+import com.example.booknbunk.repositories.ShipperRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
-import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
+
 
 import java.net.URL;
-import java.util.List;
 
-@ComponentScan
+@Component
 public class FetchAllShippingCompanys implements CommandLineRunner {
+    private final ShipperRepository shipperRepository;
 
-    ShippingService shippingService;
-
-    public FetchAllShippingCompanys(ShippingService shippingService){
-        this.shippingService = shippingService;
+    @Autowired
+    public FetchAllShippingCompanys(ShipperRepository shipperRepository) {
+        this.shipperRepository = shipperRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
 
+        URL url = new URL("https://javaintegration.systementor.se/shippers");
+        ObjectMapper objectMapper = new ObjectMapper();
+        Shipper[] shippers = objectMapper.readValue(url, Shipper[].class);
 
+        for (Shipper shipper : shippers) {
+            shipperRepository.save(shipper);
+        }
     }
 }

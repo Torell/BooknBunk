@@ -22,18 +22,19 @@ public class BooknBunkApplication {
 
 
     public static void main(String[] args) {
-        if (args.length == 0)
-        SpringApplication.run(BooknBunkApplication.class, args);
-         if (Objects.equals(args[0], "fetchallcustomers")) {
-            SpringApplication springApplication = new SpringApplication(FetchAllContractCustomers.class);
-            springApplication.setWebApplicationType(WebApplicationType.NONE);
-            springApplication.run(args);
-        } else if (Objects.equals(args[0], "shippers")) {
-             //SpringApplication springApplication = new SpringApplication()
-         }
+        if (args.length == 0) {
+            SpringApplication.run(BooknBunkApplication.class, args);
+        } else if (Objects.equals(args[0], "fetchallcustomers")) {
+                SpringApplication springApplication = new SpringApplication(FetchAllContractCustomers.class);
+                springApplication.setWebApplicationType(WebApplicationType.NONE);
+                springApplication.run(args);
+            } else if (Objects.equals(args[0], "shippers")) {
+                SpringApplication springApplication = new SpringApplication(FetchAllShippingCompanys.class);
+                springApplication.setWebApplicationType(WebApplicationType.NONE);
+                springApplication.run(args);
+            }
+        }
     }
-
-
     /*
 
         @Bean
@@ -90,4 +91,3 @@ public class BooknBunkApplication {
      */
 
 
-}
