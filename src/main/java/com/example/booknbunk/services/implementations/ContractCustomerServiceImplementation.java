@@ -13,7 +13,7 @@ public class ContractCustomerServiceImplementation implements ContractCustomerSe
     ContractCustomerRepository contractCustomerRepository;
     @Override
     @Transactional
-    public void createOrUpdateContractCustomer(List<ContractCustomer> customers) {
+    public void createOrUpdateContractCustomers(List<ContractCustomer> customers) {
         customers.forEach(contractCustomer -> {
             contractCustomerRepository.findById(contractCustomer.getExternalSystemId()).ifPresentOrElse(
                     existingCustomer -> {

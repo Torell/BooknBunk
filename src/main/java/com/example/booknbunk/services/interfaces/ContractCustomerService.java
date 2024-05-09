@@ -8,7 +8,7 @@ import java.util.List;
 public interface ContractCustomerService {
 
 
-    void createOrUpdateContractCustomer(List<ContractCustomer> customers);
+    void createOrUpdateContractCustomers(List<ContractCustomer> customers);
 
     ContractCustomerDetailedDTO contractCustomerToDetailedDTO(ContractCustomer contractCustomer);
     ContractCustomer detailedDtotoContractCustomer(ContractCustomerDetailedDTO contractCustomerDetailedDTO);
