@@ -5,9 +5,10 @@ import com.example.booknbunk.models.ContractCustomer;
 import com.example.booknbunk.repositories.ContractCustomerRepository;
 import com.example.booknbunk.services.interfaces.ContractCustomerService;
 import jakarta.transaction.Transactional;
-import org.springframework.stereotype.Component;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Pageable;
 import java.util.List;
 @Service
 public class ContractCustomerServiceImplementation implements ContractCustomerService {
@@ -31,6 +32,17 @@ public class ContractCustomerServiceImplementation implements ContractCustomerSe
                             contractCustomerRepository.save(contractCustomer)
             );
         });
+    }
+
+    @Override
+    public Page<ContractCustomerDetailedDTO> getAllContractCustomerPages(Pageable pageable) {
+        return contractCustomerRepository.findAll(pageable)
+                .map(this::contractCustomerToDetailedDTO);
+    }
+    @Override
+    public Page<ContractCustomerDetailedDTO> getAllContractCustomerPagesWithSearch(String search, Pageable pageable) {
+        return contractCustomerRepository.findByCompanyNameContainingIgnoreCaseOrCountryContainingIgnoreCaseOrContactNameContainingIgnoreCase(search,search,pageable)
+                .map(this::contractCustomerToDetailedDTO);
     }
     @Override
     public ContractCustomerDetailedDTO contractCustomerToDetailedDTO(ContractCustomer contractCustomer) {
