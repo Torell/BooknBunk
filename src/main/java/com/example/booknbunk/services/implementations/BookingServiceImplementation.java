@@ -5,9 +5,9 @@ import com.example.booknbunk.models.Booking;
 import com.example.booknbunk.models.Customer;
 import com.example.booknbunk.models.Room;
 import com.example.booknbunk.repositories.BookingRepository;
+import com.example.booknbunk.repositories.CustomerRepository;
 import com.example.booknbunk.repositories.RoomRepository;
 import com.example.booknbunk.services.interfaces.BookingService;
-import com.example.booknbunk.services.interfaces.RoomService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
