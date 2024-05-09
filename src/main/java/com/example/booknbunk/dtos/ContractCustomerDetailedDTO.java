@@ -16,8 +16,8 @@ public class ContractCustomerDetailedDTO {
     @Id
     @GeneratedValue
 
-    private int id;
-    private int externalSystemId;
+    private Long id;
+    private Long externalSystemId;
     private String companyName;
     private String contactTitle;
     private String streetAddress;

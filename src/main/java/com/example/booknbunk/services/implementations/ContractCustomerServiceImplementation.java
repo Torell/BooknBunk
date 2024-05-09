@@ -2,10 +2,34 @@ package com.example.booknbunk.services.implementations;
 
 import com.example.booknbunk.dtos.ContractCustomerDetailedDTO;
 import com.example.booknbunk.models.ContractCustomer;
+import com.example.booknbunk.repositories.ContractCustomerRepository;
 import com.example.booknbunk.services.interfaces.ContractCustomerService;
+import jakarta.transaction.Transactional;
+
+import java.util.List;
 
 public class ContractCustomerServiceImplementation implements ContractCustomerService {
 
+    ContractCustomerRepository contractCustomerRepository;
+    @Override
+    @Transactional
+    public void createOrUpdateContractCustomer(List<ContractCustomer> customers) {
+        customers.forEach(contractCustomer -> {
+            contractCustomerRepository.findById(contractCustomer.getExternalSystemId()).ifPresentOrElse(
+                    existingCustomer -> {
+                        existingCustomer.setCity(contractCustomer.getCity());
+                        existingCustomer.setFax(contractCustomer.getFax());
+                        existingCustomer.setCountry(contractCustomer.getCountry());
+                        existingCustomer.setContactTitle(contractCustomer.getContactTitle());
+                        existingCustomer.setCompanyName(contractCustomer.getCompanyName());
+                        existingCustomer.setPhone(contractCustomer.getPhone());
+                        contractCustomerRepository.save(existingCustomer);
+                    },
+                    () ->
+                            contractCustomerRepository.save(contractCustomer)
+            );
+        });
+    }
     @Override
     public ContractCustomerDetailedDTO contractCustomerToDetailedDTO(ContractCustomer contractCustomer) {
         return ContractCustomerDetailedDTO.builder()
@@ -38,5 +62,9 @@ public class ContractCustomerServiceImplementation implements ContractCustomerSe
                 .phone(contractCustomerDetailedDTO.getPhone())
                 .fax(contractCustomerDetailedDTO.getFax())
                 .build();
+    }
+
+    public ContractCustomerServiceImplementation(ContractCustomerRepository contractCustomerRepository) {
+        this.contractCustomerRepository = contractCustomerRepository;
     }
 }
