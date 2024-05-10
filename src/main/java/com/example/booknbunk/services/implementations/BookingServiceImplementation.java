@@ -11,6 +11,8 @@ import com.example.booknbunk.services.interfaces.BookingService;
 import com.example.booknbunk.utils.Blacklist;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.json.JsonMapper;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -34,6 +36,7 @@ public class BookingServiceImplementation implements BookingService {
     private final RoomRepository roomRepository;
 
     private final CustomerRepository customerRepository;
+
 
     public BookingServiceImplementation(BookingRepository bookingRepository, RoomRepository roomRepository, CustomerRepository customerRepository) {
         this.bookingRepository = bookingRepository;

@@ -34,7 +34,7 @@ public class BooknBunkApplication {
         }
     }
 
-/*
+
     @Bean
     public CommandLineRunner commandLineRunner(CustomerRepository customerRepository, RoomRepository roomRepository, BookingRepository bookingRepository) {
         return args -> {
@@ -79,10 +79,9 @@ public class BooknBunkApplication {
             bookingRepository.save(booking3);
             bookingRepository.save(booking4);
             bookingRepository.save(booking5);
-
         };
 
-    }*/
+    }
 }
 
 
