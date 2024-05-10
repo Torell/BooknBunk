@@ -20,7 +20,6 @@ import java.util.Objects;
 @SpringBootApplication
 public class BooknBunkApplication {
 
-
     public static void main(String[] args) {
         if (args.length == 0) {
             SpringApplication.run(BooknBunkApplication.class, args);
