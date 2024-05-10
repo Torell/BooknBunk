@@ -8,8 +8,16 @@ import com.example.booknbunk.repositories.BookingRepository;
 import com.example.booknbunk.repositories.CustomerRepository;
 import com.example.booknbunk.repositories.RoomRepository;
 import com.example.booknbunk.services.interfaces.BookingService;
+import com.example.booknbunk.utils.Blacklist;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.json.JsonMapper;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +33,12 @@ public class BookingServiceImplementation implements BookingService {
 
     private final RoomRepository roomRepository;
 
-    public BookingServiceImplementation(BookingRepository bookingRepository, RoomRepository roomRepository) {
+    private final CustomerRepository customerRepository;
+
+    public BookingServiceImplementation(BookingRepository bookingRepository, RoomRepository roomRepository, CustomerRepository customerRepository) {
         this.bookingRepository = bookingRepository;
         this.roomRepository = roomRepository;
-
+        this.customerRepository = customerRepository;
     }
 
     @Override
@@ -118,6 +128,10 @@ public class BookingServiceImplementation implements BookingService {
         } if (!checkRoomForAvailability(bookingDetailedDto, roomDetailedDto)) {
             returnMessage.append("The room is not available the chosen dates.");
             allConditionsMet = false;
+        } if (!checkBlacklist(customerRepository.findById(bookingDetailedDto.getCustomerMiniDto().
+                getId()).get().getEmail())){
+            returnMessage.append("Customer is on Blacklist.");
+            allConditionsMet = false;
         } if (allConditionsMet) {
             returnMessage.append("Booking successfully saved");
             bookingRepository.save(bookingDetailedDtoToBooking(bookingDetailedDto));
@@ -125,6 +139,30 @@ public class BookingServiceImplementation implements BookingService {
 
         return returnMessage;
     }
+
+
+    @Override
+    public boolean checkBlacklist(String email){
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://javabl.systementor.se/api/stefan/blacklistcheck/" + email))
+                .build();
+        try {
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            JsonMapper mapper = new JsonMapper();
+            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            Blacklist blacklist = mapper.readValue(response.body(), Blacklist.class);
+            return blacklist.isOk();
+
+        } catch (IOException e) {
+            System.out.println("Not found on the Blacklist");
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        return true;
+    }
+
 
     @Override
     public void modifyBooking(BookingDetailedDto bookingDetailedDto) {
