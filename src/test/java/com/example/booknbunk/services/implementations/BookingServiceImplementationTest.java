@@ -163,7 +163,7 @@ class BookingServiceImplementationTest {
         assertIterableEquals(expected2,actual2);
     }
 
-    @Test
+   @Test
     void extraBedSpaceAvailable() {
         BookingDetailedDto falseBooking = new BookingDetailedDto(id,today,tomorrow,customerMiniDto,roomMiniDto,5);
         assertTrue(bookingService.extraBedSpaceAvailable(bookingDetailedDto));
