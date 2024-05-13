@@ -29,10 +29,11 @@ public class ContractCustomerController {
                                                             @RequestParam(defaultValue = "asc")String sortDirection,
                                                             @RequestParam(required = false)String search)
     {
-        int pageSize = 10;
+        int pageSize = 30;
         Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.fromString(sortDirection),sort));
         Page<ContractCustomerDetailedDTO> customerDetailedDTOPage = contractCustomerService.getAllContractCustomerPagesWithSearch(search,pageable);
         model.addAttribute("contractCustomerPages",customerDetailedDTOPage);
+        model.addAttribute("search",search);
         return "/contractCustomer/allContractCustomers";
 
     }
