@@ -25,6 +25,7 @@ public class BlacklistController {
         blacklistService.addToBlacklist(email);
         return new ResponseEntity<>("Email added to blacklist", HttpStatus.OK);
     }
+
 }
 
 // /api/blacklist/add/test@gmail.com
