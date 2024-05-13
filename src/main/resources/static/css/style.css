@@ -166,3 +166,47 @@ select:focus {
     outline: none; /* Removes the default focus outline to use custom border color */
 }
 
+/* Additional styles for pagination buttons */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.pagination a {
+    border: 1px solid #ddd; /* Light grey border */
+    color: #333;
+    float: left;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+    margin: 0 4px; /* Spacing between buttons */
+    border-radius: 4px; /* Rounded corners for the buttons */
+}
+
+.pagination a.active {
+    background-color: #4A90E2;
+    color: white;
+    border: 1px solid #4A90E2;
+}
+
+.pagination a:hover:not(.active) {background-color: #ddd;}
+
+/* Styling for the page number display */
+.page-number {
+    font-size: 16px; /* Larger font size for better readability */
+    padding: 8px 16px; /* Padding for aesthetics */
+    background-color: #f4f4f9; /* Matching the background to the body's background */
+    color: #333; /* Text color for consistency with the theme */
+    border: 1px solid #ccc; /* Border to distinguish the page number */
+    border-radius: 4px; /* Rounded corners */
+    margin: 0 4px; /* Spacing for symmetry */
+}
+
+/* Clear floats after the pagination buttons */
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
