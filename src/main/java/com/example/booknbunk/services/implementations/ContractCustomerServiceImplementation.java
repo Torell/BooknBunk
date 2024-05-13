@@ -3,7 +3,9 @@ package com.example.booknbunk.services.implementations;
 import com.example.booknbunk.dtos.ContractCustomerDetailedDTO;
 import com.example.booknbunk.models.ContractCustomer;
 import com.example.booknbunk.services.interfaces.ContractCustomerService;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ContractCustomerServiceImplementation implements ContractCustomerService {
 
     @Override
