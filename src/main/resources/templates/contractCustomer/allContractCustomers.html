@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Contract Customers</title>
+</head>
+<body>
+<form th:action="@{/getAll}" method="get">
+  <input type="text" name="search" th:value="${search}" placeholder="Search...">
+  <button type="submit">Search</button>
+</form>
+
+<table>
+  <thead>
+  <tr>
+    <th><a th:href="@{/getAll(page=${contractCustomerPages.number}, sort='companyName', sortDirection=${sort == 'companyName' and sortDirection == 'asc' ? 'desc' : 'asc'}, search=${search})}">Company Name</a></th>
+    <th><a th:href="@{/getAll(page=${contractCustomerPages.number}, sort='contactName', sortDirection=${sort == 'contactName' and sortDirection == 'asc' ? 'desc' : 'asc'}, search=${search})}">Contact Name</a></th>
+    <th><a th:href="@{/getAll(page=${contractCustomerPages.number}, sort='country', sortDirection=${sort == 'country' and sortDirection == 'asc' ? 'desc' : 'asc'}, search=${search})}">Country</a></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="customer : ${contractCustomerPages}">
+    <td th:text="${customer.companyName}"></td>
+    <td th:text="${customer.contactName}"></td>
+    <td th:text="${customer.country}"></td>
+  </tr>
+  </tbody>
+</table>
+
+
+<div>
+  <a th:if="${contractCustomerPages.hasPrevious()}" th:href="@{/getAll(page=${contractCustomerPages.number - 1}, sort=${sort}, sortDirection=${sortDirection}, search=${search})}">Previous</a>
+  <span th:text="${contractCustomerPages.number + 1}"></span>
+  <a th:if="${contractCustomerPages.hasNext()}" th:href="@{/getAll(page=${contractCustomerPages.number + 1}, sort=${sort}, sortDirection=${sortDirection}, search=${search})}">Next</a>
+</div>
+
+</body>
+</html>

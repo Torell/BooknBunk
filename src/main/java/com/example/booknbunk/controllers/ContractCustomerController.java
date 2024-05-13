@@ -2,6 +2,7 @@ package com.example.booknbunk.controllers;
 
 import com.example.booknbunk.dtos.ContractCustomerDetailedDTO;
 import com.example.booknbunk.services.interfaces.ContractCustomerService;
+import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -14,16 +15,15 @@ import org.springframework.data.domain.Pageable;
 
 
 @Controller
+@AllArgsConstructor
 @RequestMapping("/contractCustomer")
 public class ContractCustomerController {
 
     private final ContractCustomerService contractCustomerService;
 
-    public ContractCustomerController(ContractCustomerService contractCustomerService) {
-        this.contractCustomerService = contractCustomerService;
-    }
+
     @GetMapping("/getAll")
-    public String getAllContractCUstomersWithSearchAndOrder(Model model,
+    public String getAllContractCustomersWithSearchAndOrder(Model model,
                                                             @RequestParam(defaultValue = "0")int page,
                                                             @RequestParam(defaultValue = "companyName")String sort,
                                                             @RequestParam(defaultValue = "asc")String sortDirection,
@@ -33,7 +33,7 @@ public class ContractCustomerController {
         Pageable pageable = PageRequest.of(page, pageSize, Sort.by(Sort.Direction.fromString(sortDirection),sort));
         Page<ContractCustomerDetailedDTO> customerDetailedDTOPage = contractCustomerService.getAllContractCustomerPagesWithSearch(search,pageable);
         model.addAttribute("contractCustomerPages",customerDetailedDTOPage);
-        return "allContractCustomers";
+        return "/contractCustomer/allContractCustomers";
 
     }
 }
