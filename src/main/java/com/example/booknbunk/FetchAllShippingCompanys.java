@@ -6,16 +6,17 @@ import com.example.booknbunk.repositories.ShipperRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
 
 import java.net.URL;
 
-@Component
+@ComponentScan
 public class FetchAllShippingCompanys implements CommandLineRunner {
     private final ShipperRepository shipperRepository;
 
-    @Autowired
+
     public FetchAllShippingCompanys(ShipperRepository shipperRepository) {
         this.shipperRepository = shipperRepository;
     }
