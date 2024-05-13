@@ -41,7 +41,7 @@ public class ContractCustomerServiceImplementation implements ContractCustomerSe
     }
     @Override
     public Page<ContractCustomerDetailedDTO> getAllContractCustomerPagesWithSearch(String search, Pageable pageable) {
-        return contractCustomerRepository.findByCompanyNameContainingIgnoreCaseOrCountryContainingIgnoreCaseOrContactNameContainingIgnoreCase(search,search,pageable)
+        return contractCustomerRepository.findByCompanyNameContainingIgnoreCaseOrCountryContainingIgnoreCaseOrContactNameContainingIgnoreCase(search,search,search,pageable)
                 .map(this::contractCustomerToDetailedDTO);
     }
     @Override
