@@ -153,8 +153,8 @@ class BookingServiceImplementationTest {
         when(roomRepository.findAll()).thenReturn(Arrays.asList(room0,room1,room2,room3));
         BookingServiceImplementation bookingService2 = new BookingServiceImplementation(bookingRepository,roomRepository);
 
-        List<RoomDetailedDto> actual1 = bookingService2.getAllAvailabileRoomsBasedOnRoomSizeAndDateIntervall(0,today.toString(),tomorrow.toString());
-        List<RoomDetailedDto> actual2 = bookingService2.getAllAvailabileRoomsBasedOnRoomSizeAndDateIntervall(0,dayAfterTomorrow.toString(),dayAfterTomorrow.toString());
+        List<RoomDetailedDto> actual1 = bookingService2.getAllAvailabileRoomsBasedOnRoomSizeAndDateIntervall(0,new BookingDetailedDto(id,today,tomorrow,customerMiniDto, roomMiniDto,extraBed));
+        List<RoomDetailedDto> actual2 = bookingService2.getAllAvailabileRoomsBasedOnRoomSizeAndDateIntervall(0,new BookingDetailedDto(id,dayAfterTomorrow,today,customerMiniDto, roomMiniDto,extraBed));
 
         assertEquals(expected1.size(), actual1.size());
         assertEquals(expected2.size(),actual2.size());

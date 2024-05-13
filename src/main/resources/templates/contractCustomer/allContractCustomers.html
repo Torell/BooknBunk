@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel=stylesheet th:href="@{/css/style.css}" type="text/css">
+  <title>Contract Customers</title>
+</head>
+<body>
+<form th:action="@{/contractCustomer/getAll}" method="get">
+  <input type="text" name="search" th:value="${search}" placeholder="Search...">
+  <button type="submit">Search</button>
+</form>
+
+<table>
+  <thead>
+  <tr>
+    <th><a th:href="@{/contractCustomer/getAll(page=${contractCustomerPages.number}, sort='companyName', sortDirection=${sort == 'companyName' and sortDirection == 'asc' ? 'desc' : 'asc'}, search=${search})}">Company Name</a></th>
+    <th><a th:href="@{/contractCustomer/getAll(page=${contractCustomerPages.number}, sort='contactName', sortDirection=${sort == 'contactName' and sortDirection == 'asc' ? 'desc' : 'asc'}, search=${search})}">Contact Name</a></th>
+    <th><a th:href="@{/contractCustomer/getAll(page=${contractCustomerPages.number}, sort='country', sortDirection=${sort == 'country' and sortDirection == 'asc' ? 'desc' : 'asc'}, search=${search})}">Country</a></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="customer : ${contractCustomerPages}">
+    <td th:text="${customer.companyName}"></td>
+    <td th:text="${customer.contactName}"></td>
+    <td th:text="${customer.country}"></td>
+  </tr>
+  </tbody>
+</table>
+
+
+<div class="pagination clearfix">
+  <!-- Previous button -->
+  <a th:if="${contractCustomerPages.hasPrevious()}"
+     th:href="@{/contractCustomer/getAll(page=${contractCustomerPages.number - 1}, sort=${sort}, sortDirection=${sortDirection}, search=${search})}"
+     class="previous">Previous</a>
+
+  <!-- Page number -->
+  <div class="page-number" th:text="'Page ' + (${contractCustomerPages.number + 1}) + ' of ' + ${contractCustomerPages.totalPages}"></div>
+
+  <!-- Next button -->
+  <a th:if="${contractCustomerPages.hasNext()}"
+     th:href="@{/contractCustomer/getAll(page=${contractCustomerPages.number + 1}, sort=${sort}, sortDirection=${sortDirection}, search=${search})}"
+     class="next">Next</a>
+</div>
+
+</body>
+</html>

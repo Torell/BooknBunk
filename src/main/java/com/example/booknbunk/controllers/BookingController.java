@@ -4,6 +4,7 @@ import com.example.booknbunk.dtos.BookingDetailedDto;
 import com.example.booknbunk.dtos.RoomDetailedDto;
 import com.example.booknbunk.dtos.RoomMiniDto;
 import com.example.booknbunk.services.interfaces.BookingService;
+import com.example.booknbunk.services.interfaces.CustomerService;
 import com.example.booknbunk.services.interfaces.RoomService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.awt.print.Book;
 import java.util.List;
 
 @Controller
@@ -20,6 +22,7 @@ public class BookingController {
 
     private final BookingService bookingService;
     private final RoomService roomService;
+    private final CustomerService customerService;
     @RequestMapping("/{id}")
     public BookingDetailedDto findBookingById(@PathVariable long id) {
         return bookingService.findBookingById(id);
@@ -35,7 +38,6 @@ public class BookingController {
     public String addBooking(Model model, BookingDetailedDto bookingDetailedDto, RedirectAttributes redirectAttributes){
         RoomDetailedDto desiredRoom = roomService.findRoomById(bookingDetailedDto.getRoomMiniDto().getId());
         StringBuilder returnMessage = bookingService.createOrChangeBooking(bookingDetailedDto,desiredRoom);
-
         redirectAttributes.addFlashAttribute("returnMessage",returnMessage);
         model.addAttribute("booking",bookingDetailedDto);
 
@@ -43,14 +45,16 @@ public class BookingController {
     }
 
     @RequestMapping("/findAvailability")
-    public String findAvailability() {
+    public String findAvailability(BookingDetailedDto booking, Model model) {
+        model.addAttribute("booking",booking);
         return "/booking/findAvailability";
     }
     @RequestMapping("/getAvailability")
-    public String getAvailability(Model model, @RequestParam(name = "occupants") int occupants, @RequestParam(name = "startDate") String startDate, @RequestParam(name = "endDate") String endDate) {
+    public String getAvailability(Model model, BookingDetailedDto booking,@RequestParam(name = "occupants") int occupants) {
 
-        model.addAttribute("availableRoom",bookingService.getAllAvailabileRoomsBasedOnRoomSizeAndDateIntervall(occupants,startDate,endDate));
+        model.addAttribute("availableRoom",bookingService.getAllAvailabileRoomsBasedOnRoomSizeAndDateIntervall(occupants,booking));
         model.addAttribute("headline","Available Rooms");
+        model.addAttribute("booking",booking);
 
         return "/booking/showAvailability";
     }
@@ -61,18 +65,30 @@ public class BookingController {
         RoomMiniDto roomMiniDto = new RoomMiniDto();
         model.addAttribute("defaultRoomId",1L);
         model.addAttribute("rooms",roomService.getAllRoomsMiniDto());
+        model.addAttribute("customers",customerService.getAllCustomersDetailedDto());
         model.addAttribute("booking", booking);
         model.addAttribute("roomMiniDto", roomMiniDto);
         return "/booking/addBooking";
 
     }
 
+    @PostMapping("/createBookingFromAvailableRoom")
+    public String createBookingFromAvailableRoom(Model model, @ModelAttribute BookingDetailedDto booking) {
+        RoomMiniDto roomMiniDto = new RoomMiniDto();
+        model.addAttribute("rooms", roomService.getAllRoomsMiniDto());
+        model.addAttribute("customers", customerService.getAllCustomersDetailedDto());
+        model.addAttribute("booking", booking);
+        model.addAttribute("roomMiniDto", roomMiniDto);
+        return "booking/addBooking";
+    }
+
     @RequestMapping("/editBooking/{id}")
-    public String editBooking(@PathVariable long id, Model model) {
-        BookingDetailedDto booking = bookingService.findBookingById(id);
+    public String editBooking(@PathVariable long id, Model model,BookingDetailedDto booking) {
+        booking = bookingService.findBookingById(id);
+        RoomMiniDto roomMiniDto = new RoomMiniDto();
         model.addAttribute("rooms",roomService.getAllRoomsMiniDto());
         model.addAttribute("booking", booking);
-        model.addAttribute("roomMiniDto");
+        model.addAttribute("roomMiniDto", roomMiniDto);
         return "/booking/detailedBookingInfoAndEdit";
     }
 
@@ -83,6 +99,7 @@ public class BookingController {
         StringBuilder returnMessage = bookingService.createOrChangeBooking(bookingDetailedDto,desiredRoom);
 
         redirectAttributes.addFlashAttribute("returnMessage",returnMessage);
+        redirectAttributes.addFlashAttribute("booking",bookingDetailedDto);
         model.addAttribute("booking",bookingDetailedDto);
 
         return "redirect:/booking/editBooking/" + bookingDetailedDto.getId();
