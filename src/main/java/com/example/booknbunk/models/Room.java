@@ -16,6 +16,7 @@ import java.util.List;
 @Builder
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Room {
 
 
@@ -27,6 +28,10 @@ public class Room {
 
     @OneToMany(mappedBy = "room")
     private List<Booking> bookings;
+
+    //ett rum kan ha många events
+    @OneToMany(mappedBy = "room")
+    private List<Event> events;
 
     public Room(int roomSize) {
         this.roomSize = roomSize;
