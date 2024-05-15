@@ -36,6 +36,7 @@ dependencies {
     annotationProcessor("org.projectlombok:lombok")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.13.0")
+    implementation ("com.rabbitmq:amqp-client:5.13.1")
 }
 
 tasks.withType<Test> {
