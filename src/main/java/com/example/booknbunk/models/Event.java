@@ -1,5 +1,6 @@
 package com.example.booknbunk.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -34,11 +35,14 @@ public abstract class Event {
     @JsonProperty("TimeStamp")
     private LocalDateTime timeStamp;
 
-    @JoinColumn(name = "room_id", nullable = false)
+    @JoinColumn(name = "room_id")
     @NonNull
-    @ManyToOne(cascade = CascadeType.PERSIST)
-    @JsonProperty("RoomNo")
+    @ManyToOne
+    @JsonIgnore
     private Room room;
+
+    @JsonProperty("RoomNo")
+    private Long roomNo;
 
     public Event(LocalDateTime timeStamp, Room room) {
         this.timeStamp = timeStamp;

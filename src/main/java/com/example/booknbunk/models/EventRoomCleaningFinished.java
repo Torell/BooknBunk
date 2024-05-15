@@ -1,6 +1,7 @@
 package com.example.booknbunk.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.Column;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
@@ -17,6 +18,7 @@ import java.time.LocalDateTime;
 public class EventRoomCleaningFinished extends Event{
 
     @JsonProperty("CleaningByUser")
+    @Column(name = "cleaning_by_user")
     private String cleaningByUser;
 
     public EventRoomCleaningFinished(LocalDateTime timeStamp, Room room, String cleaningByUser) {
