@@ -31,6 +31,10 @@ public class BooknBunkApplication {
             SpringApplication springApplication = new SpringApplication(FetchAllShippingCompanys.class);
             springApplication.setWebApplicationType(WebApplicationType.NONE);
             springApplication.run(args);
+        } else if (Objects.equals(args[0], "events")) {
+            SpringApplication springApplication = new SpringApplication(FetchAllEvents.class);
+            springApplication.setWebApplicationType(WebApplicationType.NONE);
+            springApplication.run(args);
         }
     }
 

@@ -1,28 +1,49 @@
 package com.example.booknbunk.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
-@Builder
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "event_type")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Event {
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        include = JsonTypeInfo.As.PROPERTY,
+        property = "type"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = EventRoomOpened.class, name = "RoomOpened"),
+        @JsonSubTypes.Type(value = EventRoomClosed.class, name = "RoomClosed"),
+        @JsonSubTypes.Type(value = EventRoomCleaningFinished.class, name = "RoomCleaningFinished"),
+        @JsonSubTypes.Type(value = EventRoomCleaningStarted.class, name = "RoomCleaningStarted")
+})
+public abstract class Event {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String eventText;
+    @JsonProperty("TimeStamp")
     private LocalDateTime timeStamp;
 
-    @JoinColumn(name = "room_id")
+    @JoinColumn(name = "room_id", nullable = false)
     @NonNull
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JsonProperty("RoomNo")
     private Room room;
+
+    public Event(LocalDateTime timeStamp, Room room) {
+        this.timeStamp = timeStamp;
+        this.room = room;
+    }
 
 
 }
