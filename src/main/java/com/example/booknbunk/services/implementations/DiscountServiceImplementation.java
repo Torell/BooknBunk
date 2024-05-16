@@ -7,6 +7,7 @@ import com.example.booknbunk.repositories.CustomerRepository;
 import com.example.booknbunk.services.interfaces.DiscountService;
 import org.springframework.stereotype.Service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -56,5 +57,25 @@ public class DiscountServiceImplementation implements DiscountService {
            multiplier -= 0.02;
        }
        return multiplier;
+    }
+
+    public double discountSundayToMonday(BookingDetailedDto bookingDetailedDto) {
+        double numberOfSundayToMondayNights = 0;
+        LocalDate dateToCheck = bookingDetailedDto.getStartDate();
+        LocalDate endDate = bookingDetailedDto.getEndDate();
+
+        while (dateToCheck.isBefore(endDate))  {
+            if (dateToCheck.getDayOfWeek() ==  DayOfWeek.SUNDAY && dateToCheck.plusDays(1).getDayOfWeek() == DayOfWeek.MONDAY) {
+                numberOfSundayToMondayNights++;
+            }
+           dateToCheck = dateToCheck.plusDays(1);
+        }
+        System.out.println("customerMiniDto = " + bookingDetailedDto.getCustomerMiniDto());
+        System.out.println("room price per night = " + bookingDetailedDto.getRoomMiniDto().getPricePerNight());
+        System.out.println("room id = " + bookingDetailedDto.getRoomMiniDto().getId());
+        System.out.println("room size = " + bookingDetailedDto.getRoomMiniDto().getRoomSize());
+        System.out.println("roomMiniDto = " + bookingDetailedDto.getRoomMiniDto());
+
+        return (bookingDetailedDto.getRoomMiniDto().getPricePerNight() * 0.98) * numberOfSundayToMondayNights; //returns the total to be removed from price
     }
 }

@@ -257,11 +257,8 @@ public class BookingServiceImplementation implements BookingService {
     public double calculateTotalPrice(BookingDetailedDto bookingDetailedDto) {
         double pricePerNight = roomRepository.getReferenceById(bookingDetailedDto.getRoomMiniDto().getId()).getPricePerNight();
         double totalNightsBooked = ChronoUnit.DAYS.between(bookingDetailedDto.getStartDate(),bookingDetailedDto.getEndDate());
-        System.out.println("price per night" + pricePerNight);
-        System.out.println("total nights booked" + totalNightsBooked);
-        System.out.println(discountService.discount(bookingDetailedDto));
-        System.out.println((pricePerNight * totalNightsBooked) * discountService.discount(bookingDetailedDto));
-        return (pricePerNight * totalNightsBooked) * discountService.discount(bookingDetailedDto);
+
+        return ((pricePerNight * totalNightsBooked) - discountService.discountSundayToMonday(bookingDetailedDto)) * discountService.discount(bookingDetailedDto);
     }
 
 
