@@ -18,6 +18,7 @@ public class BookingDetailedDto {
     private CustomerMiniDto customerMiniDto;
     private RoomMiniDto roomMiniDto;
     private int extraBed;
+    private double totalPrice;
 
 
 }

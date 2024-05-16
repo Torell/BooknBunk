@@ -49,4 +49,5 @@ public interface BookingService {
     public boolean startDateIsBeforeEndDate(BookingDetailedDto booking);
 
 
+    double calculateTotalPrice(BookingDetailedDto bookingDetailedDto);
 }

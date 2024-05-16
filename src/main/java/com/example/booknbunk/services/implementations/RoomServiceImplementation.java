@@ -53,6 +53,7 @@ public class RoomServiceImplementation implements RoomService {
         return RoomMiniDto.builder()
                 .id(room.getId())
                 .roomSize(room.getRoomSize())
+                .pricePerNight(room.getPricePerNight())
                 .build();
     }
 
@@ -61,6 +62,7 @@ public class RoomServiceImplementation implements RoomService {
         return Room.builder()
                 .id(roomMiniDto.getId())
                 .roomSize(roomMiniDto.getRoomSize())
+                .pricePerNight(roomMiniDto.getPricePerNight())
                 .build();
     }
 

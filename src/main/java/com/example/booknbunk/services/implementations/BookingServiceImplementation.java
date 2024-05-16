@@ -9,18 +9,8 @@ import com.example.booknbunk.repositories.CustomerRepository;
 import com.example.booknbunk.repositories.RoomRepository;
 import com.example.booknbunk.services.interfaces.BlacklistService;
 import com.example.booknbunk.services.interfaces.BookingService;
-import com.example.booknbunk.utils.Blacklist;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.json.JsonMapper;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,15 +29,19 @@ public class BookingServiceImplementation implements BookingService {
     private final CustomerRepository customerRepository;
 
     private final BlacklistService blacklistService;
+    private final DiscountServiceImplementation discountService;
 
 
     public BookingServiceImplementation(BookingRepository bookingRepository, RoomRepository roomRepository,
-                                        CustomerRepository customerRepository, BlacklistService blacklistService) {
+                                        CustomerRepository customerRepository, BlacklistService blacklistService, DiscountServiceImplementation discountService) {
         this.bookingRepository = bookingRepository;
         this.roomRepository = roomRepository;
         this.customerRepository = customerRepository;
         this.blacklistService = blacklistService;
+        this.discountService = discountService;
     }
+
+
 
     @Override
     public BookingDetailedDto bookingToBookingDetailedDto(Booking booking) {
@@ -57,6 +51,7 @@ public class BookingServiceImplementation implements BookingService {
                 .endDate(booking.getEndDate())
                 .customerMiniDto(customerToCustomerMiniDto(booking.getCustomer()))
                 .roomMiniDto(roomToRoomMiniDto(booking.getRoom()))
+                .totalPrice(booking.getTotalPrice())
                 .build();
 
     }
@@ -80,6 +75,7 @@ public class BookingServiceImplementation implements BookingService {
                 .room(roomMiniDtoRoom(bookingDetailedDto.getRoomMiniDto()))
                 .extraBed(bookingDetailedDto.getExtraBed())
                 .id(bookingDetailedDto.getId())
+                .totalPrice(bookingDetailedDto.getTotalPrice())
                 .build();
     }
 
@@ -88,6 +84,7 @@ public class BookingServiceImplementation implements BookingService {
         return Room.builder()
                 .id(roomMiniDto.getId())
                 .roomSize(roomMiniDto.getRoomSize())
+                .pricePerNight(roomMiniDto.getPricePerNight())
                 .build();
     }
 
@@ -107,6 +104,7 @@ public class BookingServiceImplementation implements BookingService {
         return RoomMiniDto.builder()
                 .id(room.getId())
                 .roomSize(room.getRoomSize())
+                .pricePerNight(room.getPricePerNight())
                 .build();
     }
 
@@ -250,7 +248,15 @@ public class BookingServiceImplementation implements BookingService {
 
     @Override
     public boolean startDateIsBeforeEndDate(BookingDetailedDto booking) {
+
         return booking.getStartDate().isBefore(booking.getEndDate());
+    }
+    @Override
+    public double calculateTotalPrice(BookingDetailedDto bookingDetailedDto) {
+        double pricePerNight = bookingDetailedDto.getRoomMiniDto().getPricePerNight();
+        double totalNightsBooked = bookingDetailedDto.getStartDate().datesUntil(bookingDetailedDto.getEndDate()).count();
+        System.out.println((pricePerNight * totalNightsBooked) * discountService.discount(bookingDetailedDto));
+        return (pricePerNight * totalNightsBooked) * discountService.discount(bookingDetailedDto);
     }
 
 

@@ -71,7 +71,7 @@ public class BlacklistServiceImplementation implements BlacklistService {
     public boolean checkBlacklist(String email){
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(BLACKLIST_API_URL + email))
+                .uri(URI.create(BLACKLIST_API_URL + "/checkblacklist/" + email))
                 .build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());

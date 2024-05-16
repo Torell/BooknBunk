@@ -24,6 +24,7 @@ public class Room {
     private Long id;
     //String size
     private int roomSize;
+    private double pricePerNight;
 
     @OneToMany(mappedBy = "room")
     private List<Booking> bookings;

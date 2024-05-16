@@ -13,4 +13,5 @@ public class RoomMiniDto {
 
     private Long id;
     private int roomSize;
+    private double pricePerNight;
 }
