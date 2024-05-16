@@ -71,7 +71,8 @@ public class BlacklistServiceImplementation implements BlacklistService {
     public boolean checkBlacklist(String email){
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(BLACKLIST_API_URL + "/checkblacklist/" + email))
+                .uri(URI.create(BLACKLIST_API_URL + "check/" + email))
+                .GET()
                 .build();
         try {
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
@@ -82,11 +83,11 @@ public class BlacklistServiceImplementation implements BlacklistService {
 
         } catch (IOException e) {
             System.out.println("Not found on the Blacklist");
+            return true;
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 
-        return true;
     }
 
 }
