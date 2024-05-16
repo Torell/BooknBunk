@@ -12,6 +12,7 @@ import com.example.booknbunk.services.interfaces.BookingService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -140,6 +141,7 @@ public class BookingServiceImplementation implements BookingService {
             allConditionsMet = false;
         } if (allConditionsMet) {
             returnMessage.append("Booking successfully saved");
+            bookingDetailedDto.setTotalPrice(calculateTotalPrice(bookingDetailedDto));
             bookingRepository.save(bookingDetailedDtoToBooking(bookingDetailedDto));
         }
 
@@ -253,8 +255,11 @@ public class BookingServiceImplementation implements BookingService {
     }
     @Override
     public double calculateTotalPrice(BookingDetailedDto bookingDetailedDto) {
-        double pricePerNight = bookingDetailedDto.getRoomMiniDto().getPricePerNight();
-        double totalNightsBooked = bookingDetailedDto.getStartDate().datesUntil(bookingDetailedDto.getEndDate()).count();
+        double pricePerNight = roomRepository.getReferenceById(bookingDetailedDto.getRoomMiniDto().getId()).getPricePerNight();
+        double totalNightsBooked = ChronoUnit.DAYS.between(bookingDetailedDto.getStartDate(),bookingDetailedDto.getEndDate());
+        System.out.println("price per night" + pricePerNight);
+        System.out.println("total nights booked" + totalNightsBooked);
+        System.out.println(discountService.discount(bookingDetailedDto));
         System.out.println((pricePerNight * totalNightsBooked) * discountService.discount(bookingDetailedDto));
         return (pricePerNight * totalNightsBooked) * discountService.discount(bookingDetailedDto);
     }

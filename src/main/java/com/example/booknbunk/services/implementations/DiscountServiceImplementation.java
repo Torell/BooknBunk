@@ -8,6 +8,7 @@ import com.example.booknbunk.services.interfaces.DiscountService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 @Service
@@ -23,18 +24,26 @@ public class DiscountServiceImplementation implements DiscountService {
 
     @Override
     public boolean twoOrMoreNights(BookingDetailedDto bookingDetailedDto) {
-        return bookingDetailedDto.getStartDate().isBefore(bookingDetailedDto.getEndDate());
+        long nightsBooked = ChronoUnit.DAYS.between(bookingDetailedDto.getStartDate(),bookingDetailedDto.getEndDate());
+        return nightsBooked >= 2;
     }
 
     @Override
     public boolean tenOrMoreNightsThisYear(BookingDetailedDto bookingDetailedDto) {
         LocalDate oneYearFromToday = LocalDate.now().minusYears(1);
+        LocalDate today = LocalDate.now();
         List<Booking> allBookingsMadeByCustomer = bookingRepository.findAllByCustomer(customerRepository.getReferenceById(bookingDetailedDto.getCustomerMiniDto().getId())).stream()
-                .filter(booking -> booking.getStartDate().isBefore(oneYearFromToday))
-                .toList();
+                .filter(booking -> booking.getStartDate().isAfter(oneYearFromToday) && booking.getStartDate().isBefore(today))
+                .toList();;
 
 
-        return allBookingsMadeByCustomer.size() >= 10;
+        long nightsBooked = allBookingsMadeByCustomer.stream()
+                .mapToLong(booking -> ChronoUnit.DAYS.between(booking.getStartDate(),booking.getEndDate()))
+                .sum();
+
+        System.out.println("nights booked last year " + nightsBooked);
+
+        return nightsBooked >= 10;
     }
 
     @Override
