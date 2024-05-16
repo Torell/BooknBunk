@@ -43,7 +43,7 @@ public class EventServiceImplementation implements EventService {
     public void processEvent(String message) {
         try {
             Event event = objectMapper.readValue(message, Event.class);
-            Room room = roomRepository.findById(event.getRoom().getId())
+            Room room = roomRepository.findById(event.getRoomNo())
                     .orElseThrow(() -> new IllegalStateException("Room with ID: " + event.getRoomNo() + " does not exist."));
             event.setRoom(room);
             eventRepository.save(event);
