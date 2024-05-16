@@ -36,6 +36,7 @@ public class BlacklistServiceImplementation implements BlacklistService {
 
             try {
                 HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                System.out.println(response);
 
             } catch (IOException | InterruptedException e) {
                 throw new RuntimeException(e);
@@ -71,22 +72,28 @@ public class BlacklistServiceImplementation implements BlacklistService {
     public boolean checkBlacklist(String email){
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(BLACKLIST_API_URL + email))
+                .uri(URI.create(BLACKLIST_API_URL + "check/" + email))
+                .GET()
                 .build();
         try {
+            System.out.println(request);
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
             JsonMapper mapper = new JsonMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            System.out.println("responsebody" + response);
             Blacklist blacklist = mapper.readValue(response.body(), Blacklist.class);
+            System.out.println("blacklist: " + blacklist.isOk());
+            System.out.println(blacklist);
             return blacklist.isOk();
 
         } catch (IOException e) {
             System.out.println("Not found on the Blacklist");
+            return true;
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
 
-        return true;
+
     }
 
 }
