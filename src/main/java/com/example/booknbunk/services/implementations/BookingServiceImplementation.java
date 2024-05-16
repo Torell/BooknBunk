@@ -119,7 +119,7 @@ public class BookingServiceImplementation implements BookingService {
 
     @Override
     public BookingDetailedDto findBookingById(long id) {
-        return bookingToBookingDetailedDto(bookingRepository.getReferenceById(id));
+        return bookingToBookingDetailedDto(bookingRepository.findById(id).orElse(null));
     }
 
     @Override
@@ -141,6 +141,7 @@ public class BookingServiceImplementation implements BookingService {
             allConditionsMet = false;
         } if (allConditionsMet) {
             returnMessage.append("Booking successfully saved");
+            bookingDetailedDto.setRoomMiniDto(roomToRoomMiniDto(roomRepository.getReferenceById(bookingDetailedDto.getRoomMiniDto().getId())));
             bookingDetailedDto.setTotalPrice(calculateTotalPrice(bookingDetailedDto));
             bookingRepository.save(bookingDetailedDtoToBooking(bookingDetailedDto));
         }
