@@ -256,7 +256,7 @@ public class BookingServiceImplementation implements BookingService {
     }
     @Override
     public double calculateTotalPrice(BookingDetailedDto bookingDetailedDto) {
-        double pricePerNight = roomRepository.getReferenceById(bookingDetailedDto.getRoomMiniDto().getId()).getPricePerNight();
+        double pricePerNight = bookingDetailedDto.getRoomMiniDto().getPricePerNight();
         double totalNightsBooked = ChronoUnit.DAYS.between(bookingDetailedDto.getStartDate(),bookingDetailedDto.getEndDate());
 
         return ((pricePerNight * totalNightsBooked) - discountService.discountSundayToMonday(bookingDetailedDto)) * discountService.discount(bookingDetailedDto);
