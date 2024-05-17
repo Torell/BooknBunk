@@ -42,7 +42,6 @@ public class DiscountServiceImplementation implements DiscountService {
                 .mapToLong(booking -> ChronoUnit.DAYS.between(booking.getStartDate(),booking.getEndDate()))
                 .sum();
 
-        System.out.println("nights booked last year " + nightsBooked);
 
         return nightsBooked >= 10;
     }
@@ -61,14 +60,14 @@ public class DiscountServiceImplementation implements DiscountService {
 
     public double discountSundayToMonday(BookingDetailedDto bookingDetailedDto) {
         double numberOfSundayToMondayNights = 0;
-        LocalDate dateToCheck = bookingDetailedDto.getStartDate();
+        LocalDate currentDate = bookingDetailedDto.getStartDate();
         LocalDate endDate = bookingDetailedDto.getEndDate();
 
-        while (dateToCheck.isBefore(endDate))  {
-            if (dateToCheck.getDayOfWeek() ==  DayOfWeek.SUNDAY && dateToCheck.plusDays(1).getDayOfWeek() == DayOfWeek.MONDAY) {
+        while (currentDate.isBefore(endDate))  {
+            if (currentDate.getDayOfWeek() ==  DayOfWeek.SUNDAY && currentDate.plusDays(1).getDayOfWeek() == DayOfWeek.MONDAY) {
                 numberOfSundayToMondayNights++;
             }
-           dateToCheck = dateToCheck.plusDays(1);
+           currentDate = currentDate.plusDays(1);
         }
 
         return (bookingDetailedDto.getRoomMiniDto().getPricePerNight() * 0.98) * numberOfSundayToMondayNights; //returns the total to be removed from price

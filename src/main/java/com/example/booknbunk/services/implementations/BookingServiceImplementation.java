@@ -141,7 +141,9 @@ public class BookingServiceImplementation implements BookingService {
             allConditionsMet = false;
         } if (allConditionsMet) {
             returnMessage.append("Booking successfully saved");
+
             bookingDetailedDto.setRoomMiniDto(roomToRoomMiniDto(roomRepository.getReferenceById(bookingDetailedDto.getRoomMiniDto().getId())));
+            bookingDetailedDto.setCustomerMiniDto(customerToCustomerMiniDto(customerRepository.getReferenceById(bookingDetailedDto.getCustomerMiniDto().getId())));
             bookingDetailedDto.setTotalPrice(calculateTotalPrice(bookingDetailedDto));
             bookingRepository.save(bookingDetailedDtoToBooking(bookingDetailedDto));
         }
