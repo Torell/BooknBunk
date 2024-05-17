@@ -1,12 +1,12 @@
 package com.example.booknbunk.services.implementations;
 
 import com.example.booknbunk.models.Event;
+import com.example.booknbunk.models.EventRoomCleaning;
+import com.example.booknbunk.models.EventRoomDoor;
 import com.example.booknbunk.models.Room;
 import com.example.booknbunk.repositories.EventRepository;
 import com.example.booknbunk.repositories.RoomRepository;
 import com.example.booknbunk.services.interfaces.EventService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -33,24 +33,39 @@ public class EventServiceImplementation implements EventService {
     public void saveEvent(Event event) {
         Room room = roomRepository.findById(event.getRoom().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Room with id " + event.getRoom().getId()
-                        + " does not exist.")); //kasta illegal argument?
+                        + " does not exist."));
         event.setRoom(room);
         eventRepository.save(event);
     }
 
+
+
     @Transactional
     @Override
-    public void processEvent(String message) {
+    public void mappEvent(String message) {
         try {
             Event event = objectMapper.readValue(message, Event.class);
-            Room room = roomRepository.findById(event.getRoomNo())
-                    .orElseThrow(() -> new IllegalStateException("Room with ID: " + event.getRoomNo() + " does not exist."));
+            Room room = roomRepository.findById(event.getRoom().getId())
+                    .orElseThrow(() -> new IllegalStateException("Room with ID: " + event.getRoom().getId() + " does not exist."));
             event.setRoom(room);
-            eventRepository.save(event);
+           // eventRepository.save(event);
+            processEvent(event);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error processing event: " + e.getMessage());
         }
 
     }
+
+    @Transactional
+    @Override
+    public void processEvent(Event event) {
+        if (event instanceof EventRoomCleaning) {
+
+        } else if (event instanceof EventRoomDoor) {
+            // Hantera dörr-event
+        }
+        eventRepository.save(event);
+    }
+
 }

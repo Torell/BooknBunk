@@ -21,11 +21,23 @@ import java.time.LocalDateTime;
         property = "type"
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = EventRoomOpened.class, name = "RoomOpened"),
-        @JsonSubTypes.Type(value = EventRoomClosed.class, name = "RoomClosed"),
-        @JsonSubTypes.Type(value = EventRoomCleaningFinished.class, name = "RoomCleaningFinished"),
-        @JsonSubTypes.Type(value = EventRoomCleaningStarted.class, name = "RoomCleaningStarted")
+        @JsonSubTypes.Type(value = EventRoomDoor.class, name = "RoomDoor"),
+        @JsonSubTypes.Type(value = EventRoomCleaning.class, name = "RoomCleaning"),
+
 })
+
+ /*
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "event_type")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = EventRoomCleaning.class, name = "RoomCleaning"),
+        @JsonSubTypes.Type(value = EventRoomDoor.class, name = "RoomDoor")
+})*/
+
 public abstract class Event {
 
     @Id
@@ -35,18 +47,19 @@ public abstract class Event {
     @JsonProperty("TimeStamp")
     private LocalDateTime timeStamp;
 
+    @JsonProperty("RoomNo")
     @JoinColumn(name = "room_id")
     @NonNull
     @ManyToOne
-    @JsonIgnore
+   // @JsonIgnore
     private Room room;
 
-    @JsonProperty("RoomNo")
-    private Long roomNo;
+    private String eventDetail;
 
-    public Event(LocalDateTime timeStamp, Room room) {
+    public Event(LocalDateTime timeStamp, Room room, String eventDetail) {
         this.timeStamp = timeStamp;
         this.room = room;
+        this.eventDetail = eventDetail;
     }
 
 
