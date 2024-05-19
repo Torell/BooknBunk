@@ -44,10 +44,10 @@ class BookingControllerTest {
     RoomService roomService;
     @BeforeEach
     public void init() {
-        RoomMiniDto r1 = new RoomMiniDto(1l,0);
-        RoomMiniDto r2 = new RoomMiniDto(2L,1);
-        RoomMiniDto r3 = new RoomMiniDto(3L,2);
-        RoomMiniDto r4 = new RoomMiniDto(4L,3);
+        RoomMiniDto r1 = new RoomMiniDto(1L,0,100);
+        RoomMiniDto r2 = new RoomMiniDto(2L,1,100);
+        RoomMiniDto r3 = new RoomMiniDto(3L,2,100);
+        RoomMiniDto r4 = new RoomMiniDto(4L,3,100);
 
         CustomerMiniDto c1 = new CustomerMiniDto(1L,"Rasmus");
         CustomerMiniDto c2 = new CustomerMiniDto(2L, "Stephanie");
@@ -56,15 +56,15 @@ class BookingControllerTest {
 
 
         BookingDetailedDto booking1 = new BookingDetailedDto(1L,LocalDate.of(2024,5,7),LocalDate.of(2024,5,8),
-                c1, r1, 0);
+                c1, r1, 0,0);
         BookingDetailedDto booking2 = new BookingDetailedDto(2L,LocalDate.of(2024,5,7),LocalDate.of(2024,5,8),
-                c2, r3, 0);
+                c2, r3, 0,0);
         BookingDetailedDto booking3 = new BookingDetailedDto(3L,LocalDate.of(2024,5,9),LocalDate.of(2024,5,11),
-                c3, r4, 2);
+                c3, r4, 2,0);
         BookingDetailedDto booking4 = new BookingDetailedDto(4L,LocalDate.of(2024,6,7),LocalDate.of(2024,6,8),
-                c2, r2, 1);
+                c2, r2, 1,0);
         BookingDetailedDto booking5 = new BookingDetailedDto(5L,LocalDate.of(2024,7,7),LocalDate.of(2024,7,8),
-                c3, r1, 0);
+                c3, r1, 0,0);
 
         when(bookingService.findBookingById(1L)).thenReturn(Optional.of(booking1).orElse(null));
         when(bookingService.findBookingById(2L)).thenReturn(Optional.of(booking1).orElse(null));
@@ -88,7 +88,7 @@ class BookingControllerTest {
         BookingDetailedDto bookingDto = BookingDetailedDto.builder()
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1))
-                .roomMiniDto(new RoomMiniDto(1L, 2))
+                .roomMiniDto(new RoomMiniDto(1L, 2,0))
                 .build();
 
         // Execute & Assert

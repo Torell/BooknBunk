@@ -43,6 +43,7 @@ public class Room {
         this.bookings = bookings;
     }
 
+
     public Room(Long id, int roomSize) {
         this.id = id;
         this.roomSize = roomSize;

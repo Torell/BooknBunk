@@ -58,6 +58,7 @@ public class DiscountServiceImplementation implements DiscountService {
        return multiplier;
     }
 
+    @Override
     public double discountSundayToMonday(BookingDetailedDto bookingDetailedDto) {
         double numberOfSundayToMondayNights = 0;
         LocalDate currentDate = bookingDetailedDto.getStartDate();
@@ -70,6 +71,6 @@ public class DiscountServiceImplementation implements DiscountService {
            currentDate = currentDate.plusDays(1);
         }
 
-        return (bookingDetailedDto.getRoomMiniDto().getPricePerNight() * 0.98) * numberOfSundayToMondayNights; //returns the total to be removed from price
+        return (bookingDetailedDto.getRoomMiniDto().getPricePerNight() * 0.02) * numberOfSundayToMondayNights; //returns the total to be removed from price
     }
 }

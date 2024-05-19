@@ -9,4 +9,6 @@ public interface DiscountService {
     boolean tenOrMoreNightsThisYear(BookingDetailedDto bookingDetailedDto);
 
     double discount(BookingDetailedDto bookingDetailedDto);
+
+    double discountSundayToMonday(BookingDetailedDto bookingDetailedDto);
 }

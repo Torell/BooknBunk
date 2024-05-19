@@ -63,4 +63,6 @@ public class Booking {
         this.extraBed = extraBed;
         this.customer = customer;
     }
+
+
 }
