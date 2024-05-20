@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@DiscriminatorValue("RoomCleaning")
+@DiscriminatorValue("CleaningEvent")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

@@ -29,187 +29,80 @@ public class EventServiceImplementation implements EventService {
     }
 
 
-
-    @Transactional
     @Override
-    public void saveEvent(Event event) {
-        Room room = roomRepository.findById(event.getRoom().getId())
-                .orElseThrow(() -> new IllegalArgumentException("Room with id " + event.getRoom().getId() + " does not exist."));
-        event.setRoom(room);
-        eventRepository.save(event);
+    public Event deserializeEvent(String message) {
+        try {
+            return objectMapper.readValue(message, Event.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error deserializing json string. " + e.getMessage());
+            return null;
+        }
     }
 
 
+    @Transactional
+    @Override
+    public Room getRoomFromEvent(Event event) {
+        try {
+            return roomRepository.findById(event.getRoom().getId()).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.println("Error finding room. " + e.getMessage());
+            return null;
+        }
+    }
 
+    @Override
+    public void handleEventRoomCleaning(EventRoomCleaning cleaningEvent, String message) {
+        if (message.contains("RoomCleaningStarted")) {
+            cleaningEvent.setCleaningStatus("Started");
+        } else if (message.contains("RoomCleaningFinished")) {
+            cleaningEvent.setCleaningStatus("Finished");
+        }
+    }
 
+    @Override
+    public void handleEventRoomDoor(EventRoomDoor doorEvent, String message) {
+        if (message.contains("RoomOpened")) {
+            doorEvent.setDoorEventType("Opened");
+        } else if (message.contains("RoomClosed")) {
+            doorEvent.setDoorEventType("Closed");
+        }
+    }
+
+    @Transactional
+    @Override
+    public Event prepareEvent(String message) {
+        Event event = deserializeEvent(message);
+        Room room = getRoomFromEvent(event);
+        event.setRoom(room);
+        return event;
+    }
+
+    @Override
+    public void processEventBasedOnType(Event event, String message){
+        if (event instanceof EventRoomDoor) {
+            handleEventRoomDoor((EventRoomDoor) event, message);
+        } else if (event instanceof EventRoomCleaning) {
+            handleEventRoomCleaning((EventRoomCleaning) event, message);
+        }
+    }
 
 
     @Transactional
     @Override
     public void processEvent(String message) {
         try {
-            Event event = objectMapper.readValue(message, Event.class);
-            Room room = roomRepository.findById(event.getRoom().getId())
-                    .orElseThrow(() -> new IllegalStateException("Room with ID: " + event.getRoom().getId() + " does not exist."));
-
-            if (event instanceof EventRoomCleaning) {
-                EventRoomCleaning cleaningEvent = (EventRoomCleaning) event;
-                if (message.contains("RoomCleaningStarted")) {
-                    cleaningEvent.setCleaningStatus("Started");
-                } else if (message.contains("RoomCleaningFinished")) {
-                    cleaningEvent.setCleaningStatus("Finished");
-                }
-            } else if (event instanceof EventRoomDoor) {
-                EventRoomDoor roomEvent = (EventRoomDoor) event;
-                if (message.contains("RoomOpened")) {
-                    roomEvent.setDoorEventType("Opened");
-                } else if (message.contains("RoomClosed")) {
-                    roomEvent.setDoorEventType("Closed");
-                }
-            }
-
-            event.setRoom(room);
+            Event event = prepareEvent(message);
+            processEventBasedOnType(event, message);
             eventRepository.save(event);
         } catch (Exception e) {
             e.printStackTrace();
-            System.out.println("Error processing event: " + e.getMessage());
-        }
-    }
-
-/*
-    private static final String ROOM_CLEANING_STARTED = "Cleaning Started";
-    private static final String ROOM_CLEANING_FINISHED = "Cleaning Finished";
-    private static final String ROOM_OPENED = "Room Opened";
-    private static final String ROOM_CLOSED = "Room Closed";
-
-    private final EventRepository eventRepository;
-    private final RoomRepository roomRepository;
-    private final ObjectMapper objectMapper;
-
-    public EventServiceImplementation(EventRepository eventRepository, RoomRepository roomRepository, ObjectMapper objectMapper) {
-        this.eventRepository = eventRepository;
-        this.roomRepository = roomRepository;
-        this.objectMapper = objectMapper;
-        this.objectMapper.registerModule(new JavaTimeModule());
-        this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-    }
-
-    //deserialiserar
-    private Event deserializeEvent(String message) {
-        try {
-            return objectMapper.readValue(message, Event.class);
-        } catch (IOException e) {
-            System.out.println("JSON parsing error: " + e.getMessage());
-        }
-        return null;
-    }
-
-    //hittar händelsetyp
-    private String getEventType(String message) {
-        try {
-            return objectMapper.readTree(message).get("type").asText();
-        } catch (IOException e) {
-            System.out.println("Error determining event type: " + e.getMessage());
-            return null;
+            System.out.println("Error processing event " + e.getMessage());
         }
     }
 
 
-    //hämtar städare
-    @Override
-    public String getCleaningByUser(String message){
-        try {
-            if (message.contains("CleaningByUser")){
-                return objectMapper.readTree(message).get("CleaningByUser").asText();
-            }
-
-        } catch (Exception e) {
-            System.out.println("Error getting cleaner " + e.getMessage());
-        }
-        return null;
-    }
-
-    //hämtar rum
-    @Override
-    public String getRoom(String message){
-        try {
-            return objectMapper.readTree(message).get("RoomNo").asText();
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Error getting room no " + e.getMessage());
-            return null;
-        }
-    }
-
-
-    @Override
-    public void mappEvent(String message) {
-       Event event = deserializeEvent(message);
-       String eventType = getEventType(message);
-       String cleaningByUser = getCleaningByUser(message);
-       String roomNo = getRoom(message);
-
-        processEvent(event, eventType, cleaningByUser, roomNo);
-
-        if (event != null) {
-            Long room = event.getRoomNo();
-            if (room != null){
-                event.setRoom(room);
-
-            } else {
-                System.out.println("Room with id " + event.getRoom().getId() + " does not exist.");
-            }
-        } else {
-            System.out.println("Failed to deserialize event.");
-        }
-
-    }
-
-
-    @Transactional
-    @Override
-    public void processEvent(Event event, String eventType, String cleaningByUser, String roomNo) {
-      try {
-          switch (eventType) {
-              case "EventRoomCleaningStarted":
-                  event.setEventType(ROOM_CLEANING_STARTED);
-                  ((EventRoomCleaning) event).setCleaningByUser(cleaningByUser);
-                  break;
-              case "RoomCleaningFinished":
-                  event.setEventType(ROOM_CLEANING_FINISHED);
-                  ((EventRoomCleaning) event).setCleaningByUser(cleaningByUser);
-                  break;
-              case "RoomOpened":
-                  event.setEventType(ROOM_OPENED);
-                  break;
-              case "RoomClosed":
-                  event.setEventType(ROOM_CLOSED);
-                  break;
-              default:
-                  System.out.println("Unknown event type.");
-                  break;
-          }
-
-          saveEvent(event);
-      } catch (Exception e){
-          e.printStackTrace();
-          System.out.println("Error processing event. " + e.getMessage());
-      }
-
-    }
-
-
-    @Transactional
-    @Override
-    public void saveEvent(Event event) {
-        try {
-            eventRepository.save(event);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.out.println("Error saving event. " + e.getMessage());
-        }
-    }
-*/
 
 }
-

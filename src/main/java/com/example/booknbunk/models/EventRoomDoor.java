@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 public class EventRoomDoor extends Event{
 
     @JsonProperty("DoorEventType")
-    @Column(name = "door_event_type")
+    @Column(name = "door_event")
     private String doorEventType;
 
     public EventRoomDoor(LocalDateTime timeStamp, Room room, String eventDetail, String eventType) {

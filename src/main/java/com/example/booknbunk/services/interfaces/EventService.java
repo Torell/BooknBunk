@@ -1,27 +1,29 @@
 package com.example.booknbunk.services.interfaces;
 
 import com.example.booknbunk.models.Event;
+import com.example.booknbunk.models.EventRoomCleaning;
+import com.example.booknbunk.models.EventRoomDoor;
 import com.example.booknbunk.models.Room;
 import jakarta.transaction.Transactional;
 
 public interface EventService {
+
+
+    Event deserializeEvent(String message);
+
     @Transactional
-    void saveEvent(Event event);
+    Room getRoomFromEvent(Event event);
+
+    void handleEventRoomCleaning(EventRoomCleaning cleaningEvent, String message);
+
+    void handleEventRoomDoor(EventRoomDoor doorEvent, String message);
+
+    @Transactional
+    Event prepareEvent(String message);
+
+    void processEventBasedOnType(Event event, String message);
 
     @Transactional
     void processEvent(String message);
-/*
-    @Transactional
-    void mappEvent(String message);
 
-    String getCleaningByUser(String message);
-
-    String getRoom(String message);
-
-
-    @Transactional
-    void processEvent(Event event, String eventType, String cleaningByUser, String roomNo);
-
-    @Transactional
-    void saveEvent(Event event);*/
 }
