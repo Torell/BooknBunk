@@ -38,6 +38,7 @@ public interface BookingService {
 
     void cancelBooking(long id);
 
+
     void modifyBooking(BookingDetailedDto bookingDetailedDto);
 
     List<RoomDetailedDto> getAllAvailabileRoomsBasedOnRoomSizeAndDateIntervall(int occupants, BookingDetailedDto bookingDetailedDto);
@@ -48,4 +49,5 @@ public interface BookingService {
     public boolean startDateIsBeforeEndDate(BookingDetailedDto booking);
 
 
+    double calculateTotalPrice(BookingDetailedDto bookingDetailedDto);
 }

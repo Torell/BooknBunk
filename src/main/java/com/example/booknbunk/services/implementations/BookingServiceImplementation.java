@@ -5,12 +5,14 @@ import com.example.booknbunk.models.Booking;
 import com.example.booknbunk.models.Customer;
 import com.example.booknbunk.models.Room;
 import com.example.booknbunk.repositories.BookingRepository;
+import com.example.booknbunk.repositories.CustomerRepository;
 import com.example.booknbunk.repositories.RoomRepository;
+import com.example.booknbunk.services.interfaces.BlacklistService;
 import com.example.booknbunk.services.interfaces.BookingService;
-import com.example.booknbunk.services.interfaces.RoomService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,11 +27,22 @@ public class BookingServiceImplementation implements BookingService {
 
     private final RoomRepository roomRepository;
 
-    public BookingServiceImplementation(BookingRepository bookingRepository, RoomRepository roomRepository) {
+    private final CustomerRepository customerRepository;
+
+    private final BlacklistService blacklistService;
+    private final DiscountServiceImplementation discountService;
+
+
+    public BookingServiceImplementation(BookingRepository bookingRepository, RoomRepository roomRepository,
+                                        CustomerRepository customerRepository, BlacklistService blacklistService, DiscountServiceImplementation discountService) {
         this.bookingRepository = bookingRepository;
         this.roomRepository = roomRepository;
-
+        this.customerRepository = customerRepository;
+        this.blacklistService = blacklistService;
+        this.discountService = discountService;
     }
+
+
 
     @Override
     public BookingDetailedDto bookingToBookingDetailedDto(Booking booking) {
@@ -39,6 +52,7 @@ public class BookingServiceImplementation implements BookingService {
                 .endDate(booking.getEndDate())
                 .customerMiniDto(customerToCustomerMiniDto(booking.getCustomer()))
                 .roomMiniDto(roomToRoomMiniDto(booking.getRoom()))
+                .totalPrice(booking.getTotalPrice())
                 .build();
 
     }
@@ -62,6 +76,7 @@ public class BookingServiceImplementation implements BookingService {
                 .room(roomMiniDtoRoom(bookingDetailedDto.getRoomMiniDto()))
                 .extraBed(bookingDetailedDto.getExtraBed())
                 .id(bookingDetailedDto.getId())
+                .totalPrice(bookingDetailedDto.getTotalPrice())
                 .build();
     }
 
@@ -70,6 +85,7 @@ public class BookingServiceImplementation implements BookingService {
         return Room.builder()
                 .id(roomMiniDto.getId())
                 .roomSize(roomMiniDto.getRoomSize())
+                .pricePerNight(roomMiniDto.getPricePerNight())
                 .build();
     }
 
@@ -89,6 +105,7 @@ public class BookingServiceImplementation implements BookingService {
         return RoomMiniDto.builder()
                 .id(room.getId())
                 .roomSize(room.getRoomSize())
+                .pricePerNight(room.getPricePerNight())
                 .build();
     }
 
@@ -102,7 +119,7 @@ public class BookingServiceImplementation implements BookingService {
 
     @Override
     public BookingDetailedDto findBookingById(long id) {
-        return bookingToBookingDetailedDto(bookingRepository.getReferenceById(id));
+        return bookingToBookingDetailedDto(bookingRepository.findById(id).orElse(null));
     }
 
     @Override
@@ -118,13 +135,23 @@ public class BookingServiceImplementation implements BookingService {
         } if (!checkRoomForAvailability(bookingDetailedDto, roomDetailedDto)) {
             returnMessage.append("The room is not available the chosen dates.");
             allConditionsMet = false;
+        } if (!blacklistService.checkBlacklist(customerRepository.findById(bookingDetailedDto.getCustomerMiniDto().
+                getId()).get().getEmail())){
+            returnMessage.append("Customer is on Blacklist.");
+            allConditionsMet = false;
         } if (allConditionsMet) {
             returnMessage.append("Booking successfully saved");
+
+            bookingDetailedDto.setRoomMiniDto(roomToRoomMiniDto(roomRepository.getReferenceById(bookingDetailedDto.getRoomMiniDto().getId())));
+            bookingDetailedDto.setCustomerMiniDto(customerToCustomerMiniDto(customerRepository.getReferenceById(bookingDetailedDto.getCustomerMiniDto().getId())));
+            bookingDetailedDto.setTotalPrice(calculateTotalPrice(bookingDetailedDto));
             bookingRepository.save(bookingDetailedDtoToBooking(bookingDetailedDto));
         }
 
         return returnMessage;
     }
+
+
 
     @Override
     public void modifyBooking(BookingDetailedDto bookingDetailedDto) {
@@ -226,7 +253,15 @@ public class BookingServiceImplementation implements BookingService {
 
     @Override
     public boolean startDateIsBeforeEndDate(BookingDetailedDto booking) {
+
         return booking.getStartDate().isBefore(booking.getEndDate());
+    }
+    @Override
+    public double calculateTotalPrice(BookingDetailedDto bookingDetailedDto) {
+        double pricePerNight = bookingDetailedDto.getRoomMiniDto().getPricePerNight();
+        double totalNightsBooked = ChronoUnit.DAYS.between(bookingDetailedDto.getStartDate(),bookingDetailedDto.getEndDate());
+
+        return ((pricePerNight * totalNightsBooked) - discountService.discountSundayToMonday(bookingDetailedDto)) * discountService.discount(bookingDetailedDto);
     }
 
 

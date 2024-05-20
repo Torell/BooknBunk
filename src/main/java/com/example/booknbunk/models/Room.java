@@ -1,10 +1,8 @@
 package com.example.booknbunk.models;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,17 +14,24 @@ import java.util.List;
 @Builder
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Room {
 
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty("room_id")
     private Long id;
     //String size
     private int roomSize;
+    private double pricePerNight;
 
     @OneToMany(mappedBy = "room")
     private List<Booking> bookings;
+
+    //ett rum kan ha många events
+    @OneToMany(mappedBy = "room")
+    private List<Event> events;
 
     public Room(int roomSize) {
         this.roomSize = roomSize;
@@ -37,6 +42,7 @@ public class Room {
         this.roomSize = roomSize;
         this.bookings = bookings;
     }
+
 
     public Room(Long id, int roomSize) {
         this.id = id;

@@ -35,6 +35,18 @@ public class Booking {
     @JoinColumn
     @NonNull
     private Customer customer;
+    private double totalPrice;
+
+
+    public Booking(Long id, LocalDate startDate, LocalDate endDate, @NonNull Room room, int extraBed, @NonNull Customer customer, double totalPrice) {
+        this.id = id;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.room = room;
+        this.extraBed = extraBed;
+        this.customer = customer;
+        this.totalPrice = totalPrice;
+    }
 
     public Booking(Long id, LocalDate startDate, LocalDate endDate, @NonNull Room room, int extraBed, @NonNull Customer customer) {
         this.id = id;
@@ -51,4 +63,6 @@ public class Booking {
         this.extraBed = extraBed;
         this.customer = customer;
     }
+
+
 }
