@@ -12,16 +12,17 @@ import java.net.URL;
 public class ShippingServiceImplementation implements ShippingService{
 
     private final ShipperRepository shipperRepository;
+    private final ObjectMapper objectMapper;
 
-    public ShippingServiceImplementation(ShipperRepository shipperRepository) {
+    public ShippingServiceImplementation(ShipperRepository shipperRepository, ObjectMapper objectMapper) {
         this.shipperRepository = shipperRepository;
+        this.objectMapper = objectMapper;
     }
 
     @Override
     public void fetchAndSaveShippers() {
         try {
             URL url = new URL("https://javaintegration.systementor.se/shippers");
-            ObjectMapper objectMapper = new ObjectMapper();
             Shipper[] shippers = objectMapper.readValue(url, Shipper[].class);
 
             for (Shipper shipper : shippers) {
