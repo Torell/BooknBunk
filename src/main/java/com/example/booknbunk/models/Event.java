@@ -1,6 +1,5 @@
 package com.example.booknbunk.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -21,23 +20,11 @@ import java.time.LocalDateTime;
         property = "type"
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = EventRoomDoor.class, name = "RoomDoor"),
-        @JsonSubTypes.Type(value = EventRoomCleaning.class, name = "RoomCleaning"),
-
+        @JsonSubTypes.Type(value = EventRoomDoor.class, name = "RoomOpened"),
+        @JsonSubTypes.Type(value = EventRoomDoor.class, name = "RoomClosed"),
+        @JsonSubTypes.Type(value = EventRoomCleaning.class, name = "RoomCleaningStarted"),
+        @JsonSubTypes.Type(value = EventRoomCleaning.class, name = "RoomCleaningFinished"),
 })
-
- /*
-@Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "event_type")
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
-@JsonSubTypes({
-        @JsonSubTypes.Type(value = EventRoomCleaning.class, name = "RoomCleaning"),
-        @JsonSubTypes.Type(value = EventRoomDoor.class, name = "RoomDoor")
-})*/
-
 public abstract class Event {
 
     @Id
@@ -47,6 +34,10 @@ public abstract class Event {
     @JsonProperty("TimeStamp")
     private LocalDateTime timeStamp;
 
+    @Transient // Används bara temporärt för deserialisering
+    @JsonProperty("RoomNo")
+    private String roomNo;
+
     @JsonProperty("RoomNo")
     @JoinColumn(name = "room_id")
     @NonNull
@@ -54,12 +45,12 @@ public abstract class Event {
    // @JsonIgnore
     private Room room;
 
-    private String eventDetail;
+    private String eventType;
 
     public Event(LocalDateTime timeStamp, Room room, String eventDetail) {
         this.timeStamp = timeStamp;
         this.room = room;
-        this.eventDetail = eventDetail;
+        this.eventType = eventDetail;
     }
 
 

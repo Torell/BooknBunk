@@ -1,6 +1,7 @@
 package com.example.booknbunk.models;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EventRoomDoor extends Event{
+
 
     public EventRoomDoor(LocalDateTime timeStamp, Room room, String eventDetail) {
         super(timeStamp, room, eventDetail);
