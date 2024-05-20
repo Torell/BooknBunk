@@ -1,12 +1,12 @@
 package com.example.booknbunk.services.implementations;
 
+import com.example.booknbunk.dtos.EventDto;
 import com.example.booknbunk.models.Event;
+import com.example.booknbunk.models.EventRoomCleaningStarted;
 import com.example.booknbunk.models.Room;
 import com.example.booknbunk.repositories.EventRepository;
 import com.example.booknbunk.repositories.RoomRepository;
 import com.example.booknbunk.services.interfaces.EventService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -53,4 +53,14 @@ public class EventServiceImplementation implements EventService {
         }
 
     }
+
+   /* @Override
+    public EventDto eventToEventDto(Event event){
+        return EventDto.builder()
+                .id(event.getId())
+                .roomNo(event.getRoomNo())
+                .timeStamp(event.getTimeStamp())
+                .eventType(event.getClass().getName()).build();
+        if (event instanceof EventRoomCleaningStarted cleaningStarted)
+    }*/
 }
