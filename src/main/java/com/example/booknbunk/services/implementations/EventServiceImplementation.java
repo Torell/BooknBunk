@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class EventServiceImplementation implements EventService {
@@ -35,10 +36,8 @@ public class EventServiceImplementation implements EventService {
 
     @Override
     public List<EventDto> getAllEventsDtoByRoomId(Long id) {
-        return roomRepository.findById(id)
-                .map(room -> eventRepository.findAllByRoomOrderByTimeStampDesc(room))
-                .orElseThrow(() -> new NoSuchElementException("No room found with id: " + id))
-                .stream()
+        List<Event> events = eventRepository.findAllByRoomId(id);
+        return events.stream()
                 .map(this::eventToEventDto)
                 .toList();
     }

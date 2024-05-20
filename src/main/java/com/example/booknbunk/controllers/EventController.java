@@ -21,12 +21,8 @@ public class EventController {
     @GetMapping("/rooms/{id}/events")
     public String showEventsForRoom(@PathVariable Long id, Model model){
         List<EventDto> events = eventService.getAllEventsDtoByRoomId(id);
-        model.addAttribute("event", events);
+        model.addAttribute("events", events);
         return "/room/roomEvents";
     }
-
-
-
-
 
 }
