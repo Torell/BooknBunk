@@ -39,6 +39,17 @@ dependencies {
     implementation ("com.rabbitmq:amqp-client:5.13.1")
 }
 
+val integrationTestTask = tasks.register<Test>("integrationTest") {
+    group = "verification"
+    filter {
+        includeTestsMatching("*Integration")
+    }
+}
+
+tasks.check {
+    dependsOn(integrationTestTask)
+}
+
 tasks.withType<Test> {
     useJUnitPlatform()
 }
