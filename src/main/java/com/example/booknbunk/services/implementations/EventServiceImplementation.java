@@ -1,5 +1,6 @@
 package com.example.booknbunk.services.implementations;
 
+import com.example.booknbunk.dtos.EventDto;
 import com.example.booknbunk.models.Event;
 import com.example.booknbunk.models.EventRoomCleaning;
 import com.example.booknbunk.models.EventRoomDoor;
@@ -26,6 +27,26 @@ public class EventServiceImplementation implements EventService {
         this.objectMapper = objectMapper;
         this.objectMapper.registerModule(new JavaTimeModule());
         this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    }
+
+
+    @Override
+    public EventDto eventToEventDto(Event event) {
+        EventDto.EventDtoBuilder dtoBuilder = EventDto.builder()
+                .id(event.getId())
+                .timeStamp(event.getTimeStamp())
+                .roomNo(event.getRoom().getId());
+
+        if (event instanceof EventRoomDoor) {
+            EventRoomDoor doorEvent = (EventRoomDoor) event;
+            dtoBuilder.doorEventType(doorEvent.getDoorEventType());
+
+        } else if (event instanceof EventRoomCleaning) {
+            EventRoomCleaning cleaningEvent = (EventRoomCleaning) event;
+            dtoBuilder.cleaningStatus(cleaningEvent.getCleaningStatus())
+                    .cleaningByUser(cleaningEvent.getCleaningByUser());
+        }
+        return dtoBuilder.build();
     }
 
 
@@ -81,7 +102,7 @@ public class EventServiceImplementation implements EventService {
     }
 
     @Override
-    public void processEventBasedOnType(Event event, String message){
+    public void processEventBasedOnType(Event event, String message) {
         if (event instanceof EventRoomDoor) {
             handleEventRoomDoor((EventRoomDoor) event, message);
         } else if (event instanceof EventRoomCleaning) {
@@ -102,7 +123,6 @@ public class EventServiceImplementation implements EventService {
             System.out.println("Error processing event " + e.getMessage());
         }
     }
-
 
 
 }

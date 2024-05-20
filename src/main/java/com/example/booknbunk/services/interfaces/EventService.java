@@ -1,5 +1,6 @@
 package com.example.booknbunk.services.interfaces;
 
+import com.example.booknbunk.dtos.EventDto;
 import com.example.booknbunk.models.Event;
 import com.example.booknbunk.models.EventRoomCleaning;
 import com.example.booknbunk.models.EventRoomDoor;
@@ -8,6 +9,8 @@ import jakarta.transaction.Transactional;
 
 public interface EventService {
 
+
+    EventDto eventToEventDto(Event event);
 
     Event deserializeEvent(String message);
 
