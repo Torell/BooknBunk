@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface EventRepository extends JpaRepository<Event, Long> {
 
-    Optional<Event> findFirstByRoomOrderByTimeStampDesc(Room room);
+    Optional<Event> findAllByRoomOrderByTimeStampDesc(Room room);
 
 }

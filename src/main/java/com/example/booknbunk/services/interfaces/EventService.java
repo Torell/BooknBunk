@@ -7,10 +7,12 @@ import com.example.booknbunk.models.EventRoomDoor;
 import com.example.booknbunk.models.Room;
 import jakarta.transaction.Transactional;
 
+import java.util.List;
+
 public interface EventService {
 
 
-    EventDto getEventsDtoByRoomId(Long id);
+    List<EventDto> getAllEventsDtoByRoomId(Long id);
 
     EventDto eventToEventDto(Event event);
 

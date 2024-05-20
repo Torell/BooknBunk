@@ -14,6 +14,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
@@ -33,11 +34,13 @@ public class EventServiceImplementation implements EventService {
 
 
     @Override
-    public EventDto getEventsDtoByRoomId(Long id) {
+    public List<EventDto> getAllEventsDtoByRoomId(Long id) {
         return roomRepository.findById(id)
-                .flatMap(room -> eventRepository.findFirstByRoomOrderByTimeStampDesc(room))
+                .map(room -> eventRepository.findAllByRoomOrderByTimeStampDesc(room))
+                .orElseThrow(() -> new NoSuchElementException("No room found with id: " + id))
+                .stream()
                 .map(this::eventToEventDto)
-                .orElseThrow(() -> new NoSuchElementException("No event found for room with id: " + id));
+                .toList();
     }
 
 
