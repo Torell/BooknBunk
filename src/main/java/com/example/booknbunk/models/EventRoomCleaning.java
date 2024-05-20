@@ -20,10 +20,14 @@ public class EventRoomCleaning extends Event{
     @Column(name = "cleaning_by_user")
     private String cleaningByUser;
 
+    @JsonProperty("CleaningStatus")
+    @Column(name = "cleaning_status")
+    private String cleaningStatus;
 
-    public EventRoomCleaning(LocalDateTime timeStamp, Room room, String eventDetail, String cleaningByUser) {
-        super(timeStamp, room, eventDetail);
+
+    public EventRoomCleaning(LocalDateTime timeStamp, Room room, String cleaningByUser, String cleaningStatus) {
+        super(room, timeStamp);
         this.cleaningByUser = cleaningByUser;
-
+        this.cleaningStatus = cleaningStatus;
     }
 }

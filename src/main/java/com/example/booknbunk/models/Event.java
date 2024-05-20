@@ -20,10 +20,10 @@ import java.time.LocalDateTime;
         property = "type"
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = EventRoomDoor.class, name = "RoomOpened"),
-        @JsonSubTypes.Type(value = EventRoomDoor.class, name = "RoomClosed"),
         @JsonSubTypes.Type(value = EventRoomCleaning.class, name = "RoomCleaningStarted"),
         @JsonSubTypes.Type(value = EventRoomCleaning.class, name = "RoomCleaningFinished"),
+        @JsonSubTypes.Type(value = EventRoomDoor.class, name = "RoomOpened"),
+        @JsonSubTypes.Type(value = EventRoomDoor.class, name = "RoomClosed")
 })
 public abstract class Event {
 
@@ -34,24 +34,31 @@ public abstract class Event {
     @JsonProperty("TimeStamp")
     private LocalDateTime timeStamp;
 
-    @Transient // Används bara temporärt för deserialisering
-    @JsonProperty("RoomNo")
-    private String roomNo;
 
-    @JsonProperty("RoomNo")
     @JoinColumn(name = "room_id")
     @NonNull
     @ManyToOne
-   // @JsonIgnore
     private Room room;
 
-    private String eventType;
+    @JsonProperty("RoomNo")
+    public Long getRoomNo() {
+        return room != null ? room.getId() : null;
+    }
+
+    @JsonProperty("RoomNo")
+    public void setRoomNo(Long roomNo) {
+        if (this.room == null) {
+            this.room = new Room();
+        }
+        this.room.setId(roomNo);
+    }
 
     public Event(LocalDateTime timeStamp, Room room, String eventDetail) {
         this.timeStamp = timeStamp;
         this.room = room;
-        this.eventType = eventDetail;
+
     }
 
-
+    public Event(Room room, LocalDateTime timeStamp) {
+    }
 }

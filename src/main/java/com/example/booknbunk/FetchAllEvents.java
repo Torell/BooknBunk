@@ -45,7 +45,7 @@ public class FetchAllEvents implements CommandLineRunner {
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
             String message = new String(delivery.getBody(), "UTF-8");
             System.out.println(" [x] Received '" + message + "'");
-            eventService.mappEvent(message);
+            eventService.processEvent(message);
 
            /* try {
                 Event event = mapper.readValue(message, Event.class);

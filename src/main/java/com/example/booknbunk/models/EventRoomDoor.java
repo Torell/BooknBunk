@@ -9,15 +9,19 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@DiscriminatorValue("RoomDoor")
+@DiscriminatorValue("DoorEvent")
 @Data
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EventRoomDoor extends Event{
 
+    @JsonProperty("DoorEventType")
+    @Column(name = "door_event_type")
+    private String doorEventType;
 
-    public EventRoomDoor(LocalDateTime timeStamp, Room room, String eventDetail) {
+    public EventRoomDoor(LocalDateTime timeStamp, Room room, String eventDetail, String eventType) {
         super(timeStamp, room, eventDetail);
+        this.doorEventType = eventType;
     }
 
 }
