@@ -7,11 +7,9 @@ import com.example.booknbunk.models.Booking;
 import com.example.booknbunk.models.Customer;
 import com.example.booknbunk.repositories.CustomerRepository;
 import com.example.booknbunk.services.interfaces.CustomerService;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
