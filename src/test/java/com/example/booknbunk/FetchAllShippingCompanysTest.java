@@ -33,7 +33,8 @@ public class FetchAllShippingCompanysTest {
         // Given
         ObjectMapper objectMapper = new ObjectMapper();
         URL mockedUrl = mock(URL.class);
-        Shipper[] shippers = objectMapper.readValue("[{\"id\":1,\"companyName\":\"Svensson-Karlsson\",\"phone\":\"0705693764\"},{\"id\":2,\"companyName\":\"Another Company\",\"phone\":\"1234567890\"}]", Shipper[].class);
+        Shipper[] shippers = objectMapper.readValue(
+                "[{\"id\":1,\"companyName\":\"Svensson-Karlsson\",\"phone\":\"0705693764\"}]", Shipper[].class);
 
         when(mockedUrl.openConnection()).thenReturn(null); // Ska det vara null?
         when(objectMapper.readValue(any(URL.class), eq(Shipper[].class))).thenReturn(shippers);
