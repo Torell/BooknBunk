@@ -14,6 +14,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 @Service
 public class EventServiceImplementation implements EventService {
 
@@ -27,6 +29,15 @@ public class EventServiceImplementation implements EventService {
         this.objectMapper = objectMapper;
         this.objectMapper.registerModule(new JavaTimeModule());
         this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+    }
+
+
+    @Override
+    public EventDto getEventsDtoByRoomId(Long id) {
+        return roomRepository.findById(id)
+                .flatMap(room -> eventRepository.findFirstByRoomOrderByTimeStampDesc(room))
+                .map(this::eventToEventDto)
+                .orElseThrow(() -> new NoSuchElementException("No event found for room with id: " + id));
     }
 
 

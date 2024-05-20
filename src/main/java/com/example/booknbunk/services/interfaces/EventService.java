@@ -10,6 +10,8 @@ import jakarta.transaction.Transactional;
 public interface EventService {
 
 
+    EventDto getEventsDtoByRoomId(Long id);
+
     EventDto eventToEventDto(Event event);
 
     Event deserializeEvent(String message);
