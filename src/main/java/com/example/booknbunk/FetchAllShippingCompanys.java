@@ -14,7 +14,6 @@ import java.net.URL;
 @Component
 public class FetchAllShippingCompanys implements CommandLineRunner {
     private final ShipperRepository shipperRepository;
-
     @Autowired
     public FetchAllShippingCompanys(ShipperRepository shipperRepository) {
         this.shipperRepository = shipperRepository;
