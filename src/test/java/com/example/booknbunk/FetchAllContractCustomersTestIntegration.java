@@ -79,30 +79,35 @@ class FetchAllContractCustomersTestIntegration {
     @Test
     void XMLPropertiesSet() throws IOException {
 
-        Path filePath = Paths.get("src/test/resources/contractCustomer.xml");
-        String result = Files.readString(filePath, StandardCharsets.UTF_8);
 
-        assertTrue(result.contains("<customers>"));
-        assertTrue(result.contains("</customers>"));
-        assertTrue(result.contains("<id>"));
-        assertTrue(result.contains("</id>"));
-        assertTrue(result.contains("<companyName>"));
-        assertTrue(result.contains("</companyName>"));
-        assertTrue(result.contains("<contactName>"));
-        assertTrue(result.contains("</contactName>"));
-        assertTrue(result.contains("<contactTitle>"));
-        assertTrue(result.contains("</contactTitle>"));
-        assertTrue(result.contains("<streetAddress>"));
-        assertTrue(result.contains("</streetAddress>"));
-        assertTrue(result.contains("<city>"));
-        assertTrue(result.contains("</city>"));
-        assertTrue(result.contains("<postalCode>"));
-        assertTrue(result.contains("</postalCode>"));
-        assertTrue(result.contains("<country>"));
-        assertTrue(result.contains("</country>"));
-        assertTrue(result.contains("<phone>"));
-        assertTrue(result.contains("</phone>"));
-        assertTrue(result.contains("<fax>"));
-        assertTrue(result.contains("</fax>"));
+        try (InputStream xmlFile = getClass().getClassLoader().getResourceAsStream("contractCustomer.xml")) {
+
+            assert xmlFile != null;
+
+            Scanner scanner = new Scanner(xmlFile).useDelimiter("\\A");
+            String result = scanner.hasNext() ? scanner.next() : "";
+            assertTrue(result.contains("<customers>"));
+            assertTrue(result.contains("</customers>"));
+            assertTrue(result.contains("<id>"));
+            assertTrue(result.contains("</id>"));
+            assertTrue(result.contains("<companyName>"));
+            assertTrue(result.contains("</companyName>"));
+            assertTrue(result.contains("<contactName>"));
+            assertTrue(result.contains("</contactName>"));
+            assertTrue(result.contains("<contactTitle>"));
+            assertTrue(result.contains("</contactTitle>"));
+            assertTrue(result.contains("<streetAddress>"));
+            assertTrue(result.contains("</streetAddress>"));
+            assertTrue(result.contains("<city>"));
+            assertTrue(result.contains("</city>"));
+            assertTrue(result.contains("<postalCode>"));
+            assertTrue(result.contains("</postalCode>"));
+            assertTrue(result.contains("<country>"));
+            assertTrue(result.contains("</country>"));
+            assertTrue(result.contains("<phone>"));
+            assertTrue(result.contains("</phone>"));
+            assertTrue(result.contains("<fax>"));
+            assertTrue(result.contains("</fax>"));
+        }
     }
 }
