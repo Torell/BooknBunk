@@ -6,6 +6,7 @@
     <link rel=stylesheet th:href="@{/css/style.css}" type="text/css">
 </head>
 <body>
+<div th:replace="navbar :: navbar"></div>
 <table>
     <tr th:each="event : ${events}">
         <td th:if="${event.doorEventType != null}" th:text="'Door ' + ${event.doorEventType}">
