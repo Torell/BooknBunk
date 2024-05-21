@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "companyName": "AirBnb",
+    "phone": "123456789"
+  },
+  {
+    "id": 2,
+    "companyName": "Coop",
+    "phone": "12345989"
+  },
+  {
+    "id": 3,
+    "companyName": "ICA",
+    "phone": "98765431"
+  },
+  {
+    "id": 4,
+    "companyName": "Hotels",
+    "phone": "876582763"
+  }
+]

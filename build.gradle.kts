@@ -29,6 +29,7 @@ dependencies {
 
     implementation("org.hibernate.validator:hibernate-validator:7.0.5.Final")
     implementation("org.glassfish:jakarta.el:4.0.1")
+    testImplementation("junit:junit:4.13.1")
 
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
