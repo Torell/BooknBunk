@@ -1,54 +1,73 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel=stylesheet th:href="@{/css/style.css}" type="text/css">
-    <title>Detailed booking Info</title>
-    <script th:inline="javascript">
-        document.addEventListener('DOMContentLoaded', function() {
-            /*[# th:if="${returnMessage} != null"]*/
-            let returnMessage = /*[[${returnMessage}]]*/ 'default message';
-            if (returnMessage && returnMessage !== 'default message') {
-                alert(returnMessage);
-            }
-            /*[/]*/
-        });
-    </script>
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
+    <title>Contract Customer Details</title>
+    <style>
+        table th{
+            font-size: larger;
+        }
+    </style>
+
 </head>
 <body>
 <div th:replace="navbar :: navbar"></div>
-<form th:action="@{/booking/modify}" method="post" th:object="${booking}">
-    <label for="startDate">Start date:</label><br>
-    <input type="date" id="startDate" name="startDate" th:field="*{startDate}" />
-    <br><br>
 
-    <label for="endDate">End Date:</label><br>
-    <input type="date" id="endDate" name="endDate" th:field="*{endDate}" />
-    <br><br>
+<h2>Contract Customer Details</h2>
+<table>
+    <table>
+        <thead>
+        <tr>
+            <th th:text="${contractCustomer.companyName}"></th>
+        </tr>
+        </thead>
+    <tbody>
+    <tr>
+        <td>Local ID</td>
+        <td th:text="${contractCustomer.localId}"></td>
+    </tr>
+    <tr>
+        <td>External System ID</td>
+        <td th:text="${contractCustomer.externalSystemId}"></td>
+    </tr>
+    <tr>
+        <td>Company Name</td>
+        <td th:text="${contractCustomer.companyName}"></td>
+    </tr>
+    <tr>
+        <td>Contact Title</td>
+        <td th:text="${contractCustomer.contactTitle}"></td>
+    </tr>
+    <tr>
+        <td>Street Address</td>
+        <td th:text="${contractCustomer.streetAddress}"></td>
+    </tr>
+    <tr>
+        <td>City</td>
+        <td th:text="${contractCustomer.city}"></td>
+    </tr>
+    <tr>
+        <td>Postal Code</td>
+        <td th:text="${contractCustomer.postalCode}"></td>
+    </tr>
+    <tr>
+        <td>Country</td>
+        <td th:text="${contractCustomer.country}"></td>
+    </tr>
+    <tr>
+        <td>Contact Name</td>
+        <td th:text="${contractCustomer.contactName}"></td>
+    </tr>
+    <tr>
+        <td>Phone</td>
+        <td th:text="${contractCustomer.phone}"></td>
+    </tr>
+    <tr>
+        <td>Fax</td>
+        <td th:text="${contractCustomer.fax}"></td>
+    </tr>
+    </tbody>
+</table>
 
-    <select id="roomMiniDtoId" name="roomMiniDto.id" th:field="*{roomMiniDto.id}">
-        <option value="" th:text="'Select Room'">Select Room</option>
-        <option th:each="room : ${rooms}" th:value="${room.id}" th:text="'Room number: ' + ${room.getId()} + ', Number of beds: ' + (${room.getRoomSize()} + 1)"></option>
-    </select>
-
-
-    <label for="customerName">Customer:</label><br>
-    <p id="customerName" th:text="'Customer name: ' + ${booking.getCustomerMiniDto().getName()} + '   ||   ' + 'Customer number: ' + ${booking.getCustomerMiniDto().getId()}"></p>
-    <br><br>
-
-
-
-    <label for="extraBed">Extra Bed:</label><br>
-    <select id="extraBed" name="Extra bed" th:field="*{extraBed}">
-        <option value="0">0</option>
-        <option value="1">1</option>
-        <option value="2">2</option>
-    </select><br><br>
-
-    <input type="hidden" id="id" name="id" th:field="*{id}" />
-    <input type="hidden" id="customerMiniDto" name="customerMini.id" th:field="*{customerMiniDto.id}" />
-
-
-    <input type="submit" value="Submit">
-</form>
 </body>
 </html>

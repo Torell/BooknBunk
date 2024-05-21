@@ -81,4 +81,9 @@ public class ContractCustomerServiceImplementation implements ContractCustomerSe
     public ContractCustomerServiceImplementation(ContractCustomerRepository contractCustomerRepository) {
         this.contractCustomerRepository = contractCustomerRepository;
     }
+
+    @Override
+    public ContractCustomerDetailedDTO findById(Long id) {
+        return contractCustomerToDetailedDTO(contractCustomerRepository.getReferenceById(id));
+    }
 }
