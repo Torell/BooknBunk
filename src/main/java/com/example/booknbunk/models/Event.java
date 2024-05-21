@@ -1,6 +1,5 @@
 package com.example.booknbunk.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
@@ -21,10 +20,10 @@ import java.time.LocalDateTime;
         property = "type"
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = EventRoomOpened.class, name = "RoomOpened"),
-        @JsonSubTypes.Type(value = EventRoomClosed.class, name = "RoomClosed"),
-        @JsonSubTypes.Type(value = EventRoomCleaningFinished.class, name = "RoomCleaningFinished"),
-        @JsonSubTypes.Type(value = EventRoomCleaningStarted.class, name = "RoomCleaningStarted")
+        @JsonSubTypes.Type(value = EventRoomCleaning.class, name = "RoomCleaningStarted"),
+        @JsonSubTypes.Type(value = EventRoomCleaning.class, name = "RoomCleaningFinished"),
+        @JsonSubTypes.Type(value = EventRoomDoor.class, name = "RoomOpened"),
+        @JsonSubTypes.Type(value = EventRoomDoor.class, name = "RoomClosed")
 })
 public abstract class Event {
 
@@ -35,19 +34,31 @@ public abstract class Event {
     @JsonProperty("TimeStamp")
     private LocalDateTime timeStamp;
 
+
     @JoinColumn(name = "room_id")
     @NonNull
     @ManyToOne
-    @JsonIgnore
     private Room room;
 
     @JsonProperty("RoomNo")
-    private Long roomNo;
-
-    public Event(LocalDateTime timeStamp, Room room) {
-        this.timeStamp = timeStamp;
-        this.room = room;
+    public Long getRoomNo() {
+        return room != null ? room.getId() : null;
     }
 
+    @JsonProperty("RoomNo")
+    public void setRoomNo(Long roomNo) {
+        if (this.room == null) {
+            this.room = new Room();
+        }
+        this.room.setId(roomNo);
+    }
 
+    public Event(LocalDateTime timeStamp, Room room, String eventDetail) {
+        this.timeStamp = timeStamp;
+        this.room = room;
+
+    }
+
+    public Event(Room room, LocalDateTime timeStamp) {
+    }
 }

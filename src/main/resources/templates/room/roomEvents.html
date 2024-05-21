@@ -1,10 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Room Events</title>
+    <link rel=stylesheet th:href="@{/css/style.css}" type="text/css">
 </head>
 <body>
-
+<table>
+    <tr th:each="event : ${events}">
+        <td th:if="${event.doorEventType != null}" th:text="'Door ' + ${event.doorEventType}">
+            Event Type
+        </td>
+        <td class="date-cell" th:if="${event.doorEventType != null}"
+            th:text="${#temporals.format(event.timeStamp, 'yyyy-MM-dd HH:mm:ss')}">
+            Time
+        </td>
+        <td th:if="${event.cleaningStatus != null}"
+            th:text="'Cleaning ' + ${event.cleaningStatus} + ' by ' + ${event.cleaningByUser}">
+            Details
+        </td>
+        <td class="date-cell" th:if="${event.cleaningStatus != null}"
+            th:text="${#temporals.format(event.timeStamp, 'yyyy-MM-dd HH:mm:ss')}">
+            Time
+        </td>
+    </tr>
+</table>
 </body>
 </html>
