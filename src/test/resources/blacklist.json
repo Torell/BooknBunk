@@ -1,0 +1,58 @@
+[
+  {
+    "id": 41,
+    "email": "rasmus.torell@gmail.com",
+    "name": null,
+    "group": "booknbunk",
+    "created": "2024-05-09T12:22:59.235103",
+    "ok": true
+  },
+  {
+    "id": 106,
+    "email": "borankai@gmail.com",
+    "name": null,
+    "group": "booknbunk",
+    "created": "2024-05-13T09:25:01.335017",
+    "ok": true
+  },
+  {
+    "id": 108,
+    "email": "steph@steph.se",
+    "name": null,
+    "group": "booknbunk",
+    "created": "2024-05-13T09:56:11.762866",
+    "ok": true
+  },
+  {
+    "id": 110,
+    "email": "rsz@gmail.com",
+    "name": "raz",
+    "group": "booknbunk",
+    "created": "2024-05-13T10:04:13.364284",
+    "ok": false
+  },
+  {
+    "id": 111,
+    "email": "moa.peldan@gmail.com",
+    "name": null,
+    "group": "booknbunk",
+    "created": "2024-05-13T10:16:22.742522",
+    "ok": true
+  },
+  {
+    "id": 165,
+    "email": "123@gmail.com",
+    "name": "razza",
+    "group": "booknbunk",
+    "created": "2024-05-16T11:41:00.179829",
+    "ok": false
+  },
+  {
+    "id": 166,
+    "email": "bronkan@gmail.com",
+    "name": "anna",
+    "group": "booknbunk",
+    "created": "2024-05-16T11:42:57.551963",
+    "ok": false
+  }
+]

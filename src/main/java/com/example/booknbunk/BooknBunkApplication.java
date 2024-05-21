@@ -1,20 +1,10 @@
 package com.example.booknbunk;
 
-import com.example.booknbunk.models.Booking;
-import com.example.booknbunk.models.Customer;
-import com.example.booknbunk.models.Room;
-import com.example.booknbunk.repositories.BookingRepository;
 import com.example.booknbunk.repositories.CustomerRepository;
-import com.example.booknbunk.repositories.RoomRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 
-import java.time.LocalDate;
-import java.time.Period;
 import java.util.Objects;
 
 @SpringBootApplication
