@@ -29,7 +29,6 @@ public class FetchAllEvents implements CommandLineRunner {
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 
-        System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
             String message = new String(delivery.getBody(), "UTF-8");
