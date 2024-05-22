@@ -11,15 +11,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -42,62 +40,48 @@ public class EventServiceImplementationTest {
         MockitoAnnotations.openMocks(this);
     }
 
-  /*  @Test
-    void processEvent_Successful() {
-        // Skapa en mock för Event och Room
-        Event eventMock = mock(Event.class);
-        Room roomMock = mock(Room.class);
+    @Test
+    void processEventSuccesfullTest() throws JsonProcessingException {
 
-        // Mocka beteendet för getRoom() för att returnera roomMock
-        when(eventMock.getRoom()).thenReturn(roomMock);
+        String message = "{\"timeStamp\":\"2024-05-22T12:00:00\",\"room\":{\"id\":1},\"doorEventType\":\"RoomOpened\"}";
+        EventRoomDoor doorEvent = new EventRoomDoor();
+        Room room = new Room();
+        room.setId(1L);
+        doorEvent.setRoom(room);
 
-        // Skapa en mock för eventRepository
-        EventRepository eventRepositoryMock = mock(EventRepository.class);
+        when(objectMapper.readValue(message, Event.class)).thenReturn(doorEvent);
+        when(roomRepository.findById(1L)).thenReturn(Optional.of(room));
 
-        // Skapa en instans av EventServiceImplementation och sätt mockarna
-        EventServiceImplementation eventService = new EventServiceImplementation();
-        eventService.setEventRepository(eventRepositoryMock);
+        eventServiceImplementation.processEvent(message);
 
-        // Utför test
-        eventService.processEvent(eventMock);
-
-        // Verifiera att eventRepository.save() har anropats med rätt argument
-        verify(eventRepositoryMock, times(1)).save(any(EventRoomDoor.class));
-    }*/
-
-
+        verify(eventRepository, times(1)).save(any());
+    }
 
     @Test
-    void processEvent_DeserializationError() throws JsonProcessingException {
-        // Arrange
+    void processEventDeserializationErrorTest() throws JsonProcessingException {
+
         String message = "Invalid JSON message";
         when(objectMapper.readValue(message, Event.class)).thenThrow(new RuntimeException("Deserialization error"));
 
-        // Act
         eventServiceImplementation.processEvent(message);
 
-        // Assert
-        // Verify that the eventRepository's save method was not called
         verify(eventRepository, never()).save(any());
     }
 
     @Test
-    void processEvent_RoomNotFoundError() throws JsonProcessingException {
-        // Arrange
+    void processEventRoomNotFoundErrorTest() throws JsonProcessingException {
+
         String message = "{\"timeStamp\":\"2024-05-22T12:00:00\",\"room\":{\"id\":1},\"doorEventType\":\"RoomOpened\"}";
         EventRoomDoor doorEvent = new EventRoomDoor();
         when(objectMapper.readValue(message, Event.class)).thenReturn(doorEvent);
         when(roomRepository.findById(1L)).thenReturn(java.util.Optional.empty());
 
-        // Act
         eventServiceImplementation.processEvent(message);
 
-        // Assert
-        // Verify that the eventRepository's save method was not called
         verify(eventRepository, never()).save(any());
     }
     @Test
-    void getAllEventsDtoByRoomId() {
+    void getAllEventsDtoByRoomIdTest() {
 
         Long roomId = 1L;
         Room room = new Room();
