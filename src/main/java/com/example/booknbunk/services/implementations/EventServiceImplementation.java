@@ -28,6 +28,27 @@ public class EventServiceImplementation implements EventService {
         this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 
+/*
+    @Override
+    public EventDto eventToEventDto(Event event) {
+        EventDto.EventDtoBuilder dtoBuilder = EventDto.builder()
+                .id(event.getId())
+                .timeStamp(event.getTimeStamp())
+                .roomNo(event.getRoom().getId());
+
+        if (event instanceof EventRoomDoor) {
+            EventRoomDoor doorEvent = (EventRoomDoor) event;
+            dtoBuilder.doorEventType(doorEvent.getDoorEventType());
+
+        } else if (event instanceof EventRoomCleaning) {
+            EventRoomCleaning cleaningEvent = (EventRoomCleaning) event;
+            dtoBuilder.cleaningStatus(cleaningEvent.getCleaningStatus())
+                    .cleaningByUser(cleaningEvent.getCleaningByUser());
+        }
+        return dtoBuilder.build();
+    }*/
+
+
     @Transactional
     @Override
     public void saveEvent(Event event) {
