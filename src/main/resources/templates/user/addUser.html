@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
+  <title>Add Booking</title>
+  <script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+      /*[# th:if="${returnMessage} != null"]*/
+      let returnMessage = /*[[${returnMessage}]]*/ 'default message';
+      if (returnMessage && returnMessage !== 'default message') {
+        alert(returnMessage);
+      }
+      /*[/]*/
+    });
+  </script>
+</head>
+<body>
+<div th:replace="navbar :: navbar"></div>
+<form th:action="@{/user/add}" method="post" th:object="${user}">
+
+  <label for="username">Start date:</label><br>
+  <input type="text" id="username" name="username" th:field="*{username}" />
+  <br><br>
+
+  <label for="password">End Date:</label><br>
+  <input type="text" id="password" name="password" th:field="*{password}" />
+  <br><br>
+
+
+
+  <input type="hidden" id="id" name="id" th:field="*{id}" />
+
+  <input type="submit" value="Submit">
+</form>
+</body>
+</html>

@@ -215,3 +215,24 @@ select:focus {
     padding-right: 24px !important;
 }
 
+nav > ul {
+    display: flex;        /* Makes the UL a flex container */
+    align-items: center;  /* Aligns items vertically */
+    padding: 0;           /* Removes padding */
+    margin: 0;            /* Removes margin */
+    list-style: none;     /* Removes lis
+    t styling */
+}
+
+nav > ul > li {
+
+}
+
+.nav-right {
+    margin-left: auto;    /* Pushes the element to the right */
+}
+
+ .navbar-container {
+    padding: 0; /* Ensure no padding is applied */
+}
+

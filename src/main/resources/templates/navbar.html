@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
   <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
   <title>Navbar Fragment</title>
@@ -41,6 +42,23 @@
           <li><a th:href="@{/blacklist/addToBlacklist}">Add To Blacklist</a> </li>
           <li><a th:href="@{/blacklist/removeFromBlacklist}">Remove From Blacklist</a> </li>
         </ul>
+      </li>
+      <li class="nav-right"> <!-- This will push the login/logout to the right -->
+        <ul>
+          <li sec:authorize="isAuthenticated()">
+            <a href="/logout">
+              <span class="sidebar-icon"><i class="fas fa-calendar"></i></span>
+              <span class="sidebar-text"> Logout</span>
+            </a>
+          </li>
+          <li sec:authorize="!isAuthenticated()">
+            <a href="/login">
+              <span class="sidebar-icon"><i class="fas fa-calendar"></i></span>
+              <span class="sidebar-text"> Login</span>
+            </a>
+          </li>
+        </ul>
+        </a>
       </li>
     </ul>
   </nav>
