@@ -23,11 +23,18 @@ public class UserDataSeeder {
         if (roleRepository.findByName("Receptionist") == null) {
             addRole("Receptionist");
         }
+
         if(userRepository.getUserByUsername("rasmus.torell@gmail.com") == null){
             addUser("rasmus.torell@gmail.com","Admin");
         }
         if(userRepository.getUserByUsername("stephanie.zevian@gmail.com") == null){
-            addUser("stephanie.zevian@gmail.com","Receptionist");
+            addUser("stephanie.zevian@gmail.com","Admin");
+        }
+        if(userRepository.getUserByUsername("anna.boronkai@gmail.com") == null){
+            addUser("anna.boronkai@gmail.com","Admin");
+        }
+        if(userRepository.getUserByUsername("loser@gmail.com") == null){
+            addUser("loser@gmail.com","Receptionist");
         }
     }
 

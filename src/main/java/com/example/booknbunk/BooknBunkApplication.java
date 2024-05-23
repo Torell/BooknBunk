@@ -1,6 +1,5 @@
 package com.example.booknbunk;
 
-import com.example.booknbunk.repositories.CustomerRepository;
 import com.example.booknbunk.security.UserDataSeeder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

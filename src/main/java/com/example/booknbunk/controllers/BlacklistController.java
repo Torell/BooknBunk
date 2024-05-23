@@ -4,12 +4,14 @@ import com.example.booknbunk.services.implementations.BlacklistServiceImplementa
 import com.example.booknbunk.utils.Blacklist;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/blacklist")
+
 public class BlacklistController {
 
     private final BlacklistServiceImplementation blacklistService;
@@ -50,6 +52,7 @@ public class BlacklistController {
     }
 
     @RequestMapping("/removeFromBlacklist")
+
     public String removeFromBlacklist(Model model) {
 
         Blacklist blacklist = new Blacklist();
@@ -58,11 +61,4 @@ public class BlacklistController {
         return "blacklist/editBlacklist";
 
     }
-
-
-   // @PutMapping("/update")
-   // public ResponseEntity<String> updateBlackList()
-
 }
-
-// /api/blacklist/add/test@gmail.com
