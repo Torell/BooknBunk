@@ -21,4 +21,5 @@ public interface ContractCustomerService {
     ContractCustomerDetailedDTO contractCustomerToDetailedDTO(ContractCustomer contractCustomer);
     ContractCustomer detailedDtotoContractCustomer(ContractCustomerDetailedDTO contractCustomerDetailedDTO);
 
+    ContractCustomerDetailedDTO findById(Long id);
 }

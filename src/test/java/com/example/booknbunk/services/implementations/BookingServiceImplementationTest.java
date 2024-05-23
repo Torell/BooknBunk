@@ -5,7 +5,9 @@ import com.example.booknbunk.models.Booking;
 import com.example.booknbunk.models.Customer;
 import com.example.booknbunk.models.Room;
 import com.example.booknbunk.repositories.BookingRepository;
+import com.example.booknbunk.repositories.CustomerRepository;
 import com.example.booknbunk.repositories.RoomRepository;
+import com.example.booknbunk.services.interfaces.BlacklistService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -24,12 +26,20 @@ import static org.mockito.Mockito.when;
 @SpringBootTest
 class BookingServiceImplementationTest {
 
-/*
+
     @Mock
     private BookingRepository bookingRepository;
     @Mock
     private RoomRepository roomRepository;
-    private final BookingServiceImplementation bookingService = new BookingServiceImplementation(bookingRepository,roomRepository);
+
+    @Mock
+    private CustomerRepository customerRepository;
+    @Mock
+    private BlacklistService blacklistService;
+    @Mock
+    private DiscountServiceImplementation discountService;
+
+    private final BookingServiceImplementation bookingService = new BookingServiceImplementation(bookingRepository,roomRepository,customerRepository,blacklistService,discountService);
     private final Long id = 1L;
     private final int roomSize = 1;
     private final String name = "testName";
@@ -40,13 +50,13 @@ class BookingServiceImplementationTest {
     private final LocalDate dayAfterTomorrow = LocalDate.now().plusDays(2);
     private final int extraBed = 1;
 
-    private final Room room = new Room(id,roomSize,null);
-    private final RoomMiniDto roomMiniDto = new RoomMiniDto(id,roomSize);
+    private final Room room = new Room(id,roomSize,100,new ArrayList<>(),null);
+    private final RoomMiniDto roomMiniDto = new RoomMiniDto(id,roomSize,100);
 
     private final RoomDetailedDto roomDetailedDto = new RoomDetailedDto(id,roomSize,new ArrayList<>());
     private final Customer customer = new Customer(id,name,email,null);
     private final CustomerMiniDto customerMiniDto = new CustomerMiniDto(id,name);
-    private final BookingDetailedDto bookingDetailedDto = new BookingDetailedDto(id,today,tomorrow,customerMiniDto, roomMiniDto,extraBed);
+    private final BookingDetailedDto bookingDetailedDto = new BookingDetailedDto(id,today,tomorrow,customerMiniDto, roomMiniDto,extraBed,0);
     private final BookingMiniDto bookingMiniDto = new BookingMiniDto(id,today,tomorrow);
     private final Booking booking = new Booking(id,today,tomorrow,room,roomSize,customer);
 
@@ -117,7 +127,7 @@ class BookingServiceImplementationTest {
 
     @Test
     void findBookingById() {
-        BookingServiceImplementation bookingService2 = new BookingServiceImplementation(bookingRepository,roomRepository, c);
+        BookingServiceImplementation bookingService2 = new BookingServiceImplementation(bookingRepository,roomRepository, customerRepository,blacklistService,discountService);
         when(bookingRepository.getReferenceById(id)).thenReturn(booking);
         BookingDetailedDto actual = bookingService2.findBookingById(id);
 
@@ -152,10 +162,10 @@ class BookingServiceImplementationTest {
         List<RoomDetailedDto> expected2 = Arrays.asList(roomDetailedDto0,roomDetailedDto1,roomDetailedDto2,roomDetailedDto3);
 
         when(roomRepository.findAll()).thenReturn(Arrays.asList(room0,room1,room2,room3));
-        BookingServiceImplementation bookingService2 = new BookingServiceImplementation(bookingRepository,roomRepository);
+        BookingServiceImplementation bookingService2 = new BookingServiceImplementation(bookingRepository,roomRepository,customerRepository,blacklistService,discountService);
 
-        List<RoomDetailedDto> actual1 = bookingService2.getAllAvailabileRoomsBasedOnRoomSizeAndDateIntervall(0,new BookingDetailedDto(id,today,tomorrow,customerMiniDto, roomMiniDto,extraBed));
-        List<RoomDetailedDto> actual2 = bookingService2.getAllAvailabileRoomsBasedOnRoomSizeAndDateIntervall(0,new BookingDetailedDto(id,dayAfterTomorrow,today,customerMiniDto, roomMiniDto,extraBed));
+        List<RoomDetailedDto> actual1 = bookingService2.getAllAvailabileRoomsBasedOnRoomSizeAndDateIntervall(0,new BookingDetailedDto(id,today,tomorrow,customerMiniDto, roomMiniDto,extraBed,0));
+        List<RoomDetailedDto> actual2 = bookingService2.getAllAvailabileRoomsBasedOnRoomSizeAndDateIntervall(0,new BookingDetailedDto(id,dayAfterTomorrow,today,customerMiniDto, roomMiniDto,extraBed,0));
 
         assertEquals(expected1.size(), actual1.size());
         assertEquals(expected2.size(),actual2.size());
@@ -165,7 +175,7 @@ class BookingServiceImplementationTest {
 
    @Test
     void extraBedSpaceAvailable() {
-        BookingDetailedDto falseBooking = new BookingDetailedDto(id,today,tomorrow,customerMiniDto,roomMiniDto,5);
+        BookingDetailedDto falseBooking = new BookingDetailedDto(id,today,tomorrow,customerMiniDto,roomMiniDto,5,0);
         assertTrue(bookingService.extraBedSpaceAvailable(bookingDetailedDto));
         assertFalse(bookingService.extraBedSpaceAvailable(falseBooking));
     }
@@ -173,7 +183,7 @@ class BookingServiceImplementationTest {
     @Test
     void getAllBookingDetailedDto() {
         when(bookingRepository.findAll()).thenReturn(List.of(booking));
-        BookingServiceImplementation bookingService2 = new BookingServiceImplementation(bookingRepository,roomRepository);
+        BookingServiceImplementation bookingService2 = new BookingServiceImplementation(bookingRepository,roomRepository,customerRepository,blacklistService,discountService);
 
         List<BookingDetailedDto> expected = List.of(bookingDetailedDto);
         List<BookingDetailedDto> actual = bookingService2.getAllBookingDetailedDto();
@@ -195,7 +205,7 @@ class BookingServiceImplementationTest {
 
     @Test
     void compareDesiredDatesToBookedDates() {
-        BookingDetailedDto startDateIsBeforeToday = new BookingDetailedDto(id,today.minusDays(1),tomorrow,customerMiniDto,roomMiniDto,1);
+        BookingDetailedDto startDateIsBeforeToday = new BookingDetailedDto(id,today.minusDays(1),tomorrow,customerMiniDto,roomMiniDto,1,0);
 
         RoomDetailedDto bookedRoom = new RoomDetailedDto(id,1,List.of(new BookingMiniDto(id+1,today,tomorrow)));
 
@@ -206,8 +216,8 @@ class BookingServiceImplementationTest {
 
     @Test
     void startDateIsBeforeEndDate() {
-        BookingDetailedDto wrongStartDateBooking = new BookingDetailedDto(id,tomorrow,today,customerMiniDto,roomMiniDto,0);
+        BookingDetailedDto wrongStartDateBooking = new BookingDetailedDto(id,tomorrow,today,customerMiniDto,roomMiniDto,0,0);
         assertTrue(bookingService.startDateIsBeforeEndDate(bookingDetailedDto));
         assertFalse(bookingService.startDateIsBeforeEndDate(wrongStartDateBooking));
-    }*/
+    }
 }

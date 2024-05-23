@@ -22,7 +22,7 @@
   </thead>
   <tbody>
   <tr th:each="customer : ${contractCustomerPages}">
-    <td th:text="${customer.companyName}"></td>
+    <td><a th:href="@{'/contractCustomer/detailedContractCustomer/' + ${customer.localId}}" th:text="${customer.companyName}"></a></td>
     <td th:text="${customer.contactName}"></td>
     <td th:text="${customer.country}"></td>
   </tr>

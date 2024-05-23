@@ -32,6 +32,16 @@
           <li><a th:href="@{/rooms/4/events}">Room 4</a></li>
         </ul>
       </li>
+      <li>
+        <a th:href="@{/contractCustomer/getAll}">Contract Customers</a>
+      </li>
+      <li class="dropdown">
+        <a href="javascript:void(0)">Blacklist</a>
+        <ul class="dropdown-content">
+          <li><a th:href="@{/blacklist/addToBlacklist}">Add To Blacklist</a> </li>
+          <li><a th:href="@{/blacklist/removeFromBlacklist}">Remove From Blacklist</a> </li>
+        </ul>
+      </li>
     </ul>
   </nav>
 </div>

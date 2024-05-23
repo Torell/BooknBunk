@@ -119,7 +119,7 @@ public class BookingServiceImplementation implements BookingService {
 
     @Override
     public BookingDetailedDto findBookingById(long id) {
-        return bookingToBookingDetailedDto(bookingRepository.findById(id).orElse(null));
+        return bookingToBookingDetailedDto(bookingRepository.getReferenceById(id));
     }
 
     @Override
