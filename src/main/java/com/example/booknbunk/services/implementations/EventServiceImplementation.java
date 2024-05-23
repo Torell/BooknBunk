@@ -11,6 +11,8 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class EventServiceImplementation implements EventService {
 
@@ -25,6 +27,16 @@ public class EventServiceImplementation implements EventService {
         this.objectMapper.registerModule(new JavaTimeModule());
         this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
+
+
+    @Override
+    public List<EventDto> getAllEventsDtoByRoomId(Long id) {
+        List<Event> events = eventRepository.findAllByRoomId(id);
+        return events.stream()
+                .map(this::eventToEventDto)
+                .toList();
+    }
+
 
 
     private EventDto eventToEventDto(Event event) {
