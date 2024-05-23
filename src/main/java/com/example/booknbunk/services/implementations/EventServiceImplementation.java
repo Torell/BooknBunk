@@ -26,8 +26,8 @@ public class EventServiceImplementation implements EventService {
         this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 
-    @Override
-    public EventDto eventToEventDto(Event event) {
+
+    private EventDto eventToEventDto(Event event) {
         EventDto.EventDtoBuilder dtoBuilder = EventDto.builder()
                 .id(event.getId())
                 .timeStamp(event.getTimeStamp())
