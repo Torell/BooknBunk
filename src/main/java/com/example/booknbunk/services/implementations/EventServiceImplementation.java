@@ -15,8 +15,6 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 public class EventServiceImplementation implements EventService {
@@ -33,7 +31,7 @@ public class EventServiceImplementation implements EventService {
         this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 
-
+//testa
     @Override
     public List<EventDto> getAllEventsDtoByRoomId(Long id) {
         List<Event> events = eventRepository.findAllByRoomId(id);
@@ -42,9 +40,8 @@ public class EventServiceImplementation implements EventService {
                 .toList();
     }
 
-
-    @Override
-    public EventDto eventToEventDto(Event event) {
+//ok - ej testa
+    private EventDto eventToEventDto(Event event) {
         EventDto.EventDtoBuilder dtoBuilder = EventDto.builder()
                 .id(event.getId())
                 .timeStamp(event.getTimeStamp())
@@ -62,7 +59,7 @@ public class EventServiceImplementation implements EventService {
         return dtoBuilder.build();
     }
 
-
+//testa
     @Override
     public Event deserializeEvent(String message) {
         try {
@@ -74,10 +71,8 @@ public class EventServiceImplementation implements EventService {
         }
     }
 
-
-    @Transactional
-    @Override
-    public Room getRoomFromEvent(Event event) {
+    //ej testa
+    private Room getRoomFromEvent(Event event) {
         try {
             return roomRepository.findById(event.getRoom().getId()).get();
         } catch (Exception e) {
@@ -87,8 +82,8 @@ public class EventServiceImplementation implements EventService {
         }
     }
 
-    @Override
-    public void handleEventRoomCleaning(EventRoomCleaning cleaningEvent, String message) {
+//ej testa
+    private void handleEventRoomCleaning(EventRoomCleaning cleaningEvent, String message) {
         if (message.contains("RoomCleaningStarted")) {
             cleaningEvent.setCleaningStatus("Started");
         } else if (message.contains("RoomCleaningFinished")) {
@@ -96,8 +91,8 @@ public class EventServiceImplementation implements EventService {
         }
     }
 
-    @Override
-    public void handleEventRoomDoor(EventRoomDoor doorEvent, String message) {
+//ej testa
+    private void handleEventRoomDoor(EventRoomDoor doorEvent, String message) {
         if (message.contains("RoomOpened")) {
             doorEvent.setDoorEventType("Opened");
         } else if (message.contains("RoomClosed")) {
@@ -105,17 +100,18 @@ public class EventServiceImplementation implements EventService {
         }
     }
 
-    @Transactional
-    @Override
-    public Event prepareEvent(String message) {
+
+//ej testa
+    private Event prepareEvent(String message) {
         Event event = deserializeEvent(message);
         Room room = getRoomFromEvent(event);
         event.setRoom(room);
         return event;
     }
 
-    @Override
-    public void processEventBasedOnType(Event event, String message) {
+
+//ej testa
+    private void processEventBasedOnType(Event event, String message) {
         if (event instanceof EventRoomDoor) {
             handleEventRoomDoor((EventRoomDoor) event, message);
         } else if (event instanceof EventRoomCleaning) {
@@ -123,7 +119,7 @@ public class EventServiceImplementation implements EventService {
         }
     }
 
-
+    //testa
     @Transactional
     @Override
     public void processEvent(String message) {

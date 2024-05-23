@@ -11,26 +11,12 @@ import java.util.List;
 
 public interface EventService {
 
-
     List<EventDto> getAllEventsDtoByRoomId(Long id);
-
-    EventDto eventToEventDto(Event event);
 
     Event deserializeEvent(String message);
 
-    @Transactional
-    Room getRoomFromEvent(Event event);
 
-    void handleEventRoomCleaning(EventRoomCleaning cleaningEvent, String message);
-
-    void handleEventRoomDoor(EventRoomDoor doorEvent, String message);
-
-    @Transactional
-    Event prepareEvent(String message);
-
-    void processEventBasedOnType(Event event, String message);
-
+    //testa
     @Transactional
     void processEvent(String message);
-
 }
