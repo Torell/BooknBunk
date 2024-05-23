@@ -1,31 +1,52 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <link rel=stylesheet th:href="@{/css/style.css}" type="text/css">
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>All bookings</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
+    <title>Users</title>
 </head>
 <body>
 <div th:replace="navbar :: navbar"></div>
-<script th:src="@{/css/javascript/navbar.js}"></script>
-<div id="navbarPlaceholder" class = "container-fluid"></div>
-<h2 th:text="${bookingTitle}"></h2>
+
+<form th:action="@{/user/getAll}" method="get">
+    <input type="text" name="search" th:value="${search}" placeholder="Search...">
+    <button type="submit">Search</button>
+</form>
+
 <table>
+    <thead>
+
+    <tr>
+        <th>Username</th>
+        <th>Enabled</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
     <tbody>
-    <tr th:each="cat : ${allBookings}">
-        <td th:text="'Booking no:'"></td>
-        <td th:text="${cat.id}"></td>
-        <td th:text="'Room no:'"></td>
-        <td th:text="${cat.roomMiniDto.getId()}"></td>
-        <td th:text="'Start date:'"></td>
-        <td th:text="${cat.startDate}"></td>
-        <td th:text="'End Date:'"></td>
-        <td th:text="${cat.endDate}"></td>
-        <td><a th:href="@{/booking/cancelBooking/{id}(id=${cat.id})}">Cancel</a></td>
-        <td><a th:href="@{/booking/editBooking/{id}(id=${cat.id})}">Edit Booking</a></td>
+    <tr th:each="user : ${userPage}">
+        <td th:text="${user.username}"></td>
+        <td th:text="${user.isEnabled()}"></td>
+        <td>
+            <a th:href="@{'/user/edit/' + ${user.getId()}}" class="btn">Edit</a>
+            <a href="#" class="btn">Delete</a>
+        </td>
     </tr>
     </tbody>
 </table>
+
+<div class="pagination clearfix">
+    <!-- Previous button -->
+    <a th:if="${userPage.hasPrevious()}"
+       th:href="@{/contractCustomer/getAll(page=${userPage.number - 1}, sort=${sort}, sortDirection=${sortDirection}, search=${search})}"
+       class="previous">Previous</a>
+
+    <!-- Page number -->
+    <div class="page-number" th:text="'Page ' + (${userPage.number + 1}) + ' of ' + ${userPage.totalPages}"></div>
+
+    <!-- Next button -->
+    <a th:if="${userPage.hasNext()}"
+       th:href="@{/contractCustomer/getAll(page=${userPage.number + 1}, sort=${sort}, sortDirection=${sortDirection}, search=${search})}"
+       class="next">Next</a>
+</div>
 
 </body>
 </html>
