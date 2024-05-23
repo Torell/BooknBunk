@@ -36,9 +36,7 @@ public class FetchAllEvents implements CommandLineRunner {
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 
-        /*ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
-        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);*/
+
 
         System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
 
@@ -46,13 +44,6 @@ public class FetchAllEvents implements CommandLineRunner {
             String message = new String(delivery.getBody(), "UTF-8");
             System.out.println(" [x] Received '" + message + "'");
             eventService.processEvent(message);
-
-           /* try {
-                Event event = mapper.readValue(message, Event.class);
-                eventRepository.save(event);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }*/
 
         };
         channel.basicConsume(queueName, true, deliverCallback, consumerTag -> { });
