@@ -12,4 +12,6 @@ public interface EventService {
 
     void saveEvent(Event event);
     void processEvent(String message);
+
+    //EventDto eventToEventDto(Event event);
 }

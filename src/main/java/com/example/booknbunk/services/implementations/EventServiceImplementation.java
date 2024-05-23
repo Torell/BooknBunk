@@ -70,7 +70,7 @@ public class EventServiceImplementation implements EventService {
     public void saveEvent(Event event) {
         Room room = roomRepository.findById(event.getRoom().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Room with id " + event.getRoom().getId()
-                        + " does not exist."));
+                        + " does not exist.")); //kasta illegal argument?
         event.setRoom(room);
         eventRepository.save(event);
     }
@@ -80,7 +80,10 @@ public class EventServiceImplementation implements EventService {
     public void processEvent(String message) {
         try {
             Event event = objectMapper.readValue(message, Event.class);
-            saveEvent(event);
+            Room room = roomRepository.findById(event.getRoomNo())
+                    .orElseThrow(() -> new IllegalStateException("Room with ID: " + event.getRoomNo() + " does not exist."));
+            event.setRoom(room);
+            eventRepository.save(event);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error processing event: " + e.getMessage());

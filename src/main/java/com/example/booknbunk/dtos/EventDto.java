@@ -1,9 +1,17 @@
 package com.example.booknbunk.dtos;
 
+<<<<<<< HEAD
+=======
+import com.example.booknbunk.models.Room;
+>>>>>>> origin/roomEvents
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+<<<<<<< HEAD
+=======
+import lombok.experimental.SuperBuilder;
+>>>>>>> origin/roomEvents
 
 import java.time.LocalDateTime;
 
