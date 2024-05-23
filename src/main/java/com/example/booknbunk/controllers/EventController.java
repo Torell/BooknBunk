@@ -21,6 +21,7 @@ public class EventController {
     public String showEventsForRoom(@PathVariable Long id, Model model){
         List<EventDto> events = eventService.getAllEventsDtoByRoomId(id);
         model.addAttribute("events", events);
+        System.out.println();
         return "/room/roomEvents";
     }
 

@@ -13,16 +13,16 @@
         <th>Event Type</th>
         <th>Time</th>
         <th>Room Number</th>
-        <th>Details</th>
+        <th>Cleaned by</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="event : ${events}">
         <td th:text="${event.type}">Event Type</td>
         <td class="date-cell" th:text="${#temporals.format(event.timeStamp, 'yyyy-MM-dd HH:mm:ss')}">Time</td>
-        <td th:text="${event.id}">Room Number</td>
-        <td th:if="${event.cleaningByUser != null}" th:text="'Cleaning by ' + ${event.cleaningByUser}">Details</td>
-        <td th:if="${event.cleaningByUser == null}">No additional details</td>
+        <td th:text="${event.roomNo}">Room Number</td>
+        <td th:if="${event.cleaningByUser != null}" th:text=" ${event.cleaningByUser}">Details</td>
+        <td th:if="${event.cleaningByUser == null}"></td>
     </tr>
     </tbody>
 </table>
