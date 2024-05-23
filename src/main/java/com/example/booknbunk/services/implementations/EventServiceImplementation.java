@@ -38,12 +38,13 @@ public class EventServiceImplementation implements EventService {
     }
 
 
-
     private EventDto eventToEventDto(Event event) {
         EventDto.EventDtoBuilder dtoBuilder = EventDto.builder()
                 .id(event.getId())
                 .timeStamp(event.getTimeStamp())
-                .roomNo(event.getRoom().getId());
+                .roomNo(event.getRoom().getId())
+                .type(event.getClass().getSimpleName());
+
 
         if (event instanceof EventRoomOpened ){
             EventRoomOpened eventRoomOpened = (EventRoomOpened) event;
@@ -69,7 +70,7 @@ public class EventServiceImplementation implements EventService {
     public void saveEvent(Event event) {
         Room room = roomRepository.findById(event.getRoom().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Room with id " + event.getRoom().getId()
-                        + " does not exist.")); //kasta illegal argument?
+                        + " does not exist."));
         event.setRoom(room);
         eventRepository.save(event);
     }
@@ -79,10 +80,7 @@ public class EventServiceImplementation implements EventService {
     public void processEvent(String message) {
         try {
             Event event = objectMapper.readValue(message, Event.class);
-            Room room = roomRepository.findById(event.getRoomNo())
-                    .orElseThrow(() -> new IllegalStateException("Room with ID: " + event.getRoomNo() + " does not exist."));
-            event.setRoom(room);
-            eventRepository.save(event);
+            saveEvent(event);
         } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error processing event: " + e.getMessage());

@@ -3,27 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Room Events</title>
-    <link rel=stylesheet th:href="@{/css/style.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
 </head>
 <body>
+<h1>Room Events</h1>
 <table>
-    <tr th:each="event : ${events}">
-        <td th:if="${event.doorEventType != null}" th:text="'Door ' + ${event.doorEventType}">
-            Event Type
-        </td>
-        <td class="date-cell" th:if="${event.doorEventType != null}"
-            th:text="${#temporals.format(event.timeStamp, 'yyyy-MM-dd HH:mm:ss')}">
-            Time
-        </td>
-        <td th:if="${event.cleaningStatus != null}"
-            th:text="'Cleaning ' + ${event.cleaningStatus} + ' by ' + ${event.cleaningByUser}">
-            Details
-        </td>
-        <td class="date-cell" th:if="${event.cleaningStatus != null}"
-            th:text="${#temporals.format(event.timeStamp, 'yyyy-MM-dd HH:mm:ss')}">
-            Time
-        </td>
+    <thead>
+    <tr>
+        <th>Event Type</th>
+        <th>Time</th>
+        <th>Room Number</th>
+        <th>Details</th>
     </tr>
+    </thead>
+    <tbody>
+    <tr th:each="event : ${events}">
+        <td th:text="${event.type}">Event Type</td>
+        <td class="date-cell" th:text="${#temporals.format(event.timeStamp, 'yyyy-MM-dd HH:mm:ss')}">Time</td>
+        <td th:text="${event.id}">Room Number</td>
+        <td th:if="${event.cleaningByUser != null}" th:text="'Cleaning by ' + ${event.cleaningByUser}">Details</td>
+        <td th:if="${event.cleaningByUser == null}">No additional details</td>
+    </tr>
+    </tbody>
 </table>
 </body>
 </html>

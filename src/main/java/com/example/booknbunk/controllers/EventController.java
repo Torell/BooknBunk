@@ -1,3 +1,5 @@
+package com.example.booknbunk.controllers;
+
 import com.example.booknbunk.dtos.EventDto;
 import com.example.booknbunk.services.interfaces.EventService;
 import lombok.AllArgsConstructor;
