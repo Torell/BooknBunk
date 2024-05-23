@@ -18,17 +18,25 @@
 <div th:replace="navbar :: navbar"></div>
 <form th:action="@{/user/add}" method="post" th:object="${user}">
 
-  <label for="username">Start date:</label><br>
+  <label for="username">Username:</label><br>
   <input type="text" id="username" name="username" th:field="*{username}" />
   <br><br>
 
-  <label for="password">End Date:</label><br>
+  <label for="password">Password:</label><br>
   <input type="text" id="password" name="password" th:field="*{password}" />
   <br><br>
 
-
-
   <input type="hidden" id="id" name="id" th:field="*{id}" />
+
+  <input type="hidden" name="rolesSelected" value=""/>
+  <div>
+    <label>Roles:</label><br>
+    <div th:each="role : ${roles}">
+      <input type="checkbox" th:id="'role_' + ${role.id}" th:name="rolesSelected" th:value="${role.id}"
+             th:checked="${user.roles.contains(role)}" />
+      <label th:for="'role_' + ${role.id}" th:text="${role.name}"></label><br>
+    </div>
+  </div>
 
   <input type="submit" value="Submit">
 </form>
