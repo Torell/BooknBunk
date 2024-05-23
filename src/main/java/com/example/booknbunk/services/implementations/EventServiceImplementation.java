@@ -1,12 +1,10 @@
 package com.example.booknbunk.services.implementations;
 
-import com.example.booknbunk.models.Event;
-import com.example.booknbunk.models.Room;
+import com.example.booknbunk.dtos.EventDto;
+import com.example.booknbunk.models.*;
 import com.example.booknbunk.repositories.EventRepository;
 import com.example.booknbunk.repositories.RoomRepository;
 import com.example.booknbunk.services.interfaces.EventService;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -28,7 +26,6 @@ public class EventServiceImplementation implements EventService {
         this.objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
     }
 
-/*
     @Override
     public EventDto eventToEventDto(Event event) {
         EventDto.EventDtoBuilder dtoBuilder = EventDto.builder()
@@ -36,17 +33,23 @@ public class EventServiceImplementation implements EventService {
                 .timeStamp(event.getTimeStamp())
                 .roomNo(event.getRoom().getId());
 
-        if (event instanceof EventRoomDoor) {
-            EventRoomDoor doorEvent = (EventRoomDoor) event;
-            dtoBuilder.doorEventType(doorEvent.getDoorEventType());
+        if (event instanceof EventRoomOpened ){
+            EventRoomOpened eventRoomOpened = (EventRoomOpened) event;
 
-        } else if (event instanceof EventRoomCleaning) {
-            EventRoomCleaning cleaningEvent = (EventRoomCleaning) event;
-            dtoBuilder.cleaningStatus(cleaningEvent.getCleaningStatus())
-                    .cleaningByUser(cleaningEvent.getCleaningByUser());
+        } else if (event instanceof EventRoomClosed){
+            EventRoomClosed eventRoomClosed = (EventRoomClosed) event;
+
+        } else if (event instanceof EventRoomCleaningStarted){
+            EventRoomCleaningStarted eventRoomCleaningStarted = (EventRoomCleaningStarted) event;
+            dtoBuilder.cleaningByUser(eventRoomCleaningStarted.getCleaningByUser());
+
+        } else if (event instanceof EventRoomCleaningFinished) {
+            EventRoomCleaningFinished eventRoomCleaningFinished = (EventRoomCleaningFinished) event;
+            dtoBuilder.cleaningByUser(eventRoomCleaningFinished.getCleaningByUser());
+
         }
         return dtoBuilder.build();
-    }*/
+    }
 
 
     @Transactional
