@@ -50,6 +50,14 @@ public class UserController {
         return "redirect:user/createUser";
     }
 
+    @RequestMapping("/delete/{id}")
+    public String deleteUser(@PathVariable("id") UUID id) {
+
+        userRepository.deleteById(id);
+
+        return "redirect:user/getAll";
+    }
+
     @RequestMapping("/edit/{id}")
     public String editUser(@PathVariable("id")UUID id, Model model) {
         User user = userService.findUserById(id);

@@ -27,7 +27,7 @@
         <td th:text="${user.isEnabled()}"></td>
         <td>
             <a th:href="@{'/user/edit/' + ${user.getId()}}" class="btn">Edit</a>
-            <a href="#" class="btn">Delete</a>
+            <a th:href="@{'/user/delete/' + ${user.getId()}}" class="btn">Delete</a>
         </td>
     </tr>
     </tbody>
