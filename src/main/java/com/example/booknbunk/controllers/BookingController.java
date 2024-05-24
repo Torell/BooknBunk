@@ -4,6 +4,7 @@ import com.example.booknbunk.dtos.BookingDetailedDto;
 import com.example.booknbunk.dtos.CustomerDetailedDto;
 import com.example.booknbunk.dtos.RoomDetailedDto;
 import com.example.booknbunk.dtos.RoomMiniDto;
+import com.example.booknbunk.repositories.CustomerRepository;
 import com.example.booknbunk.services.implementations.EmailServiceImplementation;
 import com.example.booknbunk.services.interfaces.BookingService;
 import com.example.booknbunk.services.interfaces.CustomerService;
@@ -30,6 +31,9 @@ public class BookingController {
     private final CustomerService customerService;
     private final EmailServiceImplementation emailService;
     private final MyUserService myUserService;
+    private final CustomerRepository customerRepository;
+
+
     @RequestMapping("/{id}")
     public BookingDetailedDto findBookingById(@PathVariable long id) {
         return bookingService.findBookingById(id);
@@ -47,7 +51,7 @@ public class BookingController {
         StringBuilder returnMessage = bookingService.createOrChangeBooking(bookingDetailedDto,desiredRoom);
         redirectAttributes.addFlashAttribute("returnMessage",returnMessage);
         model.addAttribute("booking",bookingDetailedDto);
-
+/*
         Map<String, Object> variables = Map.of(
                 "customerName", bookingDetailedDto.getCustomerMiniDto().getName(),
                 "roomSize", desiredRoom.getRoomSize(),
@@ -57,6 +61,8 @@ public class BookingController {
 
         emailService.sendEmailWithTemplate(customerDetailedDto.getEmail(), "Booking confirmation", "emailTemplate", variables);
 
+
+ */
             return "redirect:/booking/createBooking";
     }
 

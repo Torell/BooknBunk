@@ -1,6 +1,7 @@
 package com.example.booknbunk.services.implementations;
 
 import com.example.booknbunk.services.interfaces.EmailService;
+import org.jsoup.Jsoup;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
@@ -36,10 +37,13 @@ public class EmailServiceImplementation implements EmailService {
         context.setVariables(variables);
         String body = templateEngine.process(templateName, context);
 
+        String plainTextBody = Jsoup.parse(body).text();
+
+
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(to);
         message.setSubject(subject);
-        message.setText(body);
+        message.setText(plainTextBody);
         mailSender.send(message);
     }
 

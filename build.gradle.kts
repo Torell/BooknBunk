@@ -30,6 +30,7 @@ dependencies {
     implementation("org.springframework.security:spring-security-test")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-mail")
+    implementation ("org.jsoup:jsoup:1.14.3")
 
 
     implementation("org.hibernate.validator:hibernate-validator:7.0.5.Final")
