@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bokningsbekräftelse</title>
+</head>
+<body>
+<p>Hej <span th:text="${customerName}">[Kundnamn]</span>,</p>
+<p>Din bokning har bekräftats!</p>
+<p>Bokningsdetaljer:</p>
+<ul>
+    <li>Rum: <span th:text="${roomSize}">[Storlek]</span></li>
+    <li>Incheckningsdatum: <span th:text="${checkInDate}">[Incheckningsdatum]</span></li>
+    <li>Utcheckningsdatum: <span th:text="${checkOutDate}">[Utcheckningsdatum]</span></li>
+</ul>
+<p>Tack för att du bokade hos oss!</p>
+</body>
+</html>

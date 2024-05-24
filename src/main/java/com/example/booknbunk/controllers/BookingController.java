@@ -1,10 +1,13 @@
 package com.example.booknbunk.controllers;
 
 import com.example.booknbunk.dtos.BookingDetailedDto;
+import com.example.booknbunk.dtos.CustomerDetailedDto;
 import com.example.booknbunk.dtos.RoomDetailedDto;
 import com.example.booknbunk.dtos.RoomMiniDto;
+import com.example.booknbunk.services.implementations.EmailServiceImplementation;
 import com.example.booknbunk.services.interfaces.BookingService;
 import com.example.booknbunk.services.interfaces.CustomerService;
+import com.example.booknbunk.services.interfaces.MyUserService;
 import com.example.booknbunk.services.interfaces.RoomService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -14,6 +17,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.awt.print.Book;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Controller
 @AllArgsConstructor
@@ -23,6 +28,8 @@ public class BookingController {
     private final BookingService bookingService;
     private final RoomService roomService;
     private final CustomerService customerService;
+    private final EmailServiceImplementation emailService;
+    private final MyUserService myUserService;
     @RequestMapping("/{id}")
     public BookingDetailedDto findBookingById(@PathVariable long id) {
         return bookingService.findBookingById(id);
@@ -35,11 +42,20 @@ public class BookingController {
 
 
     @PostMapping("/add")
-    public String addBooking(Model model, BookingDetailedDto bookingDetailedDto, RedirectAttributes redirectAttributes){
+    public String addBooking(Model model, BookingDetailedDto bookingDetailedDto, RedirectAttributes redirectAttributes, CustomerDetailedDto customerDetailedDto){
         RoomDetailedDto desiredRoom = roomService.findRoomById(bookingDetailedDto.getRoomMiniDto().getId());
         StringBuilder returnMessage = bookingService.createOrChangeBooking(bookingDetailedDto,desiredRoom);
         redirectAttributes.addFlashAttribute("returnMessage",returnMessage);
         model.addAttribute("booking",bookingDetailedDto);
+
+        Map<String, Object> variables = Map.of(
+                "customerName", bookingDetailedDto.getCustomerMiniDto().getName(),
+                "roomSize", desiredRoom.getRoomSize(),
+                "checkInDate", bookingDetailedDto.getStartDate().toString(),
+                "checkOutDate", bookingDetailedDto.getEndDate().toString()
+        );
+
+        emailService.sendEmailWithTemplate(customerDetailedDto.getEmail(), "Booking confirmation", "emailTemplate", variables);
 
             return "redirect:/booking/createBooking";
     }
