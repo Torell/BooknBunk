@@ -40,11 +40,11 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/css/**", "/login/**", "/logout","/booking/getAll","/booking/findAvailability","booking/showAvailability").permitAll()
+                        .requestMatchers("/", "/css/**", "/login/**", "/logout","/booking/getAll","/booking/findAvailability","booking/showAvailability","/forgotPassword/**","/resetPassword").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
-//                        .loginPage("/login")
+                        .loginPage("/login")
                         .permitAll()
                 )
                 .logout((logout) -> {
