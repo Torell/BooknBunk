@@ -137,9 +137,9 @@ public class BookingServiceImplementation implements BookingService {
         } if (!checkRoomForAvailability(bookingDetailedDto, roomDetailedDto)) {
             returnMessage.append("The room is not available the chosen dates.");
             allConditionsMet = false;
-       // } if (!blacklistService.checkBlacklist(customerRepository.getReferenceById(bookingDetailedDto.getCustomerMiniDto().getId()).getEmail())){
-         //   returnMessage.append("Customer is on Blacklist.");
-           // allConditionsMet = false;
+        } if (!blacklistService.checkBlacklist(customerRepository.getReferenceById(bookingDetailedDto.getCustomerMiniDto().getId()).getEmail())){
+            returnMessage.append("Customer is on Blacklist.");
+            allConditionsMet = false;
         } if (allConditionsMet) {
             returnMessage.append("Booking successfully saved");
 
