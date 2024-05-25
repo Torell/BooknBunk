@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
-    <title>Detailed Booking Info</title>
+    <title>Edit User</title>
     <script th:inline="javascript">
         document.addEventListener('DOMContentLoaded', function() {
             /*[# th:if="${returnMessage} != null"]*/
@@ -27,37 +27,57 @@
             }
         }
     </script>
+    <style>
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 10px;
+        }
+    </style>
 </head>
 <body>
 <div th:replace="navbar :: navbar"></div>
-<form th:action="@{/user/updateUser}" method="post" th:object="${user}">
-    <label for="username">Username:</label><br>
-    <input type="text" id="username" name="username" th:field="*{username}" />
-    <br><br>
+<div class="center-container">
+    <form th:action="@{/user/updateUser}" method="post" th:object="${user}" class="form-center">
+        <h2>Edit User</h2>
+        <label for="username">Username:</label><br>
+        <input type="text" id="username" name="username" th:field="*{username}" class="input-field"/>
+        <br><br>
 
-    <label for="password">Password:</label><br>
-    <input type="password" id="password" name="password" th:field="*{password}" value="*****" onfocus="togglePasswordInput(this)" onblur="handleBlur(this)" />
-    <br><br>
+        <label for="password">Password:</label><br>
+        <input type="password" id="password" name="password" th:field="*{password}" value="*****" class="input-field" onfocus="togglePasswordInput(this)" onblur="handleBlur(this)"/>
+        <br><br>
 
-    <label for="enabled">Enabled:</label><br>
-    <input type="checkbox" id="enabled" name="enabled" th:field="*{enabled}" />
-    <br><br>
-
-    <input type="hidden" id="id" name="id" th:field="*{id}" />
-
-    <input type="hidden" name="rolesSelected" value=""/>
-    <div>
-        <label>Roles:</label><br>
-        <div th:each="role : ${roles}">
+        <div class="checkbox-group">
             <label>
-                <input type="checkbox" th:id="'role_' + ${role.id}" th:name="rolesSelected" th:value="${role.id}"
-                       th:checked="${user.getRoles().contains(role)}" />
+                <input type="checkbox" id="enabled" name="enabled" th:field="*{enabled}" />
+                <span>Enabled</span>
             </label>
-            <label th:for="'role_' + ${role.id}" th:text="${role.name}"></label><br>
         </div>
-    </div>
 
-    <input type="submit" value="Submit">
-</form>
+        <input type="hidden" id="id" name="id" th:field="*{id}"/>
+
+        <input type="hidden" name="rolesSelected" value=""/>
+        <div class="checkbox-group">
+            <label>Roles:</label><br>
+            <div th:each="role : ${roles}">
+                <label>
+                    <input type="checkbox" th:id="'role_' + ${role.id}" th:name="rolesSelected" th:value="${role.id}" th:checked="${user.getRoles().contains(role)}" />
+                    <span th:text="${role.name}"></span>
+                </label>
+            </div>
+        </div>
+
+        <input type="submit" value="Submit" class="btn btn-submit">
+    </form>
+</div>
 </body>
 </html>

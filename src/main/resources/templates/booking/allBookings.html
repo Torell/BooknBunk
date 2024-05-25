@@ -1,31 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
-    <link rel=stylesheet th:href="@{/css/style.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>All bookings</title>
 </head>
 <body>
 <div th:replace="navbar :: navbar"></div>
 <script th:src="@{/css/javascript/navbar.js}"></script>
-<div id="navbarPlaceholder" class = "container-fluid"></div>
-<h2 th:text="${bookingTitle}"></h2>
-<table>
-    <tbody>
-    <tr th:each="cat : ${allBookings}">
-        <td th:text="'Booking no:'"></td>
-        <td th:text="${cat.id}"></td>
-        <td th:text="'Room no:'"></td>
-        <td th:text="${cat.roomMiniDto.getId()}"></td>
-        <td th:text="'Start date:'"></td>
-        <td th:text="${cat.startDate}"></td>
-        <td th:text="'End Date:'"></td>
-        <td th:text="${cat.endDate}"></td>
-        <td><a th:href="@{/booking/cancelBooking/{id}(id=${cat.id})}">Cancel</a></td>
-        <td><a th:href="@{/booking/editBooking/{id}(id=${cat.id})}">Edit Booking</a></td>
-    </tr>
-    </tbody>
-</table>
-
+<div id="navbarPlaceholder" class="container-fluid"></div>
+<div class="container">
+    <h2 class="booking-title" th:text="${bookingTitle}"></h2>
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th>Booking No</th>
+            <th>Room No</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="cat : ${allBookings}">
+            <td th:text="${cat.id}"></td>
+            <td th:text="${cat.roomMiniDto.getId()}"></td>
+            <td th:text="${cat.startDate}"></td>
+            <td th:text="${cat.endDate}"></td>
+            <td>
+                <a class="btn btn-danger btn-sm" th:href="@{/booking/cancelBooking/{id}(id=${cat.id})}">Cancel</a>
+                <a class="btn btn-primary btn-sm" th:href="@{/booking/editBooking/{id}(id=${cat.id})}">Edit Booking</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>

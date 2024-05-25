@@ -1,22 +1,70 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    margin: 0;
-    padding: 20px;
+    background-color: #f8f9fa;
     color: #333;
+    margin: 0;
+    padding: 0;
 }
-h2 {
-    color: #4A90E2;
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
-table {
+
+.booking-title {
+    margin-bottom: 20px;
+    color: #007bff;
+}
+
+.table {
     width: 100%;
+    margin-bottom: 20px;
     border-collapse: collapse;
 }
-td, th {
-    border: 1px solid #ddd;
-    padding: 8px;
+
+.table th, .table td {
+    padding: 12px;
     text-align: left;
+    border-bottom: 1px solid #dee2e6;
 }
+
+.table thead th {
+    background-color: #007bff;
+    color: #fff;
+    border-top: 0;
+}
+
+.table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.btn {
+    padding: 6px 12px;
+    margin-right: 5px;
+    text-decoration: none;
+    border-radius: 4px;
+    color: #fff;
+    display: inline-block;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
 tr:nth-child(even) {
     background-color: #f2f2f2;
 }
@@ -235,5 +283,132 @@ nav > ul > li {
  .navbar-container {
     padding: 0; /* Ensure no padding is applied */
 }
+
+h1 {
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.alert-info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+}
+
+.table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-collapse: collapse;
+}
+
+.table th, .table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.table thead th {
+    background-color: #007bff;
+    color: #fff;
+    border-top: 0;
+}
+
+.table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.btn {
+    padding: 6px 12px;
+    margin-right: 5px;
+    text-decoration: none;
+    border-radius: 4px;
+    color: #fff;
+    display: inline-block;
+}
+
+.btn-danger {
+    background-color: #b72434;
+    border: none;
+}
+
+.btn-primary {
+    background-color: #4f98e7;
+    border: none;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border: none;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+
+/* Centering the Add Booking Page */
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.form-center {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.input-field {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.btn-submit {
+    padding: 10px 20px;
+    background-color: #4f98e7;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+    background-color: #3672b8;
+}
+
+.non-editable-field {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+}
+
 
 
