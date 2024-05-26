@@ -30,34 +30,37 @@
   </style>
 </head>
 <body>
-<div th:replace="navbar :: navbar"></div>
-<div class="center-container">
-  <form th:action="@{/user/add}" method="post" th:object="${user}" class="form-center">
-    <h2>Add User</h2>
+<div class="sidebar" th:replace="fragments/sidebar :: sidebar"></div>
+<div class="main-content">
+  <div class="center-container">
+    <form th:action="@{/user/add}" method="post" th:object="${user}" class="form-center">
+      <h2>Add User</h2>
 
-    <label for="username">Username:</label><br>
-    <input type="text" id="username" name="username" th:field="*{username}" class="input-field"/>
-    <br><br>
+      <label for="username">Username:</label><br>
+      <input type="text" id="username" name="username" th:field="*{username}" class="input-field"/>
+      <br><br>
 
-    <label for="password">Password:</label><br>
-    <input type="text" id="password" name="password" th:field="*{password}" class="input-field"/>
-    <br><br>
+      <label for="password">Password:</label><br>
+      <input type="text" id="password" name="password" th:field="*{password}" class="input-field"/>
+      <br><br>
 
-    <input type="hidden" id="id" name="id" th:field="*{id}"/>
+      <input type="hidden" id="id" name="id" th:field="*{id}"/>
 
-    <input type="hidden" name="rolesSelected" value=""/>
-    <div class="checkbox-group">
-      <label>Roles:</label><br>
-      <div th:each="role : ${roles}">
-        <label>
-          <input type="checkbox" th:id="'role_' + ${role.id}" th:name="rolesSelected" th:value="${role.id}" th:checked="${user.roles.contains(role)}" />
-          <span th:text="${role.name}"></span>
-        </label>
+      <input type="hidden" name="rolesSelected" value=""/>
+      <div class="checkbox-group">
+        <label>Roles:</label><br>
+        <div th:each="role : ${roles}">
+          <label>
+            <input type="checkbox" th:id="'role_' + ${role.id}" th:name="rolesSelected" th:value="${role.id}" th:checked="${user.roles.contains(role)}" />
+            <span th:text="${role.name}"></span>
+          </label>
+        </div>
       </div>
-    </div>
 
-    <input type="submit" value="Submit" class="btn btn-submit">
-  </form>
+      <input type="submit" value="Submit" class="btn btn-submit">
+    </form>
+  </div>
 </div>
+<script th:src="@{/js/sidebar.js}" type="text/javascript"> </script>
 </body>
 </html>

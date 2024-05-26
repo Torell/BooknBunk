@@ -39,8 +39,15 @@
       <li class="dropdown">
         <a href="javascript:void(0)">Blacklist</a>
         <ul class="dropdown-content">
-          <li><a th:href="@{/blacklist/addToBlacklist}">Add To Blacklist</a> </li>
-          <li><a th:href="@{/blacklist/removeFromBlacklist}">Remove From Blacklist</a> </li>
+          <li><a th:href="@{/blacklist/addToBlacklist}">Add Customer To Blacklist</a> </li>
+          <li><a th:href="@{/blacklist/removeFromBlacklist}">Remove Customer From Blacklist</a> </li>
+        </ul>
+      </li>
+      <li class="dropdown">
+        <a href="javascript:void(0)">Users</a>
+        <ul class="dropdown-content">
+          <li><a th:href="@{/user/getAll}">All Users</a></li>
+          <li><a th:href="@{/user/createUser}">Add New User</a></li>
         </ul>
       </li>
       <li class="nav-right"> <!-- This will push the login/logout to the right -->

@@ -6,20 +6,23 @@
     <title>Edit Customer</title>
 </head>
 <body>
-<div th:replace="navbar :: navbar"></div>
-<div class="center-container">
-    <form th:action="@{/customers/updateCustomer}" th:object="${customer}" method="post" class="form-center">
-        <h2>Edit Customer</h2>
+<div class="sidebar" th:replace="fragments/sidebar :: sidebar"></div>
+<div class="main-content">
+    <div class="center-container">
+        <form th:action="@{/customers/updateCustomer}" th:object="${customer}" method="post" class="form-center">
+            <h2>Edit Customer</h2>
 
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" th:field="*{name}" class="input-field"/><br>
+            <label for="name">Name:</label><br>
+            <input type="text" id="name" th:field="*{name}" class="input-field"/><br>
 
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" th:field="*{email}" class="input-field"/><br>
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" th:field="*{email}" class="input-field"/><br>
 
-        <input type="hidden" id="id" th:field="*{id}"/><br>
-        <input type="submit" value="Submit" class="btn btn-submit">
-    </form>
+            <input type="hidden" id="id" th:field="*{id}"/><br>
+            <input type="submit" value="Submit" class="btn btn-submit">
+        </form>
+    </div>
 </div>
+<script th:src="@{/js/sidebar.js}" type="text/javascript"> </script>
 </body>
 </html>

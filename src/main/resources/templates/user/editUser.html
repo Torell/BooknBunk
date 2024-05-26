@@ -44,40 +44,43 @@
     </style>
 </head>
 <body>
-<div th:replace="navbar :: navbar"></div>
-<div class="center-container">
-    <form th:action="@{/user/updateUser}" method="post" th:object="${user}" class="form-center">
-        <h2>Edit User</h2>
-        <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username" th:field="*{username}" class="input-field"/>
-        <br><br>
+<div class="sidebar" th:replace="fragments/sidebar :: sidebar"></div>
+<div class="main-content">
+    <div class="center-container">
+        <form th:action="@{/user/updateUser}" method="post" th:object="${user}" class="form-center">
+            <h2>Edit User</h2>
+            <label for="username">Username:</label><br>
+            <input type="text" id="username" name="username" th:field="*{username}" class="input-field"/>
+            <br><br>
 
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" th:field="*{password}" value="*****" class="input-field" onfocus="togglePasswordInput(this)" onblur="handleBlur(this)"/>
-        <br><br>
+            <label for="password">Password:</label><br>
+            <input type="password" id="password" name="password" th:field="*{password}" value="*****" class="input-field" onfocus="togglePasswordInput(this)" onblur="handleBlur(this)"/>
+            <br><br>
 
-        <div class="checkbox-group">
-            <label>
-                <input type="checkbox" id="enabled" name="enabled" th:field="*{enabled}" />
-                <span>Enabled</span>
-            </label>
-        </div>
-
-        <input type="hidden" id="id" name="id" th:field="*{id}"/>
-
-        <input type="hidden" name="rolesSelected" value=""/>
-        <div class="checkbox-group">
-            <label>Roles:</label><br>
-            <div th:each="role : ${roles}">
+            <div class="checkbox-group">
                 <label>
-                    <input type="checkbox" th:id="'role_' + ${role.id}" th:name="rolesSelected" th:value="${role.id}" th:checked="${user.getRoles().contains(role)}" />
-                    <span th:text="${role.name}"></span>
+                    <input type="checkbox" id="enabled" name="enabled" th:field="*{enabled}" />
+                    <span>Enabled</span>
                 </label>
             </div>
-        </div>
 
-        <input type="submit" value="Submit" class="btn btn-submit">
-    </form>
+            <input type="hidden" id="id" name="id" th:field="*{id}"/>
+
+            <input type="hidden" name="rolesSelected" value=""/>
+            <div class="checkbox-group">
+                <label>Roles:</label><br>
+                <div th:each="role : ${roles}">
+                    <label>
+                        <input type="checkbox" th:id="'role_' + ${role.id}" th:name="rolesSelected" th:value="${role.id}" th:checked="${user.getRoles().contains(role)}" />
+                        <span th:text="${role.name}"></span>
+                    </label>
+                </div>
+            </div>
+
+            <input type="submit" value="Submit" class="btn btn-submit">
+        </form>
+    </div>
 </div>
+<script th:src="@{/js/sidebar.js}" type="text/javascript"> </script>
 </body>
 </html>
