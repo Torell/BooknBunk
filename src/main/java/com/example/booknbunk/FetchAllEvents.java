@@ -1,15 +1,19 @@
 package com.example.booknbunk;
 
+import com.example.booknbunk.configurations.IntegrationProperties;
 import com.example.booknbunk.services.interfaces.EventService;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.stereotype.Component;
 
 
-@ComponentScan
+@Component
 public class FetchAllEvents implements CommandLineRunner {
 
     private final EventService eventService;
@@ -18,14 +22,18 @@ public class FetchAllEvents implements CommandLineRunner {
         this.eventService = eventService;
     }
 
-    private String queueName = "61da1eea-c67b-4707-9d2d-4ce48ecaf461";
+    @Qualifier("integrationProperties")
+    @Autowired
+    IntegrationProperties properties;
+
+
 
     @Override
     public void run(String... args) throws Exception {
        ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost("128.140.81.47");
-        factory.setUsername("djk47589hjkew789489hjf894");
-        factory.setPassword("sfdjkl54278frhj7");
+        factory.setHost(properties.getEvent().getHost());
+        factory.setUsername(properties.getEvent().getUsername());
+        factory.setPassword(properties.getEvent().getPassword());
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 
@@ -35,7 +43,7 @@ public class FetchAllEvents implements CommandLineRunner {
             System.out.println(" [x] Received '" + message + "'");
             eventService.processEvent(message);
         };
-        channel.basicConsume(queueName, true, deliverCallback, consumerTag -> { });
+        channel.basicConsume(properties.getEvent().getQueueName(), true, deliverCallback, consumerTag -> { });
     }
 
 }
