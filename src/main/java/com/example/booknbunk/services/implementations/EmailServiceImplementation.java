@@ -22,5 +22,4 @@ public class EmailServiceImplementation implements EmailService {
         message.setText(body);
         mailSender.send(message);
     }
-
 }
