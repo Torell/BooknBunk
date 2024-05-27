@@ -11,7 +11,7 @@
     <div class="center-container">
         <form action="#" th:action="@{/booking/getAvailability}" method="post" th:object="${booking}" class="form-center">
             <label for="occupants">Number of Guests:</label><br>
-            <select id="occupants" name="occupants" class="input-field">
+            <select id="occupants" name="occupants" th:required="true" class="input-field">
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -19,11 +19,11 @@
             </select><br><br>
 
             <label for="startDate">Start date:</label><br>
-            <input type="date" id="startDate" name="startDate" th:field="*{startDate}" class="input-field" />
+            <input type="date" id="startDate" name="startDate" th:field="*{startDate}" th:required="true" class="input-field" />
             <br><br>
 
             <label for="endDate">End Date:</label><br>
-            <input type="date" id="endDate" name="endDate" th:field="*{endDate}" class="input-field" />
+            <input type="date" id="endDate" name="endDate" th:field="*{endDate}" th:required="true" class="input-field" />
             <br><br>
 
             <input type="submit" value="Submit" class="btn btn-submit">

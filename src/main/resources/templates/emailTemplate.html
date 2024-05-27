@@ -4,14 +4,14 @@
     <title>Bokningsbekräftelse</title>
 </head>
 <body>
-<p>Hej <span th:text="${customerName}">[Kundnamn]</span>,</p>
-<p>Din bokning har bekräftats!</p>
-<p>Bokningsdetaljer:</p>
+<p>Hi <span th:text="${customerName}">[Kundnamn]</span>,</p>
+<p>Your booking is confirmed!</p>
+<p>Details:</p>
 <ul>
-    <li>Rum: <span th:text="${roomSize}">[Storlek]</span></li>
-    <li>Incheckningsdatum: <span th:text="${checkInDate}">[Incheckningsdatum]</span></li>
-    <li>Utcheckningsdatum: <span th:text="${checkOutDate}">[Utcheckningsdatum]</span></li>
+    <li>Room number: <span th:text="${roomSize}">[Storlek]</span></li>
+    <li>Check in: <span th:text="${checkInDate}">[Incheckningsdatum]</span></li>
+    <li>Check out: <span th:text="${checkOutDate}">[Utcheckningsdatum]</span></li>
 </ul>
-<p>Tack för att du bokade hos oss!</p>
+<p>Thank you for making a reservation at Book'n'Bunk!</p>
 </body>
 </html>

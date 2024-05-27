@@ -10,6 +10,7 @@ import com.example.booknbunk.repositories.RoomRepository;
 import com.example.booknbunk.services.interfaces.BlacklistService;
 import com.example.booknbunk.services.interfaces.BookingService;
 import com.example.booknbunk.services.interfaces.EmailService;
+import jakarta.mail.MessagingException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -125,7 +126,7 @@ public class BookingServiceImplementation implements BookingService {
     }
 
     @Override
-    public StringBuilder createOrChangeBooking(BookingDetailedDto bookingDetailedDto,RoomDetailedDto roomDetailedDto) {
+    public StringBuilder createOrChangeBooking(BookingDetailedDto bookingDetailedDto,RoomDetailedDto roomDetailedDto) throws MessagingException {
         StringBuilder returnMessage = new StringBuilder();
         boolean allConditionsMet = true;
         if (!extraBedSpaceAvailable(bookingDetailedDto)) {
@@ -153,7 +154,7 @@ public class BookingServiceImplementation implements BookingService {
         return returnMessage;
     }
 
-    private void sendConfirmationEmail(BookingDetailedDto bookingDetailedDto) {
+    private void sendConfirmationEmail(BookingDetailedDto bookingDetailedDto) throws MessagingException {
         Map<String, Object> variables = Map.of(
                 "customerName", bookingDetailedDto.getCustomerMiniDto().getName(),
                 "roomSize", bookingDetailedDto.getRoomMiniDto().getRoomSize(),

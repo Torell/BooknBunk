@@ -22,12 +22,12 @@
     <form th:action="@{/customers/addCustomer}" method="post" onsubmit="return validateForm()" class="form-center">
       <h1>Add Customer</h1>
       <label for="name">Name:</label><br>
-      <input type="text" id="name" name="name" class="input-field"><br>
+      <input type="text" id="name" name="name" th:required="true" class="input-field"><br>
 
       <label for="email">Email:</label><br>
-      <input type="email" id="email" name="email" class="input-field"><br>
+      <input type="email" id="email" name="email" th:required="true" class="input-field"><br>
 
-      <input type="submit" value="Add to Customer List" class="btn btn-submit">
+      <input type="submit" value="Add to Customer List"  class="btn btn-submit">
     </form>
   </div>
 </div>

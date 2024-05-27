@@ -50,16 +50,16 @@
         <form th:action="@{/user/updateUser}" method="post" th:object="${user}" class="form-center">
             <h2>Edit User</h2>
             <label for="username">Username:</label><br>
-            <input type="text" id="username" name="username" th:field="*{username}" class="input-field"/>
+            <input type="text" id="username" name="username" th:field="*{username}" th:required="true" class="input-field"/>
             <br><br>
 
             <label for="password">Password:</label><br>
-            <input type="password" id="password" name="password" th:field="*{password}" value="*****" class="input-field" onfocus="togglePasswordInput(this)" onblur="handleBlur(this)"/>
+            <input type="password" id="password" name="password" th:field="*{password}" th:required="true" value="*****" class="input-field" onfocus="togglePasswordInput(this)" onblur="handleBlur(this)"/>
             <br><br>
 
             <div class="checkbox-group">
                 <label>
-                    <input type="checkbox" id="enabled" name="enabled" th:field="*{enabled}" />
+                    <input type="checkbox" id="enabled" name="enabled"  th:field="*{enabled}" />
                     <span>Enabled</span>
                 </label>
             </div>
@@ -71,7 +71,7 @@
                 <label>Roles:</label><br>
                 <div th:each="role : ${roles}">
                     <label>
-                        <input type="checkbox" th:id="'role_' + ${role.id}" th:name="rolesSelected" th:value="${role.id}" th:checked="${user.getRoles().contains(role)}" />
+                        <input type="checkbox" th:id="'role_' + ${role.id}" th:name="rolesSelected" th:required="true" th:value="${role.id}" th:checked="${user.getRoles().contains(role)}" />
                         <span th:text="${role.name}"></span>
                     </label>
                 </div>

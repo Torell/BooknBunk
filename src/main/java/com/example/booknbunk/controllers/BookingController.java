@@ -10,6 +10,7 @@ import com.example.booknbunk.services.interfaces.BookingService;
 import com.example.booknbunk.services.interfaces.CustomerService;
 import com.example.booknbunk.services.interfaces.MyUserService;
 import com.example.booknbunk.services.interfaces.RoomService;
+import jakarta.mail.MessagingException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,7 +47,7 @@ public class BookingController {
 
 
     @PostMapping("/add")
-    public String addBooking(Model model, BookingDetailedDto bookingDetailedDto, RedirectAttributes redirectAttributes, CustomerDetailedDto customerDetailedDto){
+    public String addBooking(Model model, BookingDetailedDto bookingDetailedDto, RedirectAttributes redirectAttributes, CustomerDetailedDto customerDetailedDto) throws MessagingException {
         RoomDetailedDto desiredRoom = roomService.findRoomById(bookingDetailedDto.getRoomMiniDto().getId());
         StringBuilder returnMessage = bookingService.createOrChangeBooking(bookingDetailedDto,desiredRoom);
         redirectAttributes.addFlashAttribute("returnMessage",returnMessage);
@@ -115,7 +116,7 @@ public class BookingController {
     }
 
     @RequestMapping("/modify")
-    public String editBooking(BookingDetailedDto bookingDetailedDto,Model model, RedirectAttributes redirectAttributes) {
+    public String editBooking(BookingDetailedDto bookingDetailedDto,Model model, RedirectAttributes redirectAttributes) throws MessagingException {
 
         RoomDetailedDto desiredRoom = roomService.findRoomById(bookingDetailedDto.getRoomMiniDto().getId());
         StringBuilder returnMessage = bookingService.createOrChangeBooking(bookingDetailedDto,desiredRoom);

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Edit Bokningsbekräftelse Template</title>
+  <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
+</head>
+<body>
+<h1>Edit Bokningsbekräftelse Template</h1>
+<form action="/save-template" method="post">
+  <label>
+    <textarea name="content" rows="20" cols="80" th:text="${content}"></textarea>
+  </label>
+  <br>
+  <button type="submit">Save</button>
+</form>
+<div th:if="${param.success}">
+  <p>Template saved successfully!</p>
+</div>
+</body>
+</html>
