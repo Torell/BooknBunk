@@ -37,7 +37,7 @@ class MyUserServiceImplementationTest {
     }
 
     @Test
-    public void testFindAllUserPagesWithSearch() {
+    public void findAllUserPagesWithSearchTest() {
         String search = "test";
         Pageable pageable = mock(Pageable.class);
         Page<User> page = mock(Page.class);
@@ -49,7 +49,7 @@ class MyUserServiceImplementationTest {
     }
 
     @Test
-    public void testFindUserById() {
+    public void findUserByIdTest() {
         UUID userId = UUID.randomUUID();
         User user = new User();
         when(userRepository.getReferenceById(userId)).thenReturn(user);
@@ -61,7 +61,7 @@ class MyUserServiceImplementationTest {
     }
 
     @Test
-    void testFindUserByEmail() {
+    void findUserByEmailTest() {
         String email = "test@example.com";
         User user = new User();
         user.setUsername(email);
