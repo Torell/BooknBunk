@@ -13,10 +13,11 @@
         }
     </style>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Book'n'Bunk</title>
 </head>
 <body>
-<div th:replace="navbar :: navbar"></div>
+<div th:replace="/fragments/sidebar :: sidebar"></div>
 
+<script th:src="@{/js/sidebar.js}" type="text/javascript"></script>
 </body>
 </html>

@@ -50,7 +50,7 @@ public class ResetPasswordController {
         String token = UUID.randomUUID().toString();
         myUserService.createPasswordResetTokenForUser(user, token);
 
-        String resetUrl = "http://localhost:8080/forgotPassword/reset-password?token=" + token;
+        String resetUrl = "http://localhost:8080/forgotPassword/resetPassword?token=" + token;
 
         String passwordResetBody = "\n" +
                 "Can't Get In To Your Account?\n" +

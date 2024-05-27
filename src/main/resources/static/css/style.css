@@ -1,29 +1,80 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    margin: 0;
-    padding: 20px;
+    background-color: #f8f9fa;
     color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
 }
-h2 {
-    color: #4A90E2;
+
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
 }
-table {
+
+.booking-title {
+    margin-bottom: 20px;
+    color: #010150;
+}
+
+.table {
     width: 100%;
+    margin-bottom: 20px;
     border-collapse: collapse;
 }
-td, th {
-    border: 1px solid #ddd;
-    padding: 8px;
+
+.table th, .table td {
+    padding: 12px;
     text-align: left;
+    border-bottom: 1px solid #dee2e6;
 }
+
+.table thead th {
+    background-color: #405977;
+    color: #fff;
+    border-top: 0;
+}
+
+.table tbody tr:hover {
+    background-color: #f1f1f1;
+}
+
+.btn {
+    padding: 6px 12px;
+    margin-right: 5px;
+    text-decoration: none;
+    border-radius: 4px;
+    color: #fff;
+    display: inline-block;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border: none;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border: none;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
 tr:nth-child(even) {
     background-color: #f2f2f2;
 }
+
 a {
-    color: #4A90E2;
+    color: #405977;
     text-decoration: none;
 }
+
 a:hover {
     text-decoration: underline;
 }
@@ -36,10 +87,12 @@ form {
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     margin-top: 20px;
 }
+
 label {
     font-weight: bold;
     color: #555;
 }
+
 input[type="text"],
 input[type="date"],
 input[type="email"],
@@ -51,6 +104,7 @@ input[type="number"] {
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+
 input[type="submit"] {
     background-color: #4A90E2;
     color: white;
@@ -61,6 +115,7 @@ input[type="submit"] {
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
+
 input[type="submit"]:hover {
     background-color: #3672b8;
 }
@@ -85,34 +140,9 @@ nav li a {
     text-decoration: none;
 }
 
-nav ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #333;
-}
-
-/* Navbar items */
-nav li {
-    float: left;
-    overflow: hidden;
-}
-
-/* Links inside the navbar */
-nav a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-    transition: background-color 0.3s; /* Smooth transition for background color */
-}
-
-/* Hover effects for links */
 nav a:hover {
-    background-color: #d3d3d3; /* Light gray color */
-    opacity: 0.7; /* 70% opacity makes it semi-transparent */
+    background-color: #d3d3d3;
+    opacity: 0.7;
 }
 
 /* Dropdown container */
@@ -152,18 +182,18 @@ select {
     border: 1px solid #ccc;
     border-radius: 4px;
     background-color: #fff;
-    font-family: Arial, sans-serif; /* Ensuring font consistency */
+    font-family: Arial, sans-serif;
     color: #333;
-    cursor: pointer; /* Gives a visual cue that this is a selectable item */
+    cursor: pointer;
 }
 
 select:hover {
-    border-color: #888; /* Subtle hover effect, could also use background color change */
+    border-color: #888;
 }
 
 select:focus {
-    border-color: #4A90E2; /* Highlight color when the select box is focused */
-    outline: none; /* Removes the default focus outline to use custom border color */
+    border-color: #4A90E2;
+    outline: none;
 }
 
 /* Additional styles for pagination buttons */
@@ -174,33 +204,35 @@ select:focus {
 }
 
 .pagination a {
-    border: 1px solid #ddd; /* Light grey border */
+    border: 1px solid #ddd;
     color: #333;
     float: left;
     padding: 8px 16px;
     text-decoration: none;
     transition: background-color .3s;
-    margin: 0 4px; /* Spacing between buttons */
-    border-radius: 4px; /* Rounded corners for the buttons */
+    margin: 0 4px;
+    border-radius: 4px;
 }
 
 .pagination a.active {
-    background-color: #4A90E2;
+    background-color: #405977;
     color: white;
-    border: 1px solid #4A90E2;
+    border: 1px solid #164275;
 }
 
-.pagination a:hover:not(.active) {background-color: #ddd;}
+.pagination a:hover:not(.active) {
+    background-color: #ddd;
+}
 
 /* Styling for the page number display */
 .page-number {
-    font-size: 16px; /* Larger font size for better readability */
-    padding: 8px 16px; /* Padding for aesthetics */
-    background-color: #f4f4f9; /* Matching the background to the body's background */
-    color: #333; /* Text color for consistency with the theme */
-    border: 1px solid #ccc; /* Border to distinguish the page number */
-    border-radius: 4px; /* Rounded corners */
-    margin: 0 4px; /* Spacing for symmetry */
+    font-size: 16px;
+    padding: 8px 16px;
+    background-color: #f4f4f9;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 0 4px;
 }
 
 /* Clear floats after the pagination buttons */
@@ -216,24 +248,209 @@ select:focus {
 }
 
 nav > ul {
-    display: flex;        /* Makes the UL a flex container */
-    align-items: center;  /* Aligns items vertically */
-    padding: 0;           /* Removes padding */
-    margin: 0;            /* Removes margin */
-    list-style: none;     /* Removes lis
-    t styling */
-}
-
-nav > ul > li {
-
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    list-style: none;
 }
 
 .nav-right {
-    margin-left: auto;    /* Pushes the element to the right */
+    margin-left: auto;
 }
 
- .navbar-container {
-    padding: 0; /* Ensure no padding is applied */
+.navbar-container {
+    padding: 0;
+}
+
+h1 {
+    color: #405977;
+    margin-bottom: 20px;
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+
+.alert-danger {
+    color: #721c24;
+    background-color: #f8d7da;
+    border-color: #f5c6cb;
+}
+
+.alert-info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+    border-color: #bee5eb;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border: none;
+}
+
+.center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.form-center {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
+    text-align: center;
+}
+
+.input-field {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.btn-submit {
+    padding: 10px 20px;
+    background-color: #4f98e7;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+    background-color: #3672b8;
+}
+
+.non-editable-field {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    color: #333;
+}
+
+.sidebar {
+    height: 100%;
+    width: 250px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #405977;
+    padding-top: 20px;
+    overflow-y: auto;
+}
+
+.sidebar h2 {
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebar a {
+    padding: 10px 15px;
+    text-decoration: none;
+    font-size: 18px;
+    color: white;
+    display: block;
+}
+
+.sidebar a:hover {
+    background-color: #575757;
+}
+
+.section-links a {
+    padding: 5px 15px;
+    font-size: 14px;
+    color: white;
+}
+
+.section-links {
+    display: none;
+}
+
+.section {
+    padding: 10px 15px;
+    font-size: 18px;
+    color: white;
+}
+
+.section-title {
+    cursor: pointer;
+}
+
+.main-content {
+    margin-left: 250px;
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.auth-buttons {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.auth-buttons {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.auth-button {
+    display: inline-block;
+    margin: 5px 0;
+    padding: 6px 12px;
+    font-size: 14px;
+    border-radius: 4px;
+    color: #fff;
+    background-color: #405977;
+    text-decoration: none;
+    border: none; /* Remove any border */
+}
+
+.btn-danger.auth-button {
+    background-color: #dc3545;
+}
+
+.btn-success.auth-button {
+    background-color: #28a745;
+}
+
+.auth-button .sidebar-icon {
+    margin-right: 5px;
+}
+
+.auth-button:hover {
+    opacity: 0.8;
+}
+
+.login-form {
+    background-color: #405977;
+    border-bottom: black;
+}
+
+.date-info {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #333;
+}
+
+.page-title {
+    margin-bottom: 20px;
+    color: #010150;
+    font-size: 24px;
+    text-align: center;
 }
 
 

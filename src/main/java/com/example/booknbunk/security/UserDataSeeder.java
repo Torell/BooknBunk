@@ -23,7 +23,6 @@ public class UserDataSeeder {
         if (roleRepository.findByName("Receptionist") == null) {
             addRole("Receptionist");
         }
-
         if(userRepository.getUserByUsername("rasmus.torell@gmail.com") == null){
             addUser("rasmus.torell@gmail.com","Admin");
         }

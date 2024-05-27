@@ -98,6 +98,4 @@ public class MyUserServiceImplementation implements MyUserService {
     public PasswordResetToken getPasswordResetToken(String token) {
         return passwordResetTokenRepository.findPasswordResetTokenByToken(token);
     }
-
-
 }
