@@ -151,8 +151,6 @@ public class BookingServiceImplementation implements BookingService {
         return returnMessage;
     }
 
-
-
     @Override
     public void modifyBooking(BookingDetailedDto bookingDetailedDto) {
             bookingRepository.save(bookingDetailedDtoToBooking(bookingDetailedDto));
