@@ -24,7 +24,7 @@ public class User {
     private String username;
     private String password;
     private boolean isEnabled;
-    @OneToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.EAGER)
     Collection<Role> roles;
 
 }

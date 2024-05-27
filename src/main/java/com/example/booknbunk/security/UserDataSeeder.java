@@ -29,6 +29,7 @@ public class UserDataSeeder {
         if(userRepository.getUserByUsername("stephanie.zevian@gmail.com") == null){
             addUser("stephanie.zevian@gmail.com","Receptionist");
         }
+
     }
 
     private void addUser(String mail, String group) {

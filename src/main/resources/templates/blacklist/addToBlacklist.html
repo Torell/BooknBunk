@@ -1,25 +1,37 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <link rel=stylesheet th:href="@{/css/style.css}" type="text/css">
-  <title>Detailed booking Info</title>
-
+  <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
+  <title>Add to Blacklist</title>
+  <script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+      /*[# th:if="${returnMessage} != null"]*/
+      let returnMessage = /*[[${returnMessage}]]*/ 'default message';
+      if (returnMessage && returnMessage !== 'default message') {
+        alert(returnMessage);
+      }
+      /*[/]*/
+    });
+  </script>
 </head>
 <body>
+<div class="sidebar" th:replace="fragments/sidebar :: sidebar"></div>
+<div class="main-content">
+  <div class="center-container">
+    <form th:action="@{/blacklist/add}" method="post" th:object="${blacklist}" class="form-center">
+      <h2>Add to Blacklist</h2>
+      <label for="name">Name:</label><br>
+      <input type="text" id="name" name="name" th:field="*{name}" class="input-field" />
+      <br><br>
 
-<div th:replace="navbar :: navbar"></div>
-<h2>Add to blacklist</h2>
-<form th:action="@{/blacklist/add}" method="post" th:object="${blacklist}">
-  <label for="name">Name:</label><br>
-  <input type="text" id="name" name="name" th:field="*{name}" />
-  <br><br>
+      <label for="email">Email:</label><br>
+      <input type="email" id="email" name="email" th:field="*{email}" class="input-field" />
+      <br><br>
 
-  <label for="email">Email:</label><br>
-  <input type="text" id="email" name="email" th:field="*{email}" />
-  <br><br>
-
-
-  <input type="submit" value="Submit">
-</form>
+      <input type="submit" value="Submit" class="btn btn-submit">
+    </form>
+  </div>
+</div>
+<script th:src="@{/js/sidebar.js}" type="text/javascript"></script>
 </body>
 </html>
