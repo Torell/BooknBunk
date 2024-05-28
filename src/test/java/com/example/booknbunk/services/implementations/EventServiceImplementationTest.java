@@ -28,7 +28,7 @@ public class EventServiceImplementationTest {
     @Mock
     private ObjectMapper objectMapper;
 
-    @InjectMocks
+
     private EventServiceImplementation eventServiceImplementation;
 
     @Mock
@@ -44,7 +44,8 @@ public class EventServiceImplementationTest {
     void processEventSuccesfullTest() throws JsonProcessingException {
 
         String message = "{\"timeStamp\":\"2024-05-22T12:00:00\",\"room\":{\"id\":1},\"doorEventType\":\"RoomOpened\"}";
-        EventRoomDoor doorEvent = new EventRoomDoor();
+        eventServiceImplementation.processEvent(message);
+
         Room room = new Room();
         room.setId(1L);
         doorEvent.setRoom(room);
