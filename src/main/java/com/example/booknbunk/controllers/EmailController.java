@@ -15,7 +15,7 @@ import java.nio.file.Paths;
 
 @Controller
 @RequestMapping("/email")
-@PreAuthorize("hasAuthority('admin')")
+@PreAuthorize("hasAuthority('Admin')")
 public class EmailController {
 
     private static final String TEMPLATE_PATH = "src/main/resources/templates/emailTemplate.html";
@@ -29,7 +29,7 @@ public class EmailController {
     }
 
     @PostMapping("/save-template")
-    public String saveTemplate(@RequestParam("content") String content, Model model) throws IOException {
+    public String saveTemplate(@RequestParam("content") String content) throws IOException {
         Path path = Paths.get(TEMPLATE_PATH);
         Files.writeString(path, content);
 
