@@ -453,4 +453,11 @@ h1 {
     text-align: center;
 }
 
+.sidebar img {
+    max-width: 100%; /* Ensures the image does not exceed sidebar width */
+    height: auto; /* Maintains the aspect ratio */
+    display: block; /* Ensures proper block layout within sidebar */
+    margin: 0 auto; /* Centers the image horizontally */
+}
+
 

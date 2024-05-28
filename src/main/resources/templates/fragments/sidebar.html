@@ -8,11 +8,17 @@
     .larger-text {
       font-size: 2.5em; /* Adjust the size as needed */
     }
+    .sidebar img {
+      max-width: 100%; /* Ensures the image does not exceed sidebar width */
+      height: auto; /* Maintains the aspect ratio */
+      display: block; /* Ensures proper block layout within sidebar */
+      margin: 0 auto; /* Centers the image horizontally */
+    }
   </style>
 </head>
 <body>
 <div class="sidebar" th:fragment="sidebar">
-  <h2>Book'n'Bunk</h2>
+  <img th:src="@{/images/logo.jpg}" alt="Logo">
   <div class="auth-buttons">
     <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()" class="login-form">
       <button type="submit" class="btn btn-danger auth-button">

@@ -1,5 +1,6 @@
 package com.example.booknbunk.controllers;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +15,7 @@ import java.nio.file.Paths;
 
 @Controller
 @RequestMapping("/email")
+@PreAuthorize("hasAuthority('admin')")
 public class EmailController {
 
     private static final String TEMPLATE_PATH = "src/main/resources/templates/emailTemplate.html";

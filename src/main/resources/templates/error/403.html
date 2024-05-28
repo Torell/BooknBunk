@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
+    <title>Access Denied</title>
+</head>
+<body>
+<div class="sidebar" th:replace="fragments/sidebar :: sidebar"></div>
+<div class="main-content">
+    <div class="container">
+        <p>Only admins have access to this page.</p>
+        <img th:src="@{/images/forbidden.webp}" alt="403 Forbidden - Admins Only">
+    </div>
+</div>
+<script th:src="@{/js/sidebar.js}" type="text/javascript"></script>
+</body>
+</html>
