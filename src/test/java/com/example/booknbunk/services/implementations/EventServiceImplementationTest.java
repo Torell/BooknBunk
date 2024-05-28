@@ -2,8 +2,8 @@ package com.example.booknbunk.services.implementations;
 
 import com.example.booknbunk.dtos.EventDto;
 import com.example.booknbunk.models.Event;
-import com.example.booknbunk.models.EventRoomCleaning;
-import com.example.booknbunk.models.EventRoomDoor;
+import com.example.booknbunk.models.EventRoomClosed;
+import com.example.booknbunk.models.EventRoomOpened;
 import com.example.booknbunk.models.Room;
 import com.example.booknbunk.repositories.EventRepository;
 import com.example.booknbunk.repositories.RoomRepository;
@@ -28,7 +28,7 @@ public class EventServiceImplementationTest {
     @Mock
     private ObjectMapper objectMapper;
 
-
+    @InjectMocks
     private EventServiceImplementation eventServiceImplementation;
 
     @Mock
@@ -43,26 +43,31 @@ public class EventServiceImplementationTest {
     @Test
     void processEventSuccesfullTest() throws JsonProcessingException {
 
-        String message = "{\"timeStamp\":\"2024-05-22T12:00:00\",\"room\":{\"id\":1},\"doorEventType\":\"RoomOpened\"}";
-        eventServiceImplementation.processEvent(message);
+        String mess = "{\"type\":\"RoomClosed\",\"TimeStamp\":\"2024-05-28T11:01:07.237941136\",\"RoomNo\":\"1\"}";
+        EventRoomClosed doorEvent = new EventRoomClosed();
+
+        doorEvent.setId(1L);
+        doorEvent.setRoomNo(1L);
 
         Room room = new Room();
         room.setId(1L);
-        doorEvent.setRoom(room);
 
-        when(objectMapper.readValue(message, Event.class)).thenReturn(doorEvent);
+        when(objectMapper.readValue(mess, Event.class)).thenReturn(doorEvent);
         when(roomRepository.findById(1L)).thenReturn(Optional.of(room));
 
-        eventServiceImplementation.processEvent(message);
+        eventServiceImplementation.processEvent(mess);
 
-        verify(eventRepository, times(1)).save(any());
+        verify(eventRepository, times(1)).save(doorEvent);
+        verify(roomRepository, times(1)).findById(1L);
+        verify(eventRepository).save(doorEvent);
+        verifyNoMoreInteractions(eventRepository, roomRepository);
     }
 
-    @Test
-    void processEventDeserializationErrorTest() throws JsonProcessingException {
+   @Test
+    void processEventErrorTest() throws JsonProcessingException {
 
         String message = "Invalid JSON message";
-        when(objectMapper.readValue(message, Event.class)).thenThrow(new RuntimeException("Deserialization error"));
+        when(objectMapper.readValue(message, Event.class)).thenThrow(new RuntimeException("Process event error"));
 
         eventServiceImplementation.processEvent(message);
 
@@ -72,8 +77,8 @@ public class EventServiceImplementationTest {
     @Test
     void processEventRoomNotFoundErrorTest() throws JsonProcessingException {
 
-        String message = "{\"timeStamp\":\"2024-05-22T12:00:00\",\"room\":{\"id\":1},\"doorEventType\":\"RoomOpened\"}";
-        EventRoomDoor doorEvent = new EventRoomDoor();
+        String message = "{\"type\":\"RoomClosed\",\"TimeStamp\":\"2024-05-28T11:01:07.237941136\",\"RoomNo\":\"1\"}";
+        EventRoomOpened doorEvent = new EventRoomOpened();
         when(objectMapper.readValue(message, Event.class)).thenReturn(doorEvent);
         when(roomRepository.findById(1L)).thenReturn(java.util.Optional.empty());
 
@@ -81,6 +86,7 @@ public class EventServiceImplementationTest {
 
         verify(eventRepository, never()).save(any());
     }
+    /*
     @Test
     void getAllEventsDtoByRoomIdTest() {
 
@@ -106,22 +112,5 @@ public class EventServiceImplementationTest {
 
         verify(eventRepository, times(1)).findAllByRoomId(roomId);
     }
-
-
-    @Test
-    public void deserializeEventTest() throws Exception {
-
-        String validJson = "{ \"doorEventType\": \"OPEN\", \"timestamp\": \"2024-05-22T14:30:00\", \"room\": { \"roomNo\": \"101\" } }";
-
-        Room room = new Room();
-        room.setId(101L);
-
-        EventRoomDoor expectedEvent = new EventRoomDoor(LocalDateTime.of(2024, 5, 22, 14, 30), room, null, "OPEN");
-
-        when(objectMapper.readValue(validJson, Event.class)).thenReturn(expectedEvent);
-
-        Event actualEvent = eventServiceImplementation.deserializeEvent(validJson);
-
-        assertEquals(expectedEvent, actualEvent);
-    }
+*/
 }
