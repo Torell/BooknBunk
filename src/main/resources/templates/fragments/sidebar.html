@@ -4,10 +4,21 @@
 <head>
   <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
   <title>Sidebar Fragment</title>
+  <style>
+    .larger-text {
+      font-size: 2.5em; /* Adjust the size as needed */
+    }
+    .sidebar img {
+      max-width: 100%; /* Ensures the image does not exceed sidebar width */
+      height: auto; /* Maintains the aspect ratio */
+      display: block; /* Ensures proper block layout within sidebar */
+      margin: 0 auto; /* Centers the image horizontally */
+    }
+  </style>
 </head>
 <body>
 <div class="sidebar" th:fragment="sidebar">
-  <h2>Book'n'Bunk</h2>
+  <img th:src="@{/images/logo.jpg}" alt="Logo">
   <div class="auth-buttons">
     <form th:action="@{/logout}" method="post" sec:authorize="isAuthenticated()" class="login-form">
       <button type="submit" class="btn btn-danger auth-button">
@@ -55,11 +66,16 @@
       <a th:href="@{/blacklist/removeFromBlacklist}">Remove Customer From Blacklist</a>
     </div>
   </div>
+
   <div class="section">
-    <a href="javascript:void(0)" class="section-title">Users</a>
+    <span sec:authorize="isAuthenticated()" class="section-title">Admin</span>
     <div class="section-links">
-      <a th:href="@{/user/getAll}">All Users</a>
-      <a th:href="@{/user/createUser}">Add New User</a>
+      <a th:href="@{/email/edit-template}" sec:authorize="isAuthenticated()" class="section-title larger-text">Email</a>
+      <a href="javascript:void(0)" class="section-title larger-text" sec:authorize="isAuthenticated()">Users</a>
+      <div class="section-links" style="display:none;">
+        <a th:href="@{/user/getAll}">All Users</a>
+        <a th:href="@{/user/createUser}">Add New User</a>
+      </div>
     </div>
   </div>
 </div>
