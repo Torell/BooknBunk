@@ -21,7 +21,7 @@
     <form th:action="@{/blacklist/remove}" method="post" th:object="${blacklist}" class="form-center">
       <h2>Remove from Blacklist</h2>
       <label for="email">Email:</label><br>
-      <input type="email" id="email" name="email" th:field="*{email}" class="input-field" />
+      <input type="email" id="email" name="email" th:field="*{email}" th:required="true" class="input-field" />
       <br><br>
 
       <input type="submit" value="Submit" class="btn btn-submit">

@@ -13,10 +13,10 @@
             <h2>Edit Customer</h2>
 
             <label for="name">Name:</label><br>
-            <input type="text" id="name" th:field="*{name}" class="input-field"/><br>
+            <input type="text" id="name" th:field="*{name}" th:required="true" class="input-field"/><br>
 
             <label for="email">Email:</label><br>
-            <input type="email" id="email" th:field="*{email}" class="input-field"/><br>
+            <input type="email" id="email" th:field="*{email}" th:required="true" class="input-field"/><br>
 
             <input type="hidden" id="id" th:field="*{id}"/><br>
             <input type="submit" value="Submit" class="btn btn-submit">

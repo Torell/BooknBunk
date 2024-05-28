@@ -4,6 +4,7 @@ import com.example.booknbunk.dtos.*;
 import com.example.booknbunk.models.Booking;
 import com.example.booknbunk.models.Customer;
 import com.example.booknbunk.models.Room;
+import jakarta.mail.MessagingException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -27,7 +28,7 @@ public interface BookingService {
 
     BookingDetailedDto findBookingById(long id);
 
-    StringBuilder createOrChangeBooking(BookingDetailedDto bookingDetailedDto, RoomDetailedDto roomDetailedDto);
+    StringBuilder createOrChangeBooking(BookingDetailedDto bookingDetailedDto, RoomDetailedDto roomDetailedDto) throws MessagingException;
 
     boolean extraBedSpaceAvailable(BookingDetailedDto bookingDetailedDto);
 

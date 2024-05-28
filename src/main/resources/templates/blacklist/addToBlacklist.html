@@ -21,11 +21,11 @@
     <form th:action="@{/blacklist/add}" method="post" th:object="${blacklist}" class="form-center">
       <h2>Add to Blacklist</h2>
       <label for="name">Name:</label><br>
-      <input type="text" id="name" name="name" th:field="*{name}" class="input-field" />
+      <input type="text" id="name" name="name" th:field="*{name}" th:required="true" class="input-field" />
       <br><br>
 
       <label for="email">Email:</label><br>
-      <input type="email" id="email" name="email" th:field="*{email}" class="input-field" />
+      <input type="email" id="email" name="email" th:field="*{email}" th:required="true" class="input-field" />
       <br><br>
 
       <input type="submit" value="Submit" class="btn btn-submit">

@@ -6,6 +6,7 @@ import com.example.booknbunk.repositories.PasswordResetTokenRepository;
 import com.example.booknbunk.services.interfaces.EmailService;
 import com.example.booknbunk.services.interfaces.MyUserService;
 import com.example.booknbunk.utils.PasswordResetRequest;
+import jakarta.mail.MessagingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
@@ -39,7 +40,7 @@ public class ResetPasswordController {
     }
 
     @PostMapping("/forgotPassword")
-    public String processForgotPasswordForm(@RequestParam ("email") String email, Model model) {
+    public String processForgotPasswordForm(@RequestParam ("email") String email, Model model) throws MessagingException {
         User user = myUserService.findUserByEmail(email);
         if (user == null) {
             model.addAttribute("error", "Email address not found");

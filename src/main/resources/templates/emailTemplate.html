@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Bokningsbekräftelse</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .email-container {
+            background-color: #ffffff;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header img {
+            max-width: 100px;
+            border-radius: 50%;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #333333;
+        }
+        .content p {
+            font-size: 16px;
+            color: #555555;
+            line-height: 1.5;
+        }
+        .content ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .content ul li {
+            font-size: 16px;
+            color: #555555;
+            margin-bottom: 10px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .footer p {
+            font-size: 14px;
+            color: #777777;
+        }
+    </style>
+</head>
+<body>
+<div class="email-container">
+    <div class="header">
+        <img src="path_to_logo.png" alt="Book'n'Bunk Logo" />
+        <h1>Booking Confirmation</h1>
+    </div>
+    <div class="content">
+        <p>Hi <span th:text="${customerName}">[Kundnamn]</span>,</p>
+        <p>Your booking is confirmed!</p>
+        <p>Details:</p>
+        <ul>
+            <li>Room number: <span th:text="${roomNumber}">[Rumsnummer]</span></li>
+            <li>Check in: <span th:text="${checkInDate}">[Incheckningsdatum]</span></li>
+            <li>Check out: <span th:text="${checkOutDate}">[Utcheckningsdatum]</span></li>
+        </ul>
+        <p>Thank you for making a reservation at Book'n'Bunk!</p>
+    </div>
+    <div class="footer">
+        <p>&copy; 2024 Book'n'Bunk. All rights reserved.</p>
+    </div>
+</div>
+</body>
+</html>

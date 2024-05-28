@@ -8,6 +8,7 @@ import com.example.booknbunk.repositories.BookingRepository;
 import com.example.booknbunk.repositories.CustomerRepository;
 import com.example.booknbunk.repositories.RoomRepository;
 import com.example.booknbunk.services.interfaces.BlacklistService;
+import com.example.booknbunk.services.interfaces.EmailService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -38,8 +39,10 @@ class BookingServiceImplementationTest {
     private BlacklistService blacklistService;
     @Mock
     private DiscountServiceImplementation discountService;
+    @Mock
+    private EmailService emailService;
 
-    private final BookingServiceImplementation bookingService = new BookingServiceImplementation(bookingRepository,roomRepository,customerRepository,blacklistService,discountService);
+    private final BookingServiceImplementation bookingService = new BookingServiceImplementation(bookingRepository,roomRepository,customerRepository,blacklistService,discountService,emailService);
     private final Long id = 1L;
     private final int roomSize = 1;
     private final String name = "testName";
@@ -127,7 +130,7 @@ class BookingServiceImplementationTest {
 
     @Test
     void findBookingById() {
-        BookingServiceImplementation bookingService2 = new BookingServiceImplementation(bookingRepository,roomRepository, customerRepository,blacklistService,discountService);
+        BookingServiceImplementation bookingService2 = new BookingServiceImplementation(bookingRepository,roomRepository, customerRepository,blacklistService,discountService,emailService);
         when(bookingRepository.getReferenceById(id)).thenReturn(booking);
         BookingDetailedDto actual = bookingService2.findBookingById(id);
 
@@ -162,7 +165,7 @@ class BookingServiceImplementationTest {
         List<RoomDetailedDto> expected2 = Arrays.asList(roomDetailedDto0,roomDetailedDto1,roomDetailedDto2,roomDetailedDto3);
 
         when(roomRepository.findAll()).thenReturn(Arrays.asList(room0,room1,room2,room3));
-        BookingServiceImplementation bookingService2 = new BookingServiceImplementation(bookingRepository,roomRepository,customerRepository,blacklistService,discountService);
+        BookingServiceImplementation bookingService2 = new BookingServiceImplementation(bookingRepository,roomRepository,customerRepository,blacklistService,discountService,emailService);
 
         List<RoomDetailedDto> actual1 = bookingService2.getAllAvailabileRoomsBasedOnRoomSizeAndDateIntervall(0,new BookingDetailedDto(id,today,tomorrow,customerMiniDto, roomMiniDto,extraBed,0));
         List<RoomDetailedDto> actual2 = bookingService2.getAllAvailabileRoomsBasedOnRoomSizeAndDateIntervall(0,new BookingDetailedDto(id,dayAfterTomorrow,today,customerMiniDto, roomMiniDto,extraBed,0));
@@ -183,7 +186,7 @@ class BookingServiceImplementationTest {
     @Test
     void getAllBookingDetailedDto() {
         when(bookingRepository.findAll()).thenReturn(List.of(booking));
-        BookingServiceImplementation bookingService2 = new BookingServiceImplementation(bookingRepository,roomRepository,customerRepository,blacklistService,discountService);
+        BookingServiceImplementation bookingService2 = new BookingServiceImplementation(bookingRepository,roomRepository,customerRepository,blacklistService,discountService,emailService);
 
         List<BookingDetailedDto> expected = List.of(bookingDetailedDto);
         List<BookingDetailedDto> actual = bookingService2.getAllBookingDetailedDto();

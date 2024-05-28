@@ -9,12 +9,15 @@ import com.example.booknbunk.repositories.CustomerRepository;
 import com.example.booknbunk.repositories.RoomRepository;
 import com.example.booknbunk.services.interfaces.BlacklistService;
 import com.example.booknbunk.services.interfaces.BookingService;
+import com.example.booknbunk.services.interfaces.EmailService;
+import jakarta.mail.MessagingException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 @Service
@@ -31,18 +34,18 @@ public class BookingServiceImplementation implements BookingService {
 
     private final BlacklistService blacklistService;
     private final DiscountServiceImplementation discountService;
+    private final EmailService emailService;
 
 
-    public BookingServiceImplementation(BookingRepository bookingRepository, RoomRepository roomRepository,
-                                        CustomerRepository customerRepository, BlacklistService blacklistService, DiscountServiceImplementation discountService) {
+
+    public BookingServiceImplementation(BookingRepository bookingRepository, RoomRepository roomRepository, CustomerRepository customerRepository, BlacklistService blacklistService, DiscountServiceImplementation discountService, EmailService emailService) {
         this.bookingRepository = bookingRepository;
         this.roomRepository = roomRepository;
         this.customerRepository = customerRepository;
         this.blacklistService = blacklistService;
         this.discountService = discountService;
+        this.emailService = emailService;
     }
-
-
 
     @Override
     public BookingDetailedDto bookingToBookingDetailedDto(Booking booking) {
@@ -123,7 +126,7 @@ public class BookingServiceImplementation implements BookingService {
     }
 
     @Override
-    public StringBuilder createOrChangeBooking(BookingDetailedDto bookingDetailedDto,RoomDetailedDto roomDetailedDto) {
+    public StringBuilder createOrChangeBooking(BookingDetailedDto bookingDetailedDto,RoomDetailedDto roomDetailedDto) throws MessagingException {
         StringBuilder returnMessage = new StringBuilder();
         boolean allConditionsMet = true;
         if (!extraBedSpaceAvailable(bookingDetailedDto)) {
@@ -135,8 +138,7 @@ public class BookingServiceImplementation implements BookingService {
         } if (!checkRoomForAvailability(bookingDetailedDto, roomDetailedDto)) {
             returnMessage.append("The room is not available the chosen dates.");
             allConditionsMet = false;
-        } if (!blacklistService.checkBlacklist(customerRepository.findById(bookingDetailedDto.getCustomerMiniDto().
-                getId()).get().getEmail())){
+        } if (!blacklistService.checkBlacklist(customerRepository.getReferenceById(bookingDetailedDto.getCustomerMiniDto().getId()).getEmail())){
             returnMessage.append("Customer is on Blacklist.");
             allConditionsMet = false;
         } if (allConditionsMet) {
@@ -146,10 +148,23 @@ public class BookingServiceImplementation implements BookingService {
             bookingDetailedDto.setCustomerMiniDto(customerToCustomerMiniDto(customerRepository.getReferenceById(bookingDetailedDto.getCustomerMiniDto().getId())));
             bookingDetailedDto.setTotalPrice(calculateTotalPrice(bookingDetailedDto));
             bookingRepository.save(bookingDetailedDtoToBooking(bookingDetailedDto));
+            sendConfirmationEmail(bookingDetailedDto);
         }
 
         return returnMessage;
     }
+
+    private void sendConfirmationEmail(BookingDetailedDto bookingDetailedDto) throws MessagingException {
+        Map<String, Object> variables = Map.of(
+                "customerName", bookingDetailedDto.getCustomerMiniDto().getName(),
+                "roomSize", bookingDetailedDto.getRoomMiniDto().getRoomSize(),
+                "checkInDate", bookingDetailedDto.getStartDate().toString(),
+                "checkOutDate", bookingDetailedDto.getEndDate().toString()
+        );
+
+        emailService.sendEmailWithTemplate(customerRepository.getReferenceById(bookingDetailedDto.getCustomerMiniDto().getId()).getEmail(), "Booking confirmation", "emailTemplate", variables);
+    }
+
 
 
 
