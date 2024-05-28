@@ -28,8 +28,13 @@ public class ShippingServiceImplementation implements ShippingService{
 
     @Override
     public void fetchAndSaveShippers() {
+
         try {
-            URL url = new URL(integrationProperties.getShipper().getUrl());
+            String urlString = integrationProperties.getShipper().getUrl();
+            System.out.println("Fetching shippers from url: " + urlString);
+
+            URL url = new URL(urlString);
+            //URL url = new URL(integrationProperties.getShipper().getUrl());
             Shipper[] shippers = objectMapper.readValue(url, Shipper[].class);
 
             for (Shipper shipper : shippers) {
