@@ -65,15 +65,6 @@ public class EventServiceImplementation implements EventService {
     }
 
 
-    @Transactional
-    @Override
-    public void saveEvent(Event event) {
-        Room room = roomRepository.findById(event.getRoom().getId())
-                .orElseThrow(() -> new IllegalArgumentException("Room with id " + event.getRoom().getId()
-                        + " does not exist.")); //kasta illegal argument?
-        event.setRoom(room);
-        eventRepository.save(event);
-    }
 
     @Transactional
     @Override

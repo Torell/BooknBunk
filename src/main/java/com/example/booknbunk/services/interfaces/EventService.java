@@ -10,7 +10,7 @@ public interface EventService {
 
     List<EventDto> getAllEventsDtoByRoomId(Long id);
 
-    void saveEvent(Event event);
+   // void saveEvent(Event event);
     void processEvent(String message);
 
     //EventDto eventToEventDto(Event event);
