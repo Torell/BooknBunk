@@ -20,10 +20,10 @@ import java.time.LocalDateTime;
         property = "type"
 )
 @JsonSubTypes({
-        @JsonSubTypes.Type(value = EventRoomCleaning.class, name = "RoomCleaningStarted"),
-        @JsonSubTypes.Type(value = EventRoomCleaning.class, name = "RoomCleaningFinished"),
-        @JsonSubTypes.Type(value = EventRoomDoor.class, name = "RoomOpened"),
-        @JsonSubTypes.Type(value = EventRoomDoor.class, name = "RoomClosed")
+        @JsonSubTypes.Type(value = EventRoomCleaningStarted.class, name = "RoomCleaningStarted"),
+        @JsonSubTypes.Type(value = EventRoomCleaningFinished.class, name = "RoomCleaningFinished"),
+        @JsonSubTypes.Type(value = EventRoomOpened.class, name = "RoomOpened"),
+        @JsonSubTypes.Type(value = EventRoomClosed.class, name = "RoomClosed")
 })
 public abstract class Event {
 
