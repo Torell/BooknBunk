@@ -21,7 +21,6 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-//@Component
 @ComponentScan
 public class FetchAllEvents implements CommandLineRunner {
 
@@ -34,7 +33,6 @@ public class FetchAllEvents implements CommandLineRunner {
 
     @Autowired
     IntegrationProperties integrationProperties;
-
 
 
     @Override
