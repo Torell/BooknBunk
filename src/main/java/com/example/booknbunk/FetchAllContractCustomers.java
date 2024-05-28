@@ -14,19 +14,20 @@ import org.springframework.stereotype.Component;
 
 import java.net.URL;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class FetchAllContractCustomers implements CommandLineRunner {
 
     ContractCustomerService contractCustomerService;
 
-    @Qualifier("integrationProperties")
     @Autowired
     IntegrationProperties properties;
 
 
     public FetchAllContractCustomers(ContractCustomerService contractCustomerService) {
         this.contractCustomerService = contractCustomerService;
+
     }
 
     @Override
@@ -38,8 +39,9 @@ public class FetchAllContractCustomers implements CommandLineRunner {
 
         System.out.println("mapper created");
 
-        URL url = new URL(properties.getContractCustomer().getUrl());
-        ContractCustomerListWrapper allCustomers = xmlMapper.readValue(url, ContractCustomerListWrapper.class);
+        ContractCustomerListWrapper allCustomers = xmlMapper.readValue(new URL
+                (properties.getContractCustomer().getUrl()),
+                ContractCustomerListWrapper.class);
 
         System.out.println("mapper reading values...");
         List<ContractCustomer> customers = allCustomers.getCustomers();

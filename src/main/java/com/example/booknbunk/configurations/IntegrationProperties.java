@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 @ConfigurationPropertiesScan
 @Configuration
-@ConfigurationProperties(prefix = "integrations")
+@ConfigurationProperties(prefix = "integrationproperties")
 @Getter
 @Setter
 public class IntegrationProperties {
