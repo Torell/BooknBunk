@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean;
 import java.util.Objects;
 
 @SpringBootApplication
-@ConfigurationPropertiesScan("com.example.booknbunk.configurations")
+//@ConfigurationPropertiesScan("com.example.booknbunk.configurations")
 public class BooknBunkApplication {
 
     @Autowired
