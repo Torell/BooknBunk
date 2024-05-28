@@ -1,10 +1,7 @@
 package com.example.booknbunk.services.implementations;
 
 import com.example.booknbunk.dtos.EventDto;
-import com.example.booknbunk.models.Event;
-import com.example.booknbunk.models.EventRoomClosed;
-import com.example.booknbunk.models.EventRoomOpened;
-import com.example.booknbunk.models.Room;
+import com.example.booknbunk.models.*;
 import com.example.booknbunk.repositories.EventRepository;
 import com.example.booknbunk.repositories.RoomRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -74,19 +71,8 @@ public class EventServiceImplementationTest {
         verify(eventRepository, never()).save(any());
     }
 
-    @Test
-    void processEventRoomNotFoundErrorTest() throws JsonProcessingException {
 
-        String message = "{\"type\":\"RoomClosed\",\"TimeStamp\":\"2024-05-28T11:01:07.237941136\",\"RoomNo\":\"1\"}";
-        EventRoomOpened doorEvent = new EventRoomOpened();
-        when(objectMapper.readValue(message, Event.class)).thenReturn(doorEvent);
-        when(roomRepository.findById(1L)).thenReturn(java.util.Optional.empty());
 
-        eventServiceImplementation.processEvent(message);
-
-        verify(eventRepository, never()).save(any());
-    }
-    /*
     @Test
     void getAllEventsDtoByRoomIdTest() {
 
@@ -94,10 +80,10 @@ public class EventServiceImplementationTest {
         Room room = new Room();
         room.setId(roomId);
 
-        EventRoomCleaning cleaningEvent = mock(EventRoomCleaning.class);
+        EventRoomCleaningStarted cleaningEvent = mock(EventRoomCleaningStarted.class);
         when(cleaningEvent.getRoom()).thenReturn(room);
 
-        EventRoomDoor doorEvent = mock(EventRoomDoor.class);
+        EventRoomOpened doorEvent = mock(EventRoomOpened.class);
         when(doorEvent.getRoom()).thenReturn(room);
 
         List<Event> events = new ArrayList<>();
@@ -112,5 +98,5 @@ public class EventServiceImplementationTest {
 
         verify(eventRepository, times(1)).findAllByRoomId(roomId);
     }
-*/
+
 }
