@@ -22,18 +22,18 @@ public class FetchAllEvents implements CommandLineRunner {
         this.eventService = eventService;
     }
 
-    @Qualifier("integrationProperties")
+
     @Autowired
-    IntegrationProperties properties;
+    IntegrationProperties integrationProperties;
 
 
 
     @Override
     public void run(String... args) throws Exception {
        ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost(properties.getEvent().getHost());
-        factory.setUsername(properties.getEvent().getUsername());
-        factory.setPassword(properties.getEvent().getPassword());
+        factory.setHost(integrationProperties.getEvent().getHost());
+        factory.setUsername(integrationProperties.getEvent().getUsername());
+        factory.setPassword(integrationProperties.getEvent().getPassword());
         Connection connection = factory.newConnection();
         Channel channel = connection.createChannel();
 
@@ -43,7 +43,7 @@ public class FetchAllEvents implements CommandLineRunner {
             System.out.println(" [x] Received '" + message + "'");
             eventService.processEvent(message);
         };
-        channel.basicConsume(properties.getEvent().getQueueName(), true, deliverCallback, consumerTag -> { });
+        channel.basicConsume(integrationProperties.getEvent().getQueueName(), true, deliverCallback, consumerTag -> { });
     }
 
 }

@@ -21,9 +21,8 @@ import java.net.http.HttpResponse;
 public class BlacklistServiceImplementation implements BlacklistService {
 
 
-    @Qualifier("integrationProperties")
     @Autowired
-    IntegrationProperties properties;
+    IntegrationProperties integrationProperties;
 
     //private static final String BLACKLIST_API_URL = "https://javabl.systementor.se/api/booknbunk/blacklist";
     private HttpClient httpClient;
@@ -51,7 +50,7 @@ public class BlacklistServiceImplementation implements BlacklistService {
         if (!checkBlacklist(blacklist.getEmail())) {
             String requestBody = objectMapper.writeValueAsString(blacklist);
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(properties.getBlacklist().getUrl()))
+                    .uri(URI.create(integrationProperties.getBlacklist().getUrl()))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                     .build();
@@ -68,7 +67,7 @@ public class BlacklistServiceImplementation implements BlacklistService {
     public void removeFromBlacklist(Blacklist blacklist) throws JsonProcessingException {
         String requestBody = objectMapper.writeValueAsString(blacklist);
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(properties.getBlacklist().getUrl() + "/" + blacklist.getEmail()))
+                .uri(URI.create(integrationProperties.getBlacklist().getUrl() + "/" + blacklist.getEmail()))
                 .header("Content-Type", "application/json")
                 .PUT(HttpRequest.BodyPublishers.ofString(requestBody))
                 .build();
@@ -83,7 +82,7 @@ public class BlacklistServiceImplementation implements BlacklistService {
     @Override
     public boolean checkBlacklist(String email) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(properties.getBlacklist().getUrl() + "check/" + email))
+                .uri(URI.create(integrationProperties.getBlacklist().getUrl() + "check/" + email))
                 .GET()
                 .build();
 

@@ -14,9 +14,8 @@ import java.net.URL;
 @Service
 public class ShippingServiceImplementation implements ShippingService{
 
-    @Qualifier("integrationProperties")
     @Autowired
-    IntegrationProperties properties;
+    IntegrationProperties integrationProperties;
 
 
     private final ShipperRepository shipperRepository;
@@ -30,7 +29,7 @@ public class ShippingServiceImplementation implements ShippingService{
     @Override
     public void fetchAndSaveShippers() {
         try {
-            URL url = new URL(properties.getShipper().getUrl());
+            URL url = new URL(integrationProperties.getShipper().getUrl());
             Shipper[] shippers = objectMapper.readValue(url, Shipper[].class);
 
             for (Shipper shipper : shippers) {

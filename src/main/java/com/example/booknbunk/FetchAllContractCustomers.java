@@ -22,7 +22,7 @@ public class FetchAllContractCustomers implements CommandLineRunner {
     ContractCustomerService contractCustomerService;
 
     @Autowired
-    IntegrationProperties properties;
+    IntegrationProperties integrationProperties;
 
 
     public FetchAllContractCustomers(ContractCustomerService contractCustomerService) {
@@ -40,7 +40,7 @@ public class FetchAllContractCustomers implements CommandLineRunner {
         System.out.println("mapper created");
 
         ContractCustomerListWrapper allCustomers = xmlMapper.readValue(new URL
-                (properties.getContractCustomer().getUrl()),
+                (integrationProperties.getContractCustomer().getUrl()),
                 ContractCustomerListWrapper.class);
 
         System.out.println("mapper reading values...");
