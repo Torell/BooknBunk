@@ -1,14 +1,21 @@
 package com.example.booknbunk;
 
+import com.example.booknbunk.models.Event;
+import com.example.booknbunk.repositories.EventRepository;
+import com.example.booknbunk.repositories.RoomRepository;
 import com.example.booknbunk.services.interfaces.EventService;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
 import com.rabbitmq.client.DeliverCallback;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.ComponentScan;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.stereotype.Component;
 
-
+//@Component
 @ComponentScan
 public class FetchAllEvents implements CommandLineRunner {
 
@@ -30,10 +37,14 @@ public class FetchAllEvents implements CommandLineRunner {
         Channel channel = connection.createChannel();
 
 
+
+        System.out.println(" [*] Waiting for messages. To exit press CTRL+C");
+
         DeliverCallback deliverCallback = (consumerTag, delivery) -> {
             String message = new String(delivery.getBody(), "UTF-8");
             System.out.println(" [x] Received '" + message + "'");
             eventService.processEvent(message);
+
         };
         channel.basicConsume(queueName, true, deliverCallback, consumerTag -> { });
     }

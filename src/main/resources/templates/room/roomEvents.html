@@ -6,28 +6,25 @@
     <link rel="stylesheet" th:href="@{/css/style.css}" type="text/css">
 </head>
 <body>
-<div class="sidebar" th:replace="fragments/sidebar :: sidebar"></div>
-<div class="main-content">
-    <table>
-        <tr th:each="event : ${events}">
-            <td th:if="${event.doorEventType != null}" th:text="'Door ' + ${event.doorEventType}">
-                Event Type
-            </td>
-            <td class="date-cell" th:if="${event.doorEventType != null}"
-                th:text="${#temporals.format(event.timeStamp, 'yyyy-MM-dd HH:mm:ss')}">
-                Time
-            </td>
-            <td th:if="${event.cleaningStatus != null}"
-                th:text="'Cleaning ' + ${event.cleaningStatus} + ' by ' + ${event.cleaningByUser}">
-                Details
-            </td>
-            <td class="date-cell" th:if="${event.cleaningStatus != null}"
-                th:text="${#temporals.format(event.timeStamp, 'yyyy-MM-dd HH:mm:ss')}">
-                Time
-            </td>
-        </tr>
-    </table>
-</div>
-<script th:src="@{/js/sidebar.js}" type="text/javascript"> </script>
+<h1>Room Events</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Event Type</th>
+        <th>Time</th>
+        <th>Room Number</th>
+        <th>Cleaned by</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="event : ${events}">
+        <td th:text="${event.type}">Event Type</td>
+        <td class="date-cell" th:text="${#temporals.format(event.timeStamp, 'yyyy-MM-dd HH:mm:ss')}">Time</td>
+        <td th:text="${event.roomNo}">Room Number</td>
+        <td th:if="${event.cleaningByUser != null}" th:text=" ${event.cleaningByUser}">Details</td>
+        <td th:if="${event.cleaningByUser == null}"></td>
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

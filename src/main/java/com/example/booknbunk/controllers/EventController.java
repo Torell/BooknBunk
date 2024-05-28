@@ -1,6 +1,5 @@
 package com.example.booknbunk.controllers;
 
-
 import com.example.booknbunk.dtos.EventDto;
 import com.example.booknbunk.services.interfaces.EventService;
 import lombok.AllArgsConstructor;
@@ -22,6 +21,7 @@ public class EventController {
     public String showEventsForRoom(@PathVariable Long id, Model model){
         List<EventDto> events = eventService.getAllEventsDtoByRoomId(id);
         model.addAttribute("events", events);
+        System.out.println();
         return "/room/roomEvents";
     }
 
