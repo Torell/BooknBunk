@@ -126,22 +126,9 @@ public class BookingServiceImplementation implements BookingService {
     }
 
     @Override
-    public StringBuilder createOrChangeBooking(BookingDetailedDto bookingDetailedDto,RoomDetailedDto roomDetailedDto) throws MessagingException {
-        StringBuilder returnMessage = new StringBuilder();
-        boolean allConditionsMet = true;
-        if (!extraBedSpaceAvailable(bookingDetailedDto)) {
-            returnMessage.append("Not enough space for extra beds. ");
-            allConditionsMet = false;
-        } if (!startDateIsBeforeEndDate(bookingDetailedDto)) {
-            returnMessage.append("End date must be after start date. ");
-            allConditionsMet = false;
-        } if (!checkRoomForAvailability(bookingDetailedDto, roomDetailedDto)) {
-            returnMessage.append("The room is not available the chosen dates.");
-            allConditionsMet = false;
-        } if (!blacklistService.checkBlacklist(customerRepository.getReferenceById(bookingDetailedDto.getCustomerMiniDto().getId()).getEmail())){
-            returnMessage.append("Customer is on Blacklist.");
-            allConditionsMet = false;
-        } if (allConditionsMet) {
+    public StringBuilder createOrChangeBooking(BookingDetailedDto bookingDetailedDto, RoomDetailedDto roomDetailedDto) throws MessagingException {
+        StringBuilder returnMessage = validateBooking(bookingDetailedDto, roomDetailedDto);
+        if (returnMessage.length() == 0) {
             returnMessage.append("Booking successfully saved");
 
             bookingDetailedDto.setRoomMiniDto(roomToRoomMiniDto(roomRepository.getReferenceById(bookingDetailedDto.getRoomMiniDto().getId())));
@@ -154,10 +141,28 @@ public class BookingServiceImplementation implements BookingService {
         return returnMessage;
     }
 
+    private StringBuilder validateBooking(BookingDetailedDto bookingDetailedDto, RoomDetailedDto roomDetailedDto) {
+        StringBuilder validationMessage = new StringBuilder();
+        if (!extraBedSpaceAvailable(bookingDetailedDto)) {
+            validationMessage.append("Not enough space for extra beds. ");
+        }
+        if (!startDateIsBeforeEndDate(bookingDetailedDto)) {
+            validationMessage.append("End date must be after start date. ");
+        }
+        if (!checkRoomForAvailability(bookingDetailedDto, roomDetailedDto)) {
+            validationMessage.append("The room is not available for the chosen dates. ");
+        }
+        if (!blacklistService.checkBlacklist(customerRepository.getReferenceById(bookingDetailedDto.getCustomerMiniDto().getId()).getEmail())) {
+            validationMessage.append("Customer is on Blacklist. ");
+        }
+        return validationMessage;
+    }
+
+
     private void sendConfirmationEmail(BookingDetailedDto bookingDetailedDto) throws MessagingException {
         Map<String, Object> variables = Map.of(
                 "customerName", bookingDetailedDto.getCustomerMiniDto().getName(),
-                "roomSize", bookingDetailedDto.getRoomMiniDto().getRoomSize(),
+                "roomNumber", bookingDetailedDto.getRoomMiniDto().getId(),
                 "checkInDate", bookingDetailedDto.getStartDate().toString(),
                 "checkOutDate", bookingDetailedDto.getEndDate().toString()
         );

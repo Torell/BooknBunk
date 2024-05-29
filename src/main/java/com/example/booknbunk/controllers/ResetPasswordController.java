@@ -70,7 +70,7 @@ public class ResetPasswordController {
 
         emailService.sendEmailPassword(email, passWordResetSubject, passwordResetBody);
 
-        model.addAttribute("successMessage","A Password reset link has been sent your email");
+        model.addAttribute("message","A Password reset link has been sent your email");
         return "forgotPassword";
     }
     @GetMapping("/resetPassword")
