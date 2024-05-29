@@ -6,6 +6,9 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -22,19 +25,26 @@ public class Booking {
     @Id
     @GeneratedValue
     private Long id;
+    @NotNull
+    @FutureOrPresent(message = "Start date should be present or future")
     private LocalDate startDate;
+    @NotNull
+    @FutureOrPresent(message = "End date should be present or future")
     private LocalDate endDate;
 
     @ManyToOne
     @JoinColumn
     @NonNull
     private Room room;
+    @Positive(message = "Extra beds should be positive")
     private int extraBed;
 
     @ManyToOne
     @JoinColumn
     @NonNull
     private Customer customer;
+
+    @Positive(message = "Total price should be positive")
     private double totalPrice;
 
 

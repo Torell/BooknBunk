@@ -41,6 +41,7 @@ public class BooknBunkApplication {
     @Bean
     CommandLineRunner commandLineRunner() {
         return args -> {
+
             userDataSeeder.Seed();
         };
     }

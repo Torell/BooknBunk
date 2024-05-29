@@ -3,6 +3,8 @@ package com.example.booknbunk.models;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -22,8 +24,11 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("room_id")
     private Long id;
-    //String size
+    @NotNull
+    @Positive(message = "should be positive")
     private int roomSize;
+    @NotNull
+    @Positive(message = "should be positive")
     private double pricePerNight;
 
     @OneToMany(mappedBy = "room")

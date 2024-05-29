@@ -19,20 +19,19 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Component;
 
-
 @Component
 @ComponentScan
 public class FetchAllEvents implements CommandLineRunner {
 
     private final EventService eventService;
 
+    @Autowired
+    IntegrationProperties integrationProperties;
+
     public FetchAllEvents(EventService eventService) {
         this.eventService = eventService;
     }
 
-
-    @Autowired
-    IntegrationProperties integrationProperties;
 
 
     @Override

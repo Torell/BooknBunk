@@ -19,7 +19,6 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
-@Component
 @ComponentScan
 public class FetchAllContractCustomers implements CommandLineRunner {
 
@@ -28,14 +27,6 @@ public class FetchAllContractCustomers implements CommandLineRunner {
 
     private final IntegrationProperties integrationProperties;
 
-    @Autowired
-    private DataSource dataSource;
-
-    @BeforeEach
-    void setUp() throws SQLException {
-        fetchAllContractCustomers = new FetchAllContractCustomers(contractCustomerService, integrationProperties);
-        System.out.println("DataSource URL: " + dataSource.getConnection().getMetaData().getURL());
-    }
 
     public FetchAllContractCustomers(ContractCustomerService contractCustomerService, IntegrationProperties integrationProperties) {
         this.contractCustomerService = contractCustomerService;

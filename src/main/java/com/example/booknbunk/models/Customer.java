@@ -4,6 +4,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -20,7 +21,11 @@ public class Customer {
     @Id
     @GeneratedValue
     private Long id;
+    @NotNull
+    @Pattern(regexp = "^[^\\d]*$", message = "Name cannot contain numbers")
     private String name;
+    @NotNull
+    @Email(message = "Should be a valid email adress")
     private String email;
 
     @OneToMany(mappedBy = "customer")

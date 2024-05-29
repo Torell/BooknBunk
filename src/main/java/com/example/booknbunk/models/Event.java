@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Positive;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -41,6 +42,7 @@ public abstract class Event {
     private Room room;
 
     @JsonProperty("RoomNo")
+    @Positive(message = "room number should be positive")
     public Long getRoomNo() {
         return room != null ? room.getId() : null;
     }

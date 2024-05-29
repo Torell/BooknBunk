@@ -22,7 +22,7 @@ public class ContractCustomerDetailedDTO {
     private String contactTitle;
     private String streetAddress;
     private String city;
-    private int postalCode;
+    private String postalCode;
     private String country;
     private String contactName;
     private String phone;
