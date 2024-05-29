@@ -52,18 +52,6 @@ public class BookingController {
         StringBuilder returnMessage = bookingService.createOrChangeBooking(bookingDetailedDto,desiredRoom);
         redirectAttributes.addFlashAttribute("returnMessage",returnMessage);
         model.addAttribute("booking",bookingDetailedDto);
-/*
-        Map<String, Object> variables = Map.of(
-                "customerName", bookingDetailedDto.getCustomerMiniDto().getName(),
-                "roomSize", desiredRoom.getRoomSize(),
-                "checkInDate", bookingDetailedDto.getStartDate().toString(),
-                "checkOutDate", bookingDetailedDto.getEndDate().toString()
-        );
-
-        emailService.sendEmailWithTemplate(customerDetailedDto.getEmail(), "Booking confirmation", "emailTemplate", variables);
-
-
- */
             return "redirect:/booking/createBooking";
     }
 

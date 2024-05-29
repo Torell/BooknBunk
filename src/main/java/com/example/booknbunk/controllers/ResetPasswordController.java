@@ -61,7 +61,7 @@ public class ResetPasswordController {
         String passWordResetSubject = "Book'n'Bunk Password Reset Request";
         emailService.sendEmail(email, passWordResetSubject, passwordResetBody + resetUrl);
 
-        model.addAttribute("successMessage","A Password reset link has been sent your email");
+        model.addAttribute("message","A Password reset link has been sent your email");
         return "forgotPassword";
     }
     @GetMapping("/resetPassword")
