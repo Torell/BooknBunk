@@ -8,11 +8,12 @@ import org.springframework.boot.WebApplicationType;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 
 import java.util.Objects;
 
 @SpringBootApplication
-//@ConfigurationPropertiesScan("com.example.booknbunk.configurations")
+@ConfigurationPropertiesScan("com.example.booknbunk.configurations")
 public class BooknBunkApplication {
 
     @Autowired

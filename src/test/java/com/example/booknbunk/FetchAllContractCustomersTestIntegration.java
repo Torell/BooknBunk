@@ -1,5 +1,6 @@
 package com.example.booknbunk;
 
+import com.example.booknbunk.configurations.IntegrationProperties;
 import com.example.booknbunk.models.ContractCustomer;
 import com.example.booknbunk.repositories.ContractCustomerRepository;
 import com.example.booknbunk.services.interfaces.ContractCustomerService;
@@ -36,24 +37,27 @@ class FetchAllContractCustomersTestIntegration {
     private ContractCustomerRepository contractCustomerRepository;
 
     private FetchAllContractCustomers fetchAllContractCustomers;
+
+    private IntegrationProperties integrationProperties;
+
     @BeforeEach
     void setUp() {
-        fetchAllContractCustomers = new FetchAllContractCustomers(contractCustomerService);
+        fetchAllContractCustomers = new FetchAllContractCustomers(contractCustomerService,integrationProperties);
     }
+
     @Test
     void run() throws Exception {
-
         try (InputStream xmlFile = getClass().getClassLoader().getResourceAsStream("contractCustomer.xml")) {
-
             assertThat(xmlFile).isNotNull();
 
             JacksonXmlModule module = new JacksonXmlModule();
             module.setDefaultUseWrapper(false);
             XmlMapper xmlMapper = new XmlMapper(module);
             ContractCustomerListWrapper allCustomers = xmlMapper.readValue(xmlFile, ContractCustomerListWrapper.class);
-
+            System.out.println("xml file: " + xmlFile);
             List<ContractCustomer> customers = allCustomers.getCustomers();
-
+            contractCustomerRepository.deleteAll();
+            System.out.println(customers);
             contractCustomerService.createOrUpdateContractCustomers(customers);
 
             assertThat(contractCustomerRepository.count()).isEqualTo(customers.size());
@@ -73,15 +77,11 @@ class FetchAllContractCustomersTestIntegration {
                 assertThat(savedCustomer.getFax()).isEqualTo(customer.getFax());
             }
         }
-
     }
 
     @Test
     void XMLPropertiesSet() throws IOException {
-
-
         try (InputStream xmlFile = getClass().getClassLoader().getResourceAsStream("contractCustomer.xml")) {
-
             assert xmlFile != null;
 
             Scanner scanner = new Scanner(xmlFile).useDelimiter("\\A");

@@ -6,29 +6,43 @@ import com.example.booknbunk.services.interfaces.ContractCustomerService;
 import com.example.booknbunk.utils.ContractCustomerListWrapper;
 import com.fasterxml.jackson.dataformat.xml.JacksonXmlModule;
 import com.fasterxml.jackson.dataformat.xml.XmlMapper;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Component;
 
+import javax.sql.DataSource;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Objects;
 
 @Component
+@ComponentScan
 public class FetchAllContractCustomers implements CommandLineRunner {
 
-    ContractCustomerService contractCustomerService;
+     private  FetchAllContractCustomers fetchAllContractCustomers;
+     private final ContractCustomerService contractCustomerService;
+
+    private final IntegrationProperties integrationProperties;
 
     @Autowired
-    IntegrationProperties integrationProperties;
+    private DataSource dataSource;
 
-
-    public FetchAllContractCustomers(ContractCustomerService contractCustomerService) {
-        this.contractCustomerService = contractCustomerService;
-
+    @BeforeEach
+    void setUp() throws SQLException {
+        fetchAllContractCustomers = new FetchAllContractCustomers(contractCustomerService, integrationProperties);
+        System.out.println("DataSource URL: " + dataSource.getConnection().getMetaData().getURL());
     }
+
+    public FetchAllContractCustomers(ContractCustomerService contractCustomerService, IntegrationProperties integrationProperties) {
+        this.contractCustomerService = contractCustomerService;
+        this.integrationProperties = integrationProperties;
+    }
+
+
 
     @Override
     public void run(String...args) throws Exception {
