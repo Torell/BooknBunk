@@ -36,32 +36,34 @@ class BlacklistServiceImplementationTest {
         httpClient = Mockito.mock(HttpClient.class);
         httpResponse = Mockito.mock(HttpResponse.class);
         integrationProperties = Mockito.mock(IntegrationProperties.class);
-        blacklistProperties = Mockito.mock(BlacklistProperties.class);
-        blacklistProperties.setUrl("https://javabl.systementor.se/api/booknbunk/blacklist");
+        BlacklistProperties blacklistProperties = Mockito.mock(BlacklistProperties.class);
 
-        blacklistService = new BlacklistServiceImplementation(httpClient, objectMapper);
+        when(integrationProperties.getBlacklist()).thenReturn(blacklistProperties);
+        when(blacklistProperties.getUrl()).thenReturn("https://example.com/blacklist");
 
-        blacklistService.setHttpClient(httpClient);
+        blacklistService = new BlacklistServiceImplementation(integrationProperties, httpClient, new ObjectMapper());
     }
 
     @Test
     void addToBlacklist() throws IOException, InterruptedException {
-        when(integrationProperties.getBlacklist()).thenReturn(blacklistProperties);
         Blacklist blacklist = new Blacklist("test", "email@test.com", false);
+
+        String checkResponse = "{\"ok\":false}";
+        String addResponse = "{\"ok\":true}";
+
         when(httpClient.send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class)))
                 .thenReturn(httpResponse);
-        when(httpResponse.body()).thenReturn("{\"ok\":false}");
+        when(httpResponse.body()).thenReturn(checkResponse).thenReturn(addResponse);
 
         blacklistService.addToBlacklist(blacklist);
 
-        //two invocations because the method first checks if the email already is on the blacklist
+        // Two invocations because the method first checks if the email already is on the blacklist
         verify(httpClient, times(2)).send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class));
-
     }
+
 
     @Test
     void removeFromBlacklist() throws IOException, InterruptedException {
-        when(integrationProperties.getBlacklist()).thenReturn(blacklistProperties);
         Blacklist blacklist = new Blacklist("test", "email@test.com", true);
 
         when(httpClient.send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class)))
@@ -70,12 +72,10 @@ class BlacklistServiceImplementationTest {
         blacklistService.removeFromBlacklist(blacklist);
 
         verify(httpClient, times(1)).send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class));
-
     }
 
     @Test
     void checkBlacklist() throws IOException, InterruptedException {
-        when(integrationProperties.getBlacklist()).thenReturn(blacklistProperties);
         String email = "email@test.com";
         String jsonResponse = "{\"name\":\"name\",\"email\":\"email@test.com\",\"ok\":false}";
 
@@ -85,15 +85,13 @@ class BlacklistServiceImplementationTest {
 
         boolean isBlacklisted = blacklistService.checkBlacklist(email);
 
-        //confusing but correct, if the email is blacklisted, checkBlacklist should return false.
-        //the json file should instead have the property "Blacklisted" to make this less confusing
+        // confusing but correct, if the email is blacklisted, checkBlacklist should return false.
+        // the json file should instead have the property "Blacklisted" to make this less confusing
         assertFalse(isBlacklisted);
         verify(httpClient, times(1)).send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class));
-
     }
     @Test
     void CheckBlacklistNotFound() throws IOException, InterruptedException {
-        when(integrationProperties.getBlacklist()).thenReturn(blacklistProperties);
         String email = "nonexistent@test.com";
 
         when(httpClient.send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class)))

@@ -14,14 +14,16 @@ import java.net.URL;
 @Service
 public class ShippingServiceImplementation implements ShippingService{
 
-    @Autowired
+
     IntegrationProperties integrationProperties;
 
 
     private final ShipperRepository shipperRepository;
     private final ObjectMapper objectMapper;
 
-    public ShippingServiceImplementation(ShipperRepository shipperRepository, ObjectMapper objectMapper) {
+
+    public ShippingServiceImplementation(IntegrationProperties integrationProperties, ShipperRepository shipperRepository, ObjectMapper objectMapper) {
+        this.integrationProperties = integrationProperties;
         this.shipperRepository = shipperRepository;
         this.objectMapper = objectMapper;
     }

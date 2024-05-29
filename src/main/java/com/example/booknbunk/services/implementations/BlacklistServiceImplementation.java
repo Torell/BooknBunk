@@ -21,7 +21,7 @@ import java.net.http.HttpResponse;
 public class BlacklistServiceImplementation implements BlacklistService {
 
 
-    @Autowired
+
     IntegrationProperties integrationProperties;
 
     //private static final String BLACKLIST_API_URL = "https://javabl.systementor.se/api/booknbunk/blacklist";
@@ -32,6 +32,12 @@ public class BlacklistServiceImplementation implements BlacklistService {
         this.httpClient = HttpClient.newHttpClient();
         this.objectMapper = new ObjectMapper();
 
+    }
+
+    public BlacklistServiceImplementation(IntegrationProperties integrationProperties, HttpClient httpClient, ObjectMapper objectMapper) {
+        this.integrationProperties = integrationProperties;
+        this.httpClient = httpClient;
+        this.objectMapper = objectMapper;
     }
 
     // Constructor for testing
