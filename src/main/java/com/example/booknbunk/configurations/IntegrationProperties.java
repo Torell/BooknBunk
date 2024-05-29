@@ -19,7 +19,7 @@ public class IntegrationProperties {
     private ContractCustomerProperties contractCustomer;
     private EventProperties event;
     private ShipperProperties shipper;
-
+}
 /*
     public BlacklistProperties blacklist() {
         return blacklist;
@@ -53,4 +53,4 @@ public class IntegrationProperties {
         this.shipper = shipper;
     }*/
 
-}
+

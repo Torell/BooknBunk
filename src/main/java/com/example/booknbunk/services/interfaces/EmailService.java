@@ -9,4 +9,6 @@ public interface EmailService {
     void sendEmail(String to, String subject, String body);
 
     void sendEmailWithTemplate (String to, String subject, String templateName, Map<String, Object> variables) throws MessagingException;
+
+    void sendEmailPassword(String to, String subject, String body) throws MessagingException;
 }

@@ -19,6 +19,10 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+import org.thymeleaf.ITemplateEngine;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+
 @Controller
 @RequestMapping("/forgotPassword")
 public class ResetPasswordController {
@@ -28,10 +32,13 @@ public class ResetPasswordController {
     private final PasswordResetTokenRepository tokenRepository;
     private final EmailService emailService;
 
-    public ResetPasswordController(MyUserService myUserService, PasswordResetTokenRepository tokenRepository, EmailService emailService) {
+    private final TemplateEngine templateEngine;
+
+    public ResetPasswordController(MyUserService myUserService, PasswordResetTokenRepository tokenRepository, EmailService emailService, TemplateEngine templateEngine) {
         this.myUserService = myUserService;
         this.tokenRepository = tokenRepository;
         this.emailService = emailService;
+        this.templateEngine = templateEngine;
     }
 
     @GetMapping("/forgotPassword")
@@ -53,13 +60,15 @@ public class ResetPasswordController {
 
         String resetUrl = "http://localhost:8080/forgotPassword/resetPassword?token=" + token;
 
-        String passwordResetBody = "\n" +
-                "Can't Get In To Your Account?\n" +
-                "Happens to the best of us. Don't worry, we got you fam. If you didn't request this email, you can safely ignore it.\n" +
-                "\n" +
-                "Your password reset link will expire in 24 hour(s). If you need to, you can request another in 24 hour(s). \n\n";
+        System.out.println("UUUUUUURRRRLLLLL" +resetUrl);
+
+        Context context = new Context();
+        context.setVariable("resetUrl", resetUrl);
+
+        String passwordResetBody = templateEngine.process("emailTemplatePassword", context);
         String passWordResetSubject = "Book'n'Bunk Password Reset Request";
-        emailService.sendEmail(email, passWordResetSubject, passwordResetBody + resetUrl);
+
+        emailService.sendEmailPassword(email, passWordResetSubject, passwordResetBody);
 
         model.addAttribute("successMessage","A Password reset link has been sent your email");
         return "forgotPassword";
