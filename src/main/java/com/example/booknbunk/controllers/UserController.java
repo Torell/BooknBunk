@@ -46,8 +46,8 @@ public class UserController {
     public String addUser(User user, @RequestParam(value = "rolesSelected",required = false) List<UUID> rolesSelected){
 
         userService.addUser(user,rolesSelected);
-        
-        return "redirect:user/createUser";
+
+        return "redirect:/user/getAll";
     }
 
     @RequestMapping("/delete/{id}")
@@ -55,7 +55,7 @@ public class UserController {
 
         userRepository.deleteById(id);
 
-        return "redirect:user/getAll";
+       return "redirect:/user/getAll";
     }
 
     @RequestMapping("/edit/{id}")
