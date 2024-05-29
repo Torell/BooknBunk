@@ -461,3 +461,23 @@ h1 {
 }
 
 
+.input-field-password {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    padding-right: 15px;
+    box-sizing: border-box; /* Lägg till för att inkludera padding och border i elementets totala bredd */
+}
+
+.form-center-password {
+    display: flex;
+    flex-direction: column; /* Lägg till för att placera elementen vertikalt */
+    align-items: center; /* Centrera horisontellt inom rutan */
+    text-align: center; /* Centrera texten horisontellt */
+}
+
+
