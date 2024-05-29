@@ -2,21 +2,21 @@
   {
     "id": 1,
     "companyName": "AirBnb",
-    "phone": "123456789"
+    "phone": "123-456-789"
   },
   {
     "id": 2,
     "companyName": "Coop",
-    "phone": "12345989"
+    "phone": "123-459-089"
   },
   {
     "id": 3,
     "companyName": "ICA",
-    "phone": "98765431"
+    "phone": "987-654-331"
   },
   {
     "id": 4,
     "companyName": "Hotels",
-    "phone": "876582763"
+    "phone": "876-582-763"
   }
 ]
