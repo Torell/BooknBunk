@@ -1,10 +1,13 @@
 package com.example.booknbunk.services.implementations;
 
+import com.example.booknbunk.configurations.BlacklistProperties;
+import com.example.booknbunk.configurations.IntegrationProperties;
 import com.example.booknbunk.utils.Blacklist;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
 import java.net.http.HttpClient;
@@ -24,10 +27,17 @@ class BlacklistServiceImplementationTest {
     private HttpResponse<String> httpResponse;
     private BlacklistServiceImplementation blacklistService;
 
+    private IntegrationProperties integrationProperties;
+
+    private BlacklistProperties blacklistProperties;
+
     @BeforeEach
     void setUp() {
         httpClient = Mockito.mock(HttpClient.class);
         httpResponse = Mockito.mock(HttpResponse.class);
+        integrationProperties = Mockito.mock(IntegrationProperties.class);
+        blacklistProperties = Mockito.mock(BlacklistProperties.class);
+        blacklistProperties.setUrl("https://javabl.systementor.se/api/booknbunk/blacklist");
 
         blacklistService = new BlacklistServiceImplementation(httpClient, objectMapper);
 
@@ -36,8 +46,8 @@ class BlacklistServiceImplementationTest {
 
     @Test
     void addToBlacklist() throws IOException, InterruptedException {
+        when(integrationProperties.getBlacklist()).thenReturn(blacklistProperties);
         Blacklist blacklist = new Blacklist("test", "email@test.com", false);
-
         when(httpClient.send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class)))
                 .thenReturn(httpResponse);
         when(httpResponse.body()).thenReturn("{\"ok\":false}");
@@ -51,6 +61,7 @@ class BlacklistServiceImplementationTest {
 
     @Test
     void removeFromBlacklist() throws IOException, InterruptedException {
+        when(integrationProperties.getBlacklist()).thenReturn(blacklistProperties);
         Blacklist blacklist = new Blacklist("test", "email@test.com", true);
 
         when(httpClient.send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class)))
@@ -64,6 +75,7 @@ class BlacklistServiceImplementationTest {
 
     @Test
     void checkBlacklist() throws IOException, InterruptedException {
+        when(integrationProperties.getBlacklist()).thenReturn(blacklistProperties);
         String email = "email@test.com";
         String jsonResponse = "{\"name\":\"name\",\"email\":\"email@test.com\",\"ok\":false}";
 
@@ -81,6 +93,7 @@ class BlacklistServiceImplementationTest {
     }
     @Test
     void CheckBlacklistNotFound() throws IOException, InterruptedException {
+        when(integrationProperties.getBlacklist()).thenReturn(blacklistProperties);
         String email = "nonexistent@test.com";
 
         when(httpClient.send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class)))
