@@ -22,6 +22,7 @@ public class BlacklistServiceImplementation implements BlacklistService {
 
 
 
+    @Autowired
     IntegrationProperties integrationProperties;
 
     //private static final String BLACKLIST_API_URL = "https://javabl.systementor.se/api/booknbunk/blacklist";
@@ -56,12 +57,14 @@ public class BlacklistServiceImplementation implements BlacklistService {
         if (!checkBlacklist(blacklist.getEmail())) {
             String requestBody = objectMapper.writeValueAsString(blacklist);
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(integrationProperties.getBlacklist().getUrl()))
+                    .uri(URI.create(integrationProperties.getBlacklist().getUrl() + "/" + blacklist.getEmail()))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                     .build();
 
             try {
+                System.out.println("url: " + request.uri());
+                System.out.println(requestBody);
                 httpClient.send(request, HttpResponse.BodyHandlers.ofString());
             } catch (IOException | InterruptedException e) {
                 throw new RuntimeException(e);
@@ -88,7 +91,7 @@ public class BlacklistServiceImplementation implements BlacklistService {
     @Override
     public boolean checkBlacklist(String email) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(integrationProperties.getBlacklist().getUrl() + "check/" + email))
+                .uri(URI.create(integrationProperties.getBlacklist().getUrl() + "/check/" + email))
                 .GET()
                 .build();
 

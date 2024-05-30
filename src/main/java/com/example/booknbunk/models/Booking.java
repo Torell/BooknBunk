@@ -9,6 +9,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -36,7 +37,7 @@ public class Booking {
     @JoinColumn
     @NonNull
     private Room room;
-    @Positive(message = "Extra beds should be positive")
+    @PositiveOrZero(message = "Extra beds should be positive")
     private int extraBed;
 
     @ManyToOne
@@ -44,7 +45,7 @@ public class Booking {
     @NonNull
     private Customer customer;
 
-    @Positive(message = "Total price should be positive")
+    @PositiveOrZero(message = "Total price should be positive")
     private double totalPrice;
 
 

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.PositiveOrZero;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,10 +26,10 @@ public class Room {
     @JsonProperty("room_id")
     private Long id;
     @NotNull
-    @Positive(message = "should be positive")
+    @PositiveOrZero(message = "should be positive")
     private int roomSize;
     @NotNull
-    @Positive(message = "should be positive")
+    @PositiveOrZero(message = "should be positive")
     private double pricePerNight;
 
     @OneToMany(mappedBy = "room")
