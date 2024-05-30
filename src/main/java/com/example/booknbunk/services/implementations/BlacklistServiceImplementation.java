@@ -57,7 +57,7 @@ public class BlacklistServiceImplementation implements BlacklistService {
         if (!checkBlacklist(blacklist.getEmail())) {
             String requestBody = objectMapper.writeValueAsString(blacklist);
             HttpRequest request = HttpRequest.newBuilder()
-                    .uri(URI.create(integrationProperties.getBlacklist().getUrl() + "/" + blacklist.getEmail()))
+                    .uri(URI.create(integrationProperties.getBlacklist().getUrl()))
                     .header("Content-Type", "application/json")
                     .POST(HttpRequest.BodyPublishers.ofString(requestBody))
                     .build();
