@@ -91,7 +91,7 @@ public class BlacklistServiceImplementation implements BlacklistService {
     @Override
     public boolean checkBlacklist(String email) {
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(integrationProperties.getBlacklist().getUrl() + "/check/" + email))
+                .uri(URI.create(integrationProperties.getBlacklist().getUrl() + "check/" + email))
                 .GET()
                 .build();
 

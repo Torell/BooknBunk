@@ -31,7 +31,7 @@
       <label for="roomMiniDtoId">Room:</label><br>
       <select id="roomMiniDtoId" name="roomMiniDto.id" th:field="*{roomMiniDto.id}" th:required="true" class="input-field">
         <option value="" th:text="'Select Room'">Select Room</option>
-        <option th:each="room : ${rooms}" th:value="${room.id}" th:text="'Room number: ' + ${room.getId()} + ', Number of beds: ' + (${room.getRoomSize()} + 1)"></option>
+        <option th:each="room : ${rooms}" th:value="${room.id}" th:text="'Room number: ' + ${room.getId()} + ', Max occupants: ' + (${room.getRoomSize()} + 1 + ' Price per night: ' + ${room.getPricePerNight()})"></option>
       </select>
       <br><br>
 

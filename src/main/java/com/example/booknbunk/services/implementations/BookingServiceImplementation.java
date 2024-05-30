@@ -23,9 +23,6 @@ import java.util.Map;
 @Service
 public class BookingServiceImplementation implements BookingService {
 
-    public static final int SUCCESS = 1;
-    public static final int FAILURE = -1;
-
     private final BookingRepository bookingRepository;
 
     private final RoomRepository roomRepository;
@@ -129,13 +126,17 @@ public class BookingServiceImplementation implements BookingService {
     public StringBuilder createOrChangeBooking(BookingDetailedDto bookingDetailedDto, RoomDetailedDto roomDetailedDto) throws MessagingException {
         StringBuilder returnMessage = validateBooking(bookingDetailedDto, roomDetailedDto);
         if (returnMessage.length() == 0) {
-            returnMessage.append("Booking successfully saved");
 
             bookingDetailedDto.setRoomMiniDto(roomToRoomMiniDto(roomRepository.getReferenceById(bookingDetailedDto.getRoomMiniDto().getId())));
             bookingDetailedDto.setCustomerMiniDto(customerToCustomerMiniDto(customerRepository.getReferenceById(bookingDetailedDto.getCustomerMiniDto().getId())));
             bookingDetailedDto.setTotalPrice(calculateTotalPrice(bookingDetailedDto));
             bookingRepository.save(bookingDetailedDtoToBooking(bookingDetailedDto));
             sendConfirmationEmail(bookingDetailedDto);
+
+            returnMessage.append("Booking successfully saved");
+            returnMessage.append(" The total price for the booking was ").append(bookingDetailedDto.getTotalPrice());
+
+
         }
 
         return returnMessage;
@@ -164,7 +165,8 @@ public class BookingServiceImplementation implements BookingService {
                 "customerName", bookingDetailedDto.getCustomerMiniDto().getName(),
                 "roomNumber", bookingDetailedDto.getRoomMiniDto().getId(),
                 "checkInDate", bookingDetailedDto.getStartDate().toString(),
-                "checkOutDate", bookingDetailedDto.getEndDate().toString()
+                "checkOutDate", bookingDetailedDto.getEndDate().toString(),
+                "totalPrice",bookingDetailedDto.getTotalPrice()
         );
 
         emailService.sendEmailWithTemplate(customerRepository.getReferenceById(bookingDetailedDto.getCustomerMiniDto().getId()).getEmail(), "Booking confirmation", "emailTemplate", variables);
