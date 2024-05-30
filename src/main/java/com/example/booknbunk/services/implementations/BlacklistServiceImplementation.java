@@ -54,7 +54,7 @@ public class BlacklistServiceImplementation implements BlacklistService {
 
     @Override
     public void addToBlacklist(Blacklist blacklist) throws JsonProcessingException {
-        if (!checkBlacklist(blacklist.getEmail())) {
+       // if (!checkBlacklist(blacklist.getEmail())) {
             String requestBody = objectMapper.writeValueAsString(blacklist);
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(integrationProperties.getBlacklist().getUrl()))
@@ -70,7 +70,7 @@ public class BlacklistServiceImplementation implements BlacklistService {
                 throw new RuntimeException(e);
             }
         }
-    }
+ //   }
 
     @Override
     public void removeFromBlacklist(Blacklist blacklist) throws JsonProcessingException {
@@ -100,6 +100,7 @@ public class BlacklistServiceImplementation implements BlacklistService {
             JsonMapper mapper = new JsonMapper();
             mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
             Blacklist blacklist = mapper.readValue(response.body(), Blacklist.class);
+            System.out.println("blacklist: " + blacklist.isOk());
             return blacklist.isOk();
         } catch (IOException e) {
             System.out.println("Not found on the Blacklist");
