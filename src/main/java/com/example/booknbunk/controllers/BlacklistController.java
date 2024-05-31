@@ -43,7 +43,7 @@ public class BlacklistController {
 
     @GetMapping("/remove")
     public String remove(Blacklist blacklist) throws JsonProcessingException {
-
+        System.out.println("here 2");
         blacklist.setOk(true);
         blacklistService.removeFromBlacklist(blacklist);
 
@@ -54,6 +54,8 @@ public class BlacklistController {
     @RequestMapping("/removeFromBlacklist")
 
     public String removeFromBlacklist(Model model) {
+
+        System.out.println("here 1");
 
         Blacklist blacklist = new Blacklist();
         model.addAttribute("blacklist",blacklist);

@@ -75,6 +75,8 @@ public class BlacklistServiceImplementation implements BlacklistService {
     @Override
     public void removeFromBlacklist(Blacklist blacklist) throws JsonProcessingException {
         String requestBody = objectMapper.writeValueAsString(blacklist);
+        System.out.println(requestBody);
+        blacklist.setOk(true);
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(integrationProperties.getBlacklist().getUrl() + "/" + blacklist.getEmail()))
                 .header("Content-Type", "application/json")

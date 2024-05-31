@@ -18,10 +18,10 @@
 <div class="sidebar" th:replace="fragments/sidebar :: sidebar"></div>
 <div class="main-content">
   <div class="center-container">
-    <form th:action="@{/blacklist/remove}" method="post" th:object="${blacklist}" class="form-center">
+    <form th:action="@{/blacklist/remove}" method="get" th:object="${blacklist}" class="form-center">
       <h2>Remove from Blacklist</h2>
       <label for="email">Email:</label><br>
-      <input type="email" id="email" name="email" th:field="*{email}" th:required="true" class="input-field" />
+      <input type="text" id="email" name="email" th:field="*{email}" th:required="true" class="input-field" />
       <br><br>
 
       <input type="submit" value="Submit" class="btn btn-submit">
