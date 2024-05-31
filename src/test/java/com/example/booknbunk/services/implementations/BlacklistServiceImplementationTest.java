@@ -57,8 +57,8 @@ class BlacklistServiceImplementationTest {
 
         blacklistService.addToBlacklist(blacklist);
 
-        // Two invocations because the method first checks if the email already is on the blacklist
-        verify(httpClient, times(2)).send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class));
+
+        verify(httpClient, times(1)).send(any(HttpRequest.class), any(HttpResponse.BodyHandler.class));
     }
 
 
